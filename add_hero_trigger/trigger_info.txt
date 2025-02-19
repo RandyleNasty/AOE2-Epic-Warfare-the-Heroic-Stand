@@ -1,0 +1,4455 @@
+
+Triggers:
+	'Left Win' [Index: 0, Display: 0]:
+		enabled: True
+		looping: False
+		description_stid: 0
+		short_description_stid: 0
+		conditions:
+			destroy_object [Index: 0, Display: 0]:
+				unit_object: 1 unit:
+					0: Poenari Castle (445) [P8, X230.0, Y215.0] (224976)
+				inverted: False (0)
+		effects:
+			declare_victory [Index: 0, Display: 0]:
+				source_player: Player One (1)
+			declare_victory [Index: 1, Display: 1]:
+				source_player: Player Two (2)
+			declare_victory [Index: 2, Display: 2]:
+				source_player: Player Three (3)
+			declare_victory [Index: 3, Display: 3]:
+				source_player: Player Four (4)
+
+	'Right Win' [Index: 1, Display: 1]:
+		enabled: False
+		looping: False
+		description_stid: 0
+		short_description_stid: 0
+		conditions:
+			destroy_object [Index: 0, Display: 0]:
+				unit_object: 1 unit:
+					0: Dormition Cathedral (1369) [P7, X187.5, Y127.5] (306466)
+				inverted: False (0)
+		effects:
+			declare_victory [Index: 0, Display: 0]:
+				source_player: Player Five (5)
+			declare_victory [Index: 1, Display: 1]:
+				source_player: Player Six (6)
+			declare_victory [Index: 2, Display: 2]:
+				source_player: Player Seven (7)
+			declare_victory [Index: 3, Display: 3]:
+				source_player: Player Eight (8)
+
+	'Attack' [Index: 2, Display: 2]:
+		enabled: False
+		looping: True
+		description_stid: 0
+		short_description_stid: 0
+		conditions:
+			timer [Index: 0, Display: 0]:
+				timer: 5
+				inverted: False (0)
+		effects:
+			attack_move [Index: 0, Display: 0]:
+				source_player: Player Five (5)
+				location_x: 78
+				location_y: 122
+				area_x1: 0
+				area_y1: 0
+				area_x2: 239
+				area_y2: 239
+				object_type: Military (4)
+			display_instructions [Index: 1, Display: 1]:
+				display_time: 2
+				instruction_panel_position: Top (0)
+				message: 'attack!!!
+				'
+			attack_move [Index: 2, Display: 2]:
+				source_player: Player Six (6)
+				location_x: 83
+				location_y: 120
+				area_x1: 0
+				area_y1: 0
+				area_x2: 239
+				area_y2: 239
+				object_type: Military (4)
+			attack_move [Index: 3, Display: 3]:
+				source_player: Player Seven (7)
+				location_x: 82
+				location_y: 120
+				area_x1: 0
+				area_y1: 0
+				area_x2: 239
+				area_y2: 239
+				object_type: Military (4)
+			attack_move [Index: 4, Display: 4]:
+				source_player: Player Eight (8)
+				location_x: 81
+				location_y: 120
+				area_x1: 0
+				area_y1: 0
+				area_x2: 239
+				area_y2: 239
+				object_type: Military (4)
+
+	'testfullmap' [Index: 3, Display: 3]:
+		enabled: False
+		looping: False
+		description_stid: 0
+		short_description_stid: 0
+		conditions:
+			timer [Index: 0, Display: 0]:
+				timer: 1
+				inverted: False (0)
+		effects:
+			research_technology [Index: 0, Display: 0]:
+				source_player: Player One (1)
+				technology: Spies And Treason (408)
+
+	'Cancel Attack' [Index: 4, Display: 4]:
+		enabled: False
+		looping: False
+		description_stid: 0
+		conditions:
+			timer [Index: 0, Display: 0]:
+				timer: 1500
+				inverted: False (0)
+		effects:
+			deactivate_trigger [Index: 0, Display: 0]:
+				trigger_id: "Attack" (2)
+
+	'Start Attack' [Index: 5, Display: 5]:
+		enabled: False
+		looping: False
+		description_stid: 0
+		conditions:
+			timer [Index: 0, Display: 0]:
+				timer: 1200
+				inverted: False (0)
+		effects:
+			activate_trigger [Index: 0, Display: 0]:
+				trigger_id: "Attack" (2)
+
+	'Bonus' [Index: 6, Display: 6]:
+		enabled: False
+		looping: True
+		description_stid: 0
+		conditions:
+			timer [Index: 0, Display: 0]:
+				timer: 2
+				inverted: False (0)
+		effects:
+			create_object [Index: 0, Display: 0]:
+				object_list_unit_id: Condottiero (882)
+				source_player: Player Five (5)
+				location_x: 182
+				location_y: 128
+				item_id: 882
+			activate_trigger [Index: 1, Display: 1]:
+				trigger_id: "Cancel Bonus" (8)
+			create_object [Index: 2, Display: 2]:
+				object_list_unit_id: Elite Steppe Lancer (1372)
+				source_player: Player Five (5)
+				location_x: 182
+				location_y: 127
+				item_id: 1372
+			create_object [Index: 3, Display: 3]:
+				object_list_unit_id: Norse Warrior (361)
+				source_player: Player Five (5)
+				location_x: 182
+				location_y: 125
+				item_id: 361
+			attack_move [Index: 4, Display: 4]:
+				source_player: Player Five (5)
+				location_x: 92
+				location_y: 119
+				area_x1: 179
+				area_y1: 124
+				area_x2: 182
+				area_y2: 130
+				object_type: Military (4)
+			create_object [Index: 5, Display: 5]:
+				object_list_unit_id: Elite Samurai (560)
+				source_player: Player Five (5)
+				location_x: 181
+				location_y: 124
+				item_id: 560
+			create_object [Index: 6, Display: 6]:
+				object_list_unit_id: Elite Longbowman (530)
+				source_player: Player Five (5)
+				location_x: 181
+				location_y: 125
+				item_id: 530
+			create_object [Index: 7, Display: 7]:
+				object_list_unit_id: Elite Boyar (878)
+				source_player: Player Five (5)
+				location_x: 181
+				location_y: 125
+				item_id: 878
+			create_object [Index: 8, Display: 8]:
+				object_list_unit_id: Elite Huskarl (555)
+				source_player: Player Five (5)
+				location_x: 181
+				location_y: 126
+				item_id: 555
+			create_object [Index: 9, Display: 9]:
+				object_list_unit_id: Elite Magyar Huszar (871)
+				source_player: Player Five (5)
+				location_x: 181
+				location_y: 127
+				item_id: 871
+
+	'East First Line Broken' [Index: 7, Display: 7]:
+		enabled: True
+		looping: False
+		description_stid: 0
+		short_description_stid: 0
+		conditions:
+			objects_in_area [Index: 0, Display: 0]:
+				quantity: 10
+				source_player: Player One (1)
+				area_x1: 147
+				area_y1: 106
+				area_x2: 167
+				area_y2: 147
+				object_type: Military (4)
+				inverted: False (0)
+			or [Index: 1, Display: 1]:
+				<< No Attributes >>
+			objects_in_area [Index: 2, Display: 2]:
+				quantity: 10
+				source_player: Player Two (2)
+				area_x1: 146
+				area_y1: 113
+				area_x2: 166
+				area_y2: 148
+				inverted: False (0)
+			or [Index: 3, Display: 3]:
+				<< No Attributes >>
+			objects_in_area [Index: 4, Display: 4]:
+				quantity: 10
+				source_player: Player Three (3)
+				area_x1: 148
+				area_y1: 114
+				area_x2: 166
+				area_y2: 147
+				inverted: False (0)
+			or [Index: 5, Display: 5]:
+				<< No Attributes >>
+			objects_in_area [Index: 6, Display: 6]:
+				quantity: 10
+				source_player: Player Four (4)
+				area_x1: 147
+				area_y1: 114
+				area_x2: 166
+				area_y2: 146
+				inverted: False (0)
+		effects:
+			activate_trigger [Index: 0, Display: 0]:
+				trigger_id: "Bonus" (6)
+			display_instructions [Index: 1, Display: 1]:
+				object_list_unit_id: Khan (1275)
+				source_player: Player One (1)
+				display_time: 5
+				instruction_panel_position: Top (0)
+				play_sound: False (0)
+				message: 'The East Reinforcements are coming! Be Prepared!				'
+				sound_name: 'Play_e5l'
+			play_sound [Index: 2, Display: 2]:
+				source_player: Player Five (5)
+				sound_name: 'Play_e5l'
+			activate_trigger [Index: 3, Display: 3]:
+				trigger_id: "reactivate the east line broke..." (15)
+			display_instructions [Index: 4, Display: 4]:
+				source_player: Player One (1)
+				display_time: 10
+				instruction_panel_position: Top (0)
+				play_sound: False (0)
+				message: 'The East Knights will be ready to assault in 10 mins'
+
+	'Cancel Bonus' [Index: 8, Display: 8]:
+		enabled: False
+		looping: False
+		description_stid: 0
+		conditions:
+			timer [Index: 0, Display: 0]:
+				timer: 40
+				inverted: False (0)
+		effects:
+			deactivate_trigger [Index: 0, Display: 0]:
+				trigger_id: "Bonus" (6)
+
+	'West First Line Broken' [Index: 9, Display: 9]:
+		enabled: True
+		looping: False
+		description_stid: 0
+		conditions:
+			objects_in_area [Index: 0, Display: 0]:
+				quantity: 10
+				source_player: Player Five (5)
+				area_x1: 73
+				area_y1: 96
+				area_x2: 91
+				area_y2: 131
+				object_type: Military (4)
+				inverted: False (0)
+			or [Index: 1, Display: 1]:
+				<< No Attributes >>
+			objects_in_area [Index: 2, Display: 2]:
+				quantity: 10
+				source_player: Player Six (6)
+				area_x1: 73
+				area_y1: 96
+				area_x2: 91
+				area_y2: 131
+				object_type: Military (4)
+				inverted: False (0)
+			or [Index: 3, Display: 3]:
+				<< No Attributes >>
+			objects_in_area [Index: 4, Display: 4]:
+				quantity: 10
+				source_player: Player Seven (7)
+				area_x1: 73
+				area_y1: 96
+				area_x2: 91
+				area_y2: 131
+				object_type: Military (4)
+				inverted: False (0)
+			or [Index: 5, Display: 5]:
+				<< No Attributes >>
+			objects_in_area [Index: 6, Display: 6]:
+				quantity: 10
+				source_player: Player Eight (8)
+				area_x1: 73
+				area_y1: 96
+				area_x2: 91
+				area_y2: 131
+				object_type: Military (4)
+				inverted: False (0)
+		effects:
+			display_instructions [Index: 0, Display: 0]:
+				object_list_unit_id: Knight (38)
+				source_player: Player One (1)
+				display_time: 10
+				instruction_panel_position: Top (0)
+				play_sound: False (0)
+				message: 'The Knights are advancing to the East! Be Prepared!'
+				sound_name: 'Play_e5l'
+			activate_trigger [Index: 1, Display: 1]:
+				trigger_id: "West Bonus" (10)
+			play_sound [Index: 2, Display: 2]:
+				source_player: Player Two (2)
+				sound_name: 'Play_w5z'
+			activate_trigger [Index: 3, Display: 3]:
+				trigger_id: "reactivate West Line Broken" (17)
+
+	'West Bonus' [Index: 10, Display: 10]:
+		enabled: False
+		looping: True
+		description_stid: 0
+		conditions:
+			timer [Index: 0, Display: 0]:
+				timer: 2
+				inverted: False (0)
+		effects:
+			create_object [Index: 0, Display: 0]:
+				object_list_unit_id: Elite Huskarl (555)
+				source_player: Player Two (2)
+				location_x: 57
+				location_y: 113
+				item_id: 555
+			activate_trigger [Index: 1, Display: 1]:
+				trigger_id: "Cancel West Bonus" (11)
+			create_object [Index: 2, Display: 2]:
+				object_list_unit_id: Elite Huskarl (555)
+				source_player: Player Two (2)
+				location_x: 57
+				location_y: 114
+				item_id: 555
+			create_object [Index: 3, Display: 3]:
+				object_list_unit_id: Elite Huskarl (555)
+				source_player: Player Two (2)
+				location_x: 57
+				location_y: 115
+				item_id: 555
+			create_object [Index: 4, Display: 4]:
+				object_list_unit_id: Elite Mameluke (556)
+				source_player: Player Two (2)
+				location_x: 57
+				location_y: 116
+				item_id: 556
+			attack_move [Index: 5, Display: 5]:
+				source_player: Player Two (2)
+				location_x: 141
+				location_y: 130
+				area_x1: 54
+				area_y1: 108
+				area_x2: 60
+				area_y2: 116
+				object_type: Military (4)
+			create_object [Index: 6, Display: 6]:
+				object_list_unit_id: Elite Longbowman (530)
+				source_player: Player Two (2)
+				location_x: 58
+				location_y: 115
+				item_id: 530
+			create_object [Index: 7, Display: 7]:
+				object_list_unit_id: Elite Longbowman (530)
+				source_player: Player Two (2)
+				location_x: 58
+				location_y: 114
+				item_id: 530
+			create_object [Index: 8, Display: 8]:
+				object_list_unit_id: Elite Samurai (560)
+				source_player: Player Two (2)
+				location_x: 56
+				location_y: 116
+				item_id: 560
+			create_object [Index: 9, Display: 9]:
+				object_list_unit_id: Elite Samurai (560)
+				source_player: Player Two (2)
+				location_x: 59
+				location_y: 114
+				item_id: 560
+
+	'Cancel West Bonus' [Index: 11, Display: 11]:
+		enabled: False
+		looping: False
+		description_stid: 0
+		conditions:
+			timer [Index: 0, Display: 0]:
+				timer: 40
+				inverted: False (0)
+		effects:
+			deactivate_trigger [Index: 0, Display: 0]:
+				trigger_id: "West Bonus" (10)
+
+	'East Front Attacked' [Index: 12, Display: 12]:
+		enabled: True
+		looping: True
+		description_stid: 0
+		conditions:
+			timer [Index: 0, Display: 0]:
+				timer: 30
+				inverted: False (0)
+			objects_in_area [Index: 1, Display: 1]:
+				quantity: 5
+				source_player: Player Two (2)
+				area_x1: 127
+				area_y1: 79
+				area_x2: 170
+				area_y2: 171
+				object_type: Military (4)
+				inverted: False (0)
+		effects:
+			display_instructions [Index: 0, Display: 0]:
+				display_time: 10
+				instruction_panel_position: Top (0)
+				message: 'East Front Line is being Attacked!!!
+				'
+			activate_trigger [Index: 1, Display: 1]:
+				trigger_id: "Left Win" (0)
+			create_object [Index: 2, Display: 2]:
+				object_list_unit_id: Teutonic Knight (25)
+				source_player: Player Five (5)
+				location_x: 183
+				location_y: 131
+				item_id: 25
+			create_object [Index: 3, Display: 3]:
+				object_list_unit_id: Teutonic Knight (25)
+				source_player: Player Five (5)
+				location_x: 182
+				location_y: 131
+				item_id: 25
+			create_object [Index: 4, Display: 4]:
+				object_list_unit_id: Teutonic Knight (25)
+				source_player: Player Five (5)
+				location_x: 182
+				location_y: 132
+				item_id: 25
+			create_object [Index: 5, Display: 5]:
+				object_list_unit_id: Teutonic Knight (25)
+				source_player: Player Five (5)
+				location_x: 183
+				location_y: 132
+				item_id: 25
+			attack_move [Index: 6, Display: 6]:
+				source_player: Player Five (5)
+				location_x: 142
+				location_y: 130
+				area_x1: 181
+				area_y1: 131
+				area_x2: 183
+				area_y2: 133
+				object_type: Military (4)
+
+	'West Front Attacked' [Index: 13, Display: 13]:
+		enabled: True
+		looping: True
+		description_stid: 0
+		conditions:
+			timer [Index: 0, Display: 0]:
+				timer: 30
+				inverted: False (0)
+			objects_in_area [Index: 1, Display: 1]:
+				quantity: 5
+				source_player: Player Five (5)
+				area_x1: 72
+				area_y1: 70
+				area_x2: 108
+				area_y2: 153
+				object_type: Military (4)
+				inverted: False (0)
+		effects:
+			display_instructions [Index: 0, Display: 0]:
+				display_time: 10
+				instruction_panel_position: Top (0)
+				message: 'West Front Line is being Attacked!!!'
+			activate_trigger [Index: 1, Display: 1]:
+				trigger_id: "Left Win" (0)
+			create_object [Index: 2, Display: 2]:
+				object_list_unit_id: Teutonic Knight (25)
+				source_player: Player Two (2)
+				location_x: 55
+				location_y: 115
+				item_id: 25
+			create_object [Index: 3, Display: 3]:
+				object_list_unit_id: Teutonic Knight (25)
+				source_player: Player Two (2)
+				location_x: 54
+				location_y: 115
+				item_id: 25
+			create_object [Index: 4, Display: 4]:
+				object_list_unit_id: Teutonic Knight (25)
+				source_player: Player Two (2)
+				location_x: 53
+				location_y: 115
+				item_id: 25
+			create_object [Index: 5, Display: 5]:
+				object_list_unit_id: Teutonic Knight (25)
+				source_player: Player Two (2)
+				location_x: 52
+				location_y: 115
+				item_id: 25
+			attack_move [Index: 6, Display: 6]:
+				source_player: Player Two (2)
+				location_x: 100
+				location_y: 116
+				area_x1: 52
+				area_y1: 115
+				area_x2: 55
+				area_y2: 115
+				object_type: Military (4)
+
+	'Front Wunder Destroyed' [Index: 14, Display: 14]:
+		enabled: True
+		looping: False
+		description_stid: 0
+		short_description_stid: 0
+		conditions:
+			destroy_object [Index: 0, Display: 0]:
+				unit_object: 1 unit:
+					0: Dormition Cathedral (1369) [P7, X187.5, Y127.5] (306466)
+				inverted: False (0)
+		effects:
+			deactivate_trigger [Index: 0, Display: 0]:
+				trigger_id: "East Front Attacked" (12)
+			deactivate_trigger [Index: 1, Display: 1]:
+				trigger_id: "reactivate the east line broke..." (15)
+
+	'reactivate the east line broken' [Index: 15, Display: 15]:
+		enabled: False
+		looping: False
+		description_stid: 0
+		short_description_stid: 0
+		conditions:
+			timer [Index: 0, Display: 0]:
+				timer: 2000
+				inverted: False (0)
+		effects:
+			activate_trigger [Index: 0, Display: 0]:
+				trigger_id: "East First Line Broken" (7)
+			deactivate_trigger [Index: 1, Display: 1]:
+				trigger_id: "reactivate the east line broke..." (15)
+
+	'Shared Team View' [Index: 16, Display: 16]:
+		enabled: True
+		looping: False
+		description_stid: 0
+		short_description_stid: 0
+		conditions:
+			timer [Index: 0, Display: 0]:
+				timer: 10
+				inverted: False (0)
+		effects:
+			research_technology [Index: 0, Display: 0]:
+				source_player: Player One (1)
+				technology: Cartography (19)
+				force_research_technology: False (0)
+			research_technology [Index: 1, Display: 1]:
+				source_player: Player Two (2)
+				technology: Cartography (19)
+				force_research_technology: False (0)
+			research_technology [Index: 2, Display: 2]:
+				source_player: Player Three (3)
+				technology: Cartography (19)
+				force_research_technology: False (0)
+			research_technology [Index: 3, Display: 3]:
+				source_player: Player Four (4)
+				technology: Cartography (19)
+				force_research_technology: False (0)
+			display_instructions [Index: 4, Display: 4]:
+				source_player: Player One (1)
+				display_time: 10
+				instruction_panel_position: Top (0)
+				play_sound: False (0)
+				message: 'Destroy the Enemy Final Castle to Claim Victory!'
+			enable/disable_object [Index: 5, Display: 5]:
+				object_list_unit_id: Dock (45)
+				source_player: Player One (1)
+				enabled: False (0)
+				item_id: 45
+			enable/disable_object [Index: 6, Display: 6]:
+				object_list_unit_id: Dock (45)
+				source_player: Player Two (2)
+				enabled: False (0)
+				item_id: 45
+			enable/disable_object [Index: 7, Display: 7]:
+				object_list_unit_id: Dock (45)
+				source_player: Player Three (3)
+				enabled: False (0)
+				item_id: 45
+			enable/disable_object [Index: 8, Display: 8]:
+				object_list_unit_id: Dock (45)
+				source_player: Player Four (4)
+				enabled: False (0)
+				item_id: 45
+			enable/disable_object [Index: 9, Display: 9]:
+				object_list_unit_id: Dock (45)
+				source_player: Player Five (5)
+				enabled: False (0)
+				item_id: 45
+			enable/disable_object [Index: 10, Display: 10]:
+				object_list_unit_id: Dock (45)
+				source_player: Player Six (6)
+				enabled: False (0)
+				item_id: 45
+			enable/disable_object [Index: 11, Display: 11]:
+				object_list_unit_id: Dock (45)
+				source_player: Player Seven (7)
+				enabled: False (0)
+				item_id: 45
+			enable/disable_object [Index: 12, Display: 12]:
+				object_list_unit_id: Dock (45)
+				source_player: Player Eight (8)
+				enabled: False (0)
+				item_id: 45
+
+	'reactivate West Line Broken' [Index: 17, Display: 17]:
+		enabled: False
+		looping: False
+		description_stid: 0
+		short_description_stid: 0
+		conditions:
+			timer [Index: 0, Display: 0]:
+				timer: 2000
+				inverted: False (0)
+		effects:
+			activate_trigger [Index: 0, Display: 0]:
+				trigger_id: "West First Line Broken" (9)
+			deactivate_trigger [Index: 1, Display: 1]:
+				trigger_id: "reactivate West Line Broken" (17)
+
+	'West Wunder Destroyed' [Index: 18, Display: 18]:
+		enabled: False
+		looping: False
+		description_stid: 0
+		short_description_stid: 0
+		conditions:
+			destroy_object [Index: 0, Display: 0]:
+				unit_object: 1 unit:
+					0: Unknown (2262) [P2, X54.0, Y113.0] (317979)
+				inverted: False (0)
+		effects:
+			deactivate_trigger [Index: 0, Display: 0]:
+				trigger_id: "West Front Attacked" (13)
+			deactivate_trigger [Index: 1, Display: 1]:
+				trigger_id: "reactivate West Line Broken" (17)
+
+	'Final East Push' [Index: 19, Display: 19]:
+		enabled: True
+		looping: False
+		description_stid: 0
+		short_description_stid: 0
+		conditions:
+			objects_in_area [Index: 0, Display: 0]:
+				quantity: 3
+				source_player: Player One (1)
+				area_x1: 210
+				area_y1: 182
+				area_x2: 238
+				area_y2: 239
+				object_type: Military (4)
+				inverted: False (0)
+				object_state: Alive (2)
+				include_changeable_weapon_objects: False (0)
+			or [Index: 1, Display: 1]:
+				<< No Attributes >>
+			objects_in_area [Index: 2, Display: 2]:
+				quantity: 3
+				source_player: Player Two (2)
+				area_x1: 210
+				area_y1: 181
+				area_x2: 239
+				area_y2: 239
+				object_type: Military (4)
+				inverted: False (0)
+				object_state: Alive (2)
+				include_changeable_weapon_objects: False (0)
+			or [Index: 3, Display: 3]:
+				<< No Attributes >>
+			objects_in_area [Index: 4, Display: 4]:
+				quantity: 3
+				source_player: Player Three (3)
+				area_x1: 210
+				area_y1: 181
+				area_x2: 239
+				area_y2: 239
+				object_type: Military (4)
+				inverted: False (0)
+				object_state: Alive (2)
+				include_changeable_weapon_objects: False (0)
+			or [Index: 5, Display: 5]:
+				<< No Attributes >>
+			objects_in_area [Index: 6, Display: 6]:
+				quantity: 3
+				source_player: Player Four (4)
+				area_x1: 210
+				area_y1: 181
+				area_x2: 239
+				area_y2: 239
+				object_type: Military (4)
+				inverted: False (0)
+				object_state: Alive (2)
+				include_changeable_weapon_objects: False (0)
+		effects:
+			activate_trigger [Index: 0, Display: 0]:
+				trigger_id: "Final East Bonus Spawn" (20)
+			display_instructions [Index: 1, Display: 1]:
+				object_list_unit_id: Unknown (2326)
+				source_player: Player Eight (8)
+				display_time: 5
+				instruction_panel_position: Middle (1)
+				play_sound: False (0)
+				message: 'The Last Knights are making final push to the West! 				'
+			activate_trigger [Index: 2, Display: 2]:
+				trigger_id: "Reactivate Final East Push" (22)
+			create_object [Index: 3, Display: 3]:
+				object_list_unit_id: Cannon Galleon (420)
+				source_player: Player Eight (8)
+				location_x: 229
+				location_y: 225
+				item_id: 420
+			create_object [Index: 4, Display: 4]:
+				object_list_unit_id: Cannon Galleon (420)
+				source_player: Player Eight (8)
+				location_x: 222
+				location_y: 202
+				item_id: 420
+			create_object [Index: 5, Display: 5]:
+				object_list_unit_id: Fire Ship (529)
+				source_player: Player Eight (8)
+				location_x: 218
+				location_y: 206
+				item_id: 529
+			create_object [Index: 6, Display: 6]:
+				object_list_unit_id: Fire Ship (529)
+				source_player: Player Eight (8)
+				location_x: 217
+				location_y: 208
+				item_id: 529
+			create_object [Index: 7, Display: 7]:
+				object_list_unit_id: Fire Ship (529)
+				source_player: Player Eight (8)
+				location_x: 217
+				location_y: 224
+				item_id: 529
+			create_object [Index: 8, Display: 8]:
+				object_list_unit_id: Fire Ship (529)
+				source_player: Player Eight (8)
+				location_x: 224
+				location_y: 227
+				item_id: 529
+			create_object [Index: 9, Display: 9]:
+				object_list_unit_id: Fire Ship (529)
+				source_player: Player Eight (8)
+				location_x: 225
+				location_y: 229
+				item_id: 529
+			create_object [Index: 10, Display: 10]:
+				object_list_unit_id: Cannon Galleon (420)
+				source_player: Player Eight (8)
+				location_x: 227
+				location_y: 228
+				item_id: 420
+			create_object [Index: 11, Display: 11]:
+				object_list_unit_id: Cannon Galleon (420)
+				source_player: Player Eight (8)
+				location_x: 231
+				location_y: 204
+				item_id: 420
+			create_object [Index: 12, Display: 12]:
+				object_list_unit_id: Cannon Galleon (420)
+				source_player: Player Eight (8)
+				location_x: 234
+				location_y: 222
+				item_id: 420
+			create_object [Index: 13, Display: 13]:
+				object_list_unit_id: Cannon Galleon (420)
+				source_player: Player Eight (8)
+				location_x: 224
+				location_y: 228
+				item_id: 420
+			create_object [Index: 14, Display: 14]:
+				object_list_unit_id: Cannon Galleon (420)
+				source_player: Player Eight (8)
+				location_x: 215
+				location_y: 218
+				item_id: 420
+			create_object [Index: 15, Display: 15]:
+				object_list_unit_id: Cannon Galleon (420)
+				source_player: Player Eight (8)
+				location_x: 219
+				location_y: 207
+				item_id: 420
+			create_object [Index: 16, Display: 16]:
+				object_list_unit_id: Cannon Galleon (420)
+				source_player: Player Eight (8)
+				location_x: 217
+				location_y: 207
+				item_id: 420
+
+	'Final East Bonus Spawn' [Index: 20, Display: 20]:
+		enabled: False
+		looping: True
+		description_stid: 0
+		short_description_stid: 0
+		conditions:
+			timer [Index: 0, Display: 0]:
+				timer: 6
+				inverted: False (0)
+		effects:
+			create_object [Index: 0, Display: 0]:
+				object_list_unit_id: Condottiero (882)
+				source_player: Player Eight (8)
+				location_x: 234
+				location_y: 198
+				item_id: 882
+			activate_trigger [Index: 1, Display: 1]:
+				trigger_id: "Cancel Final East Bonus" (21)
+			create_object [Index: 2, Display: 2]:
+				object_list_unit_id: Elite Steppe Lancer (1372)
+				source_player: Player Eight (8)
+				location_x: 234
+				location_y: 199
+				item_id: 1372
+			create_object [Index: 3, Display: 3]:
+				object_list_unit_id: Norse Warrior (361)
+				source_player: Player Eight (8)
+				location_x: 234
+				location_y: 200
+				item_id: 361
+			attack_move [Index: 4, Display: 4]:
+				source_player: Player Eight (8)
+				location_x: 21
+				location_y: 30
+				area_x1: 230
+				area_y1: 194
+				area_x2: 235
+				area_y2: 203
+				object_type: Military (4)
+			create_object [Index: 5, Display: 5]:
+				object_list_unit_id: Elite Samurai (560)
+				source_player: Player Eight (8)
+				location_x: 234
+				location_y: 196
+				item_id: 560
+			create_object [Index: 6, Display: 6]:
+				object_list_unit_id: Elite Longbowman (530)
+				source_player: Player Eight (8)
+				location_x: 234
+				location_y: 198
+				item_id: 530
+			create_object [Index: 7, Display: 7]:
+				object_list_unit_id: Mangonel (280)
+				source_player: Player Eight (8)
+				location_x: 234
+				location_y: 199
+				item_id: 280
+			create_object [Index: 8, Display: 8]:
+				object_list_unit_id: Elite Huskarl (555)
+				source_player: Player Eight (8)
+				location_x: 234
+				location_y: 200
+				item_id: 555
+			create_object [Index: 9, Display: 9]:
+				object_list_unit_id: Elite Magyar Huszar (871)
+				source_player: Player Eight (8)
+				location_x: 233
+				location_y: 202
+				item_id: 871
+			create_object [Index: 10, Display: 10]:
+				object_list_unit_id: Elite Teutonic Knight (554)
+				source_player: Player Eight (8)
+				location_x: 233
+				location_y: 198
+				item_id: 554
+			create_object [Index: 11, Display: 11]:
+				object_list_unit_id: Elite Longbowman (530)
+				source_player: Player Eight (8)
+				location_x: 233
+				location_y: 197
+				item_id: 530
+			create_object [Index: 12, Display: 12]:
+				object_list_unit_id: Unknown (2102)
+				source_player: Player Eight (8)
+				location_x: 233
+				location_y: 201
+				item_id: 2102
+			create_object [Index: 13, Display: 13]:
+				object_list_unit_id: Elite Teutonic Knight (554)
+				source_player: Player Eight (8)
+				location_x: 232
+				location_y: 197
+				item_id: 554
+			create_object [Index: 14, Display: 14]:
+				object_list_unit_id: Unknown (2328)
+				source_player: Player Eight (8)
+				location_x: 232
+				location_y: 199
+				item_id: 2328
+			create_object [Index: 15, Display: 15]:
+				object_list_unit_id: Elite Huskarl (555)
+				source_player: Player Eight (8)
+				location_x: 232
+				location_y: 201
+				item_id: 555
+			attack_move [Index: 16, Display: 16]:
+				source_player: Player Eight (8)
+				location_x: 19
+				location_y: 29
+				area_x1: 223
+				area_y1: 232
+				area_x2: 230
+				area_y2: 239
+				object_type: Military (4)
+			create_object [Index: 17, Display: 17]:
+				object_list_unit_id: Heavy Scorpion (542)
+				source_player: Player Eight (8)
+				location_x: 227
+				location_y: 235
+				item_id: 542
+			create_object [Index: 18, Display: 18]:
+				object_list_unit_id: Elite Teutonic Knight (554)
+				source_player: Player Eight (8)
+				location_x: 228
+				location_y: 235
+				item_id: 554
+			create_object [Index: 19, Display: 19]:
+				object_list_unit_id: Elite Janissary (557)
+				source_player: Player Eight (8)
+				location_x: 225
+				location_y: 234
+				item_id: 557
+			create_object [Index: 20, Display: 20]:
+				object_list_unit_id: Elite Huskarl (555)
+				source_player: Player Eight (8)
+				location_x: 226
+				location_y: 235
+				item_id: 555
+			create_object [Index: 21, Display: 21]:
+				object_list_unit_id: Elite Teutonic Knight (554)
+				source_player: Player Eight (8)
+				location_x: 226
+				location_y: 237
+				item_id: 554
+			create_object [Index: 22, Display: 22]:
+				object_list_unit_id: Condottiero (882)
+				source_player: Player Eight (8)
+				location_x: 224
+				location_y: 236
+				item_id: 882
+			create_object [Index: 23, Display: 23]:
+				object_list_unit_id: Condottiero (882)
+				source_player: Player Seven (7)
+				location_x: 224
+				location_y: 239
+				item_id: 882
+			create_object [Index: 24, Display: 24]:
+				object_list_unit_id: Elite Magyar Huszar (871)
+				source_player: Player Eight (8)
+				location_x: 233
+				location_y: 202
+				item_id: 871
+			create_object [Index: 25, Display: 25]:
+				object_list_unit_id: Elite Longbowman (530)
+				source_player: Player Eight (8)
+				location_x: 234
+				location_y: 198
+				item_id: 530
+			create_object [Index: 26, Display: 26]:
+				object_list_unit_id: Elite Steppe Lancer (1372)
+				source_player: Player Eight (8)
+				location_x: 234
+				location_y: 199
+				item_id: 1372
+			create_object [Index: 27, Display: 27]:
+				object_list_unit_id: Elite Janissary (557)
+				source_player: Player Eight (8)
+				location_x: 232
+				location_y: 199
+				item_id: 557
+			create_object [Index: 28, Display: 28]:
+				object_list_unit_id: Elite Teutonic Knight (554)
+				source_player: Player Eight (8)
+				location_x: 226
+				location_y: 237
+				item_id: 554
+			create_object [Index: 29, Display: 29]:
+				object_list_unit_id: Elite Janissary (557)
+				source_player: Player Eight (8)
+				location_x: 225
+				location_y: 234
+				item_id: 557
+			create_object [Index: 30, Display: 30]:
+				object_list_unit_id: Elite Teutonic Knight (554)
+				source_player: Player Eight (8)
+				location_x: 232
+				location_y: 197
+				item_id: 554
+			create_object [Index: 31, Display: 31]:
+				object_list_unit_id: Elite Longbowman (530)
+				source_player: Player Eight (8)
+				location_x: 233
+				location_y: 197
+				item_id: 530
+			create_object [Index: 32, Display: 32]:
+				object_list_unit_id: Elite Longbowman (530)
+				source_player: Player Eight (8)
+				location_x: 234
+				location_y: 198
+				item_id: 530
+			create_object [Index: 33, Display: 33]:
+				object_list_unit_id: Elite Steppe Lancer (1372)
+				source_player: Player Eight (8)
+				location_x: 234
+				location_y: 199
+				item_id: 1372
+			create_object [Index: 34, Display: 34]:
+				object_list_unit_id: Elite Magyar Huszar (871)
+				source_player: Player Eight (8)
+				location_x: 233
+				location_y: 202
+				item_id: 871
+			attack_move [Index: 35, Display: 35]:
+				source_player: Player Eight (8)
+				location_x: 19
+				location_y: 28
+				area_x1: 229
+				area_y1: 38
+				area_x2: 239
+				area_y2: 65
+				object_type: Military (4)
+			create_object [Index: 36, Display: 36]:
+				object_list_unit_id: Crusader Knight (1723)
+				source_player: Player Eight (8)
+				location_x: 239
+				location_y: 43
+				item_id: 1723
+			create_object [Index: 37, Display: 37]:
+				object_list_unit_id: Crusader Knight (1723)
+				source_player: Player Eight (8)
+				location_x: 239
+				location_y: 44
+				item_id: 1723
+			create_object [Index: 38, Display: 38]:
+				object_list_unit_id: Crusader Knight (1723)
+				source_player: Player Eight (8)
+				location_x: 239
+				location_y: 46
+				item_id: 1723
+			create_object [Index: 39, Display: 39]:
+				object_list_unit_id: Mangonel (280)
+				source_player: Player Eight (8)
+				location_x: 239
+				location_y: 50
+				item_id: 280
+			create_object [Index: 40, Display: 40]:
+				object_list_unit_id: Trebuchet Packed (331)
+				source_player: Player Eight (8)
+				location_x: 237
+				location_y: 52
+				item_id: 331
+			create_object [Index: 41, Display: 41]:
+				object_list_unit_id: Elite Cataphract (553)
+				source_player: Player Eight (8)
+				location_x: 237
+				location_y: 52
+				item_id: 553
+			create_object [Index: 42, Display: 42]:
+				object_list_unit_id: Elite Cataphract (553)
+				source_player: Player Eight (8)
+				location_x: 236
+				location_y: 55
+				item_id: 553
+			create_object [Index: 43, Display: 43]:
+				object_list_unit_id: Elite Cataphract (553)
+				source_player: Player Eight (8)
+				location_x: 236
+				location_y: 50
+				item_id: 553
+			create_object [Index: 44, Display: 44]:
+				object_list_unit_id: Elite Cataphract (553)
+				source_player: Player Eight (8)
+				location_x: 236
+				location_y: 51
+				item_id: 553
+			create_object [Index: 45, Display: 45]:
+				object_list_unit_id: Elite Cataphract (553)
+				source_player: Player Eight (8)
+				location_x: 237
+				location_y: 52
+				item_id: 553
+
+	'Cancel Final East Bonus' [Index: 21, Display: 21]:
+		enabled: False
+		looping: False
+		description_stid: 0
+		short_description_stid: 0
+		conditions:
+			timer [Index: 0, Display: 0]:
+				timer: 199
+				inverted: False (0)
+		effects:
+			deactivate_trigger [Index: 0, Display: 0]:
+				trigger_id: "Final East Bonus Spawn" (20)
+
+	'Reactivate Final East Push' [Index: 22, Display: 22]:
+		enabled: False
+		looping: False
+		description_stid: 0
+		short_description_stid: 0
+		conditions:
+			timer [Index: 0, Display: 0]:
+				timer: 200
+				inverted: False (0)
+		effects:
+			activate_trigger [Index: 0, Display: 0]:
+				trigger_id: "Final East Push" (19)
+			deactivate_trigger [Index: 1, Display: 1]:
+				trigger_id: "Reactivate Final East Push" (22)
+
+	'East Final Church Gone' [Index: 23, Display: 23]:
+		enabled: True
+		looping: False
+		description_stid: 0
+		short_description_stid: 0
+		conditions:
+			destroy_object [Index: 0, Display: 0]:
+				unit_object: 1 unit:
+					0: Poenari Castle (445) [P8, X230.0, Y215.0] (224976)
+				inverted: False (0)
+		effects:
+			deactivate_trigger [Index: 0, Display: 0]:
+				trigger_id: "Final East Push" (19)
+			deactivate_trigger [Index: 1, Display: 1]:
+				trigger_id: "Reactivate Final East Push" (22)
+
+	'Limit Navy Player1' [Index: 24, Display: 24]:
+		enabled: True
+		looping: False
+		description: 'to limit the amount of navy units a player can have'
+		description_stid: 0
+		short_description_stid: 0
+		conditions:
+			own_objects [Index: 0, Display: 0]:
+				quantity: 5
+				source_player: Player One (1)
+				object_group: Warship (22)
+				include_changeable_weapon_objects: False (0)
+		effects:
+			enable/disable_object [Index: 0, Display: 0]:
+				object_list_unit_id: Galley (539)
+				source_player: Player One (1)
+				enabled: False (0)
+				item_id: 539
+			enable/disable_object [Index: 1, Display: 1]:
+				object_list_unit_id: War Galley (21)
+				source_player: Player One (1)
+				enabled: False (0)
+				item_id: 21
+			enable/disable_object [Index: 2, Display: 2]:
+				object_list_unit_id: Galleon (442)
+				source_player: Player One (1)
+				enabled: False (0)
+				item_id: 442
+			enable/disable_object [Index: 3, Display: 3]:
+				object_list_unit_id: Fire Galley (1103)
+				source_player: Player One (1)
+				enabled: False (0)
+				item_id: 1103
+			enable/disable_object [Index: 4, Display: 4]:
+				object_list_unit_id: Fire Ship (529)
+				source_player: Player One (1)
+				enabled: False (0)
+				item_id: 529
+			enable/disable_object [Index: 5, Display: 5]:
+				object_list_unit_id: Fast Fire Ship (532)
+				source_player: Player One (1)
+				enabled: False (0)
+				item_id: 532
+			enable/disable_object [Index: 6, Display: 6]:
+				object_list_unit_id: Demolition Raft (1104)
+				source_player: Player One (1)
+				enabled: False (0)
+				item_id: 1104
+			enable/disable_object [Index: 7, Display: 7]:
+				object_list_unit_id: Demolition Ship (527)
+				source_player: Player One (1)
+				enabled: False (0)
+				item_id: 527
+			enable/disable_object [Index: 8, Display: 8]:
+				object_list_unit_id: Heavy Demolition Ship (528)
+				source_player: Player One (1)
+				enabled: False (0)
+				item_id: 528
+			enable/disable_object [Index: 9, Display: 9]:
+				object_list_unit_id: Cannon Galleon (420)
+				source_player: Player One (1)
+				enabled: False (0)
+				item_id: 420
+			enable/disable_object [Index: 10, Display: 10]:
+				object_list_unit_id: Elite Cannon Galleon (691)
+				source_player: Player One (1)
+				enabled: False (0)
+				item_id: 691
+			enable/disable_object [Index: 11, Display: 11]:
+				object_list_unit_id: Dromon (1795)
+				source_player: Player One (1)
+				enabled: False (0)
+				item_id: 1795
+			enable/disable_object [Index: 12, Display: 12]:
+				object_list_unit_id: Longboat (250)
+				source_player: Player One (1)
+				enabled: False (0)
+				item_id: 250
+			enable/disable_object [Index: 13, Display: 13]:
+				object_list_unit_id: Elite Longboat (533)
+				source_player: Player One (1)
+				enabled: False (0)
+				item_id: 533
+			enable/disable_object [Index: 14, Display: 14]:
+				object_list_unit_id: Turtle Ship (831)
+				source_player: Player One (1)
+				enabled: False (0)
+				item_id: 831
+			enable/disable_object [Index: 15, Display: 15]:
+				object_list_unit_id: Elite Turtle Ship (832)
+				source_player: Player One (1)
+				enabled: False (0)
+				item_id: 832
+			enable/disable_object [Index: 16, Display: 16]:
+				object_list_unit_id: Caravel (1004)
+				source_player: Player One (1)
+				enabled: False (0)
+				item_id: 1004
+			enable/disable_object [Index: 17, Display: 17]:
+				object_list_unit_id: Elite Caravel (1006)
+				source_player: Player One (1)
+				enabled: False (0)
+				item_id: 1006
+			enable/disable_object [Index: 18, Display: 18]:
+				object_list_unit_id: Thirisadai (1750)
+				source_player: Player One (1)
+				enabled: False (0)
+				item_id: 1750
+			activate_trigger [Index: 19, Display: 19]:
+				trigger_id: "Free Navy Player1" (25)
+
+	'Free Navy Player1' [Index: 25, Display: 25]:
+		enabled: False
+		looping: False
+		description: 'to limit the amount of navy units a player can have'
+		description_stid: 0
+		short_description_stid: 0
+		conditions:
+			own_fewer_objects [Index: 0, Display: 0]:
+				quantity: 4
+				source_player: Player One (1)
+				object_group: Warship (22)
+				include_changeable_weapon_objects: False (0)
+		effects:
+			enable/disable_object [Index: 0, Display: 0]:
+				object_list_unit_id: Galley (539)
+				source_player: Player One (1)
+				enabled: True (1)
+				item_id: 539
+			enable/disable_object [Index: 1, Display: 1]:
+				object_list_unit_id: War Galley (21)
+				source_player: Player One (1)
+				enabled: True (1)
+				item_id: 21
+			enable/disable_object [Index: 2, Display: 2]:
+				object_list_unit_id: Galleon (442)
+				source_player: Player One (1)
+				enabled: True (1)
+				item_id: 442
+			enable/disable_object [Index: 3, Display: 3]:
+				object_list_unit_id: Fire Galley (1103)
+				source_player: Player One (1)
+				enabled: True (1)
+				item_id: 1103
+			enable/disable_object [Index: 4, Display: 4]:
+				object_list_unit_id: Fire Ship (529)
+				source_player: Player One (1)
+				enabled: True (1)
+				item_id: 529
+			enable/disable_object [Index: 5, Display: 5]:
+				object_list_unit_id: Fast Fire Ship (532)
+				source_player: Player One (1)
+				enabled: True (1)
+				item_id: 532
+			enable/disable_object [Index: 6, Display: 6]:
+				object_list_unit_id: Demolition Raft (1104)
+				source_player: Player One (1)
+				enabled: True (1)
+				item_id: 1104
+			enable/disable_object [Index: 7, Display: 7]:
+				object_list_unit_id: Demolition Ship (527)
+				source_player: Player One (1)
+				enabled: True (1)
+				item_id: 527
+			enable/disable_object [Index: 8, Display: 8]:
+				object_list_unit_id: Heavy Demolition Ship (528)
+				source_player: Player One (1)
+				enabled: True (1)
+				item_id: 528
+			enable/disable_object [Index: 9, Display: 9]:
+				object_list_unit_id: Cannon Galleon (420)
+				source_player: Player One (1)
+				enabled: True (1)
+				item_id: 420
+			enable/disable_object [Index: 10, Display: 10]:
+				object_list_unit_id: Elite Cannon Galleon (691)
+				source_player: Player One (1)
+				enabled: True (1)
+				item_id: 691
+			enable/disable_object [Index: 11, Display: 11]:
+				object_list_unit_id: Dromon (1795)
+				source_player: Player One (1)
+				enabled: True (1)
+				item_id: 1795
+			enable/disable_object [Index: 12, Display: 12]:
+				object_list_unit_id: Longboat (250)
+				source_player: Player One (1)
+				enabled: True (1)
+				item_id: 250
+			enable/disable_object [Index: 13, Display: 13]:
+				object_list_unit_id: Elite Longboat (533)
+				source_player: Player One (1)
+				enabled: True (1)
+				item_id: 533
+			enable/disable_object [Index: 14, Display: 14]:
+				object_list_unit_id: Turtle Ship (831)
+				source_player: Player One (1)
+				enabled: True (1)
+				item_id: 831
+			enable/disable_object [Index: 15, Display: 15]:
+				object_list_unit_id: Elite Turtle Ship (832)
+				source_player: Player One (1)
+				enabled: True (1)
+				item_id: 832
+			enable/disable_object [Index: 16, Display: 16]:
+				object_list_unit_id: Caravel (1004)
+				source_player: Player One (1)
+				enabled: True (1)
+				item_id: 1004
+			enable/disable_object [Index: 17, Display: 17]:
+				object_list_unit_id: Elite Caravel (1006)
+				source_player: Player One (1)
+				enabled: True (1)
+				item_id: 1006
+			enable/disable_object [Index: 18, Display: 18]:
+				object_list_unit_id: Thirisadai (1750)
+				source_player: Player One (1)
+				enabled: True (1)
+				item_id: 1750
+			activate_trigger [Index: 19, Display: 19]:
+				trigger_id: "Limit Navy Player1" (24)
+
+	'Limit Navy Player2' [Index: 26, Display: 26]:
+		enabled: True
+		looping: False
+		description: 'to limit the amount of navy units a player can have'
+		description_stid: 0
+		short_description_stid: 0
+		conditions:
+			own_objects [Index: 0, Display: 0]:
+				quantity: 5
+				source_player: Player Two (2)
+				object_group: Warship (22)
+				include_changeable_weapon_objects: False (0)
+		effects:
+			enable/disable_object [Index: 0, Display: 0]:
+				object_list_unit_id: Galley (539)
+				source_player: Player Two (2)
+				enabled: False (0)
+				item_id: 539
+			enable/disable_object [Index: 1, Display: 1]:
+				object_list_unit_id: War Galley (21)
+				source_player: Player Two (2)
+				enabled: False (0)
+				item_id: 21
+			enable/disable_object [Index: 2, Display: 2]:
+				object_list_unit_id: Galleon (442)
+				source_player: Player Two (2)
+				enabled: False (0)
+				item_id: 442
+			enable/disable_object [Index: 3, Display: 3]:
+				object_list_unit_id: Fire Galley (1103)
+				source_player: Player Two (2)
+				enabled: False (0)
+				item_id: 1103
+			enable/disable_object [Index: 4, Display: 4]:
+				object_list_unit_id: Fire Ship (529)
+				source_player: Player Two (2)
+				enabled: False (0)
+				item_id: 529
+			enable/disable_object [Index: 5, Display: 5]:
+				object_list_unit_id: Fast Fire Ship (532)
+				source_player: Player Two (2)
+				enabled: False (0)
+				item_id: 532
+			enable/disable_object [Index: 6, Display: 6]:
+				object_list_unit_id: Demolition Raft (1104)
+				source_player: Player Two (2)
+				enabled: False (0)
+				item_id: 1104
+			enable/disable_object [Index: 7, Display: 7]:
+				object_list_unit_id: Demolition Ship (527)
+				source_player: Player Two (2)
+				enabled: False (0)
+				item_id: 527
+			enable/disable_object [Index: 8, Display: 8]:
+				object_list_unit_id: Heavy Demolition Ship (528)
+				source_player: Player Two (2)
+				enabled: False (0)
+				item_id: 528
+			enable/disable_object [Index: 9, Display: 9]:
+				object_list_unit_id: Cannon Galleon (420)
+				source_player: Player Two (2)
+				enabled: False (0)
+				item_id: 420
+			enable/disable_object [Index: 10, Display: 10]:
+				object_list_unit_id: Elite Cannon Galleon (691)
+				source_player: Player Two (2)
+				enabled: False (0)
+				item_id: 691
+			enable/disable_object [Index: 11, Display: 11]:
+				object_list_unit_id: Dromon (1795)
+				source_player: Player Two (2)
+				enabled: False (0)
+				item_id: 1795
+			enable/disable_object [Index: 12, Display: 12]:
+				object_list_unit_id: Longboat (250)
+				source_player: Player Two (2)
+				enabled: False (0)
+				item_id: 250
+			enable/disable_object [Index: 13, Display: 13]:
+				object_list_unit_id: Elite Longboat (533)
+				source_player: Player Two (2)
+				enabled: False (0)
+				item_id: 533
+			enable/disable_object [Index: 14, Display: 14]:
+				object_list_unit_id: Turtle Ship (831)
+				source_player: Player Two (2)
+				enabled: False (0)
+				item_id: 831
+			enable/disable_object [Index: 15, Display: 15]:
+				object_list_unit_id: Elite Turtle Ship (832)
+				source_player: Player Two (2)
+				enabled: False (0)
+				item_id: 832
+			enable/disable_object [Index: 16, Display: 16]:
+				object_list_unit_id: Caravel (1004)
+				source_player: Player Two (2)
+				enabled: False (0)
+				item_id: 1004
+			enable/disable_object [Index: 17, Display: 17]:
+				object_list_unit_id: Elite Caravel (1006)
+				source_player: Player Two (2)
+				enabled: False (0)
+				item_id: 1006
+			enable/disable_object [Index: 18, Display: 18]:
+				object_list_unit_id: Thirisadai (1750)
+				source_player: Player Two (2)
+				enabled: False (0)
+				item_id: 1750
+			activate_trigger [Index: 19, Display: 19]:
+				trigger_id: "Free Navy Player2" (27)
+
+	'Free Navy Player2' [Index: 27, Display: 27]:
+		enabled: False
+		looping: False
+		description: 'to limit the amount of navy units a player can have'
+		description_stid: 0
+		short_description_stid: 0
+		conditions:
+			own_fewer_objects [Index: 0, Display: 0]:
+				quantity: 4
+				source_player: Player Two (2)
+				object_group: Warship (22)
+				include_changeable_weapon_objects: False (0)
+		effects:
+			enable/disable_object [Index: 0, Display: 0]:
+				object_list_unit_id: Galley (539)
+				source_player: Player Two (2)
+				enabled: True (1)
+				item_id: 539
+			enable/disable_object [Index: 1, Display: 1]:
+				object_list_unit_id: War Galley (21)
+				source_player: Player Two (2)
+				enabled: True (1)
+				item_id: 21
+			enable/disable_object [Index: 2, Display: 2]:
+				object_list_unit_id: Galleon (442)
+				source_player: Player Two (2)
+				enabled: True (1)
+				item_id: 442
+			enable/disable_object [Index: 3, Display: 3]:
+				object_list_unit_id: Fire Galley (1103)
+				source_player: Player Two (2)
+				enabled: True (1)
+				item_id: 1103
+			enable/disable_object [Index: 4, Display: 4]:
+				object_list_unit_id: Fire Ship (529)
+				source_player: Player Two (2)
+				enabled: True (1)
+				item_id: 529
+			enable/disable_object [Index: 5, Display: 5]:
+				object_list_unit_id: Fast Fire Ship (532)
+				source_player: Player Two (2)
+				enabled: True (1)
+				item_id: 532
+			enable/disable_object [Index: 6, Display: 6]:
+				object_list_unit_id: Demolition Raft (1104)
+				source_player: Player Two (2)
+				enabled: True (1)
+				item_id: 1104
+			enable/disable_object [Index: 7, Display: 7]:
+				object_list_unit_id: Demolition Ship (527)
+				source_player: Player Two (2)
+				enabled: True (1)
+				item_id: 527
+			enable/disable_object [Index: 8, Display: 8]:
+				object_list_unit_id: Heavy Demolition Ship (528)
+				source_player: Player Two (2)
+				enabled: True (1)
+				item_id: 528
+			enable/disable_object [Index: 9, Display: 9]:
+				object_list_unit_id: Cannon Galleon (420)
+				source_player: Player Two (2)
+				enabled: True (1)
+				item_id: 420
+			enable/disable_object [Index: 10, Display: 10]:
+				object_list_unit_id: Elite Cannon Galleon (691)
+				source_player: Player Two (2)
+				enabled: True (1)
+				item_id: 691
+			enable/disable_object [Index: 11, Display: 11]:
+				object_list_unit_id: Dromon (1795)
+				source_player: Player Two (2)
+				enabled: True (1)
+				item_id: 1795
+			enable/disable_object [Index: 12, Display: 12]:
+				object_list_unit_id: Longboat (250)
+				source_player: Player Two (2)
+				enabled: True (1)
+				item_id: 250
+			enable/disable_object [Index: 13, Display: 13]:
+				object_list_unit_id: Elite Longboat (533)
+				source_player: Player Two (2)
+				enabled: True (1)
+				item_id: 533
+			enable/disable_object [Index: 14, Display: 14]:
+				object_list_unit_id: Turtle Ship (831)
+				source_player: Player Two (2)
+				enabled: True (1)
+				item_id: 831
+			enable/disable_object [Index: 15, Display: 15]:
+				object_list_unit_id: Elite Turtle Ship (832)
+				source_player: Player Two (2)
+				enabled: True (1)
+				item_id: 832
+			enable/disable_object [Index: 16, Display: 16]:
+				object_list_unit_id: Caravel (1004)
+				source_player: Player Two (2)
+				enabled: True (1)
+				item_id: 1004
+			enable/disable_object [Index: 17, Display: 17]:
+				object_list_unit_id: Elite Caravel (1006)
+				source_player: Player Two (2)
+				enabled: True (1)
+				item_id: 1006
+			enable/disable_object [Index: 18, Display: 18]:
+				object_list_unit_id: Thirisadai (1750)
+				source_player: Player Two (2)
+				enabled: True (1)
+				item_id: 1750
+			activate_trigger [Index: 19, Display: 19]:
+				trigger_id: "Limit Navy Player2" (26)
+
+	'Limit Navy Player3' [Index: 28, Display: 28]:
+		enabled: True
+		looping: False
+		description: 'to limit the amount of navy units a player can have'
+		description_stid: 0
+		short_description_stid: 0
+		conditions:
+			own_objects [Index: 0, Display: 0]:
+				quantity: 5
+				source_player: Player Three (3)
+				object_group: Warship (22)
+				include_changeable_weapon_objects: False (0)
+		effects:
+			enable/disable_object [Index: 0, Display: 0]:
+				object_list_unit_id: Galley (539)
+				source_player: Player Three (3)
+				enabled: False (0)
+				item_id: 539
+			enable/disable_object [Index: 1, Display: 1]:
+				object_list_unit_id: War Galley (21)
+				source_player: Player Three (3)
+				enabled: False (0)
+				item_id: 21
+			enable/disable_object [Index: 2, Display: 2]:
+				object_list_unit_id: Galleon (442)
+				source_player: Player Three (3)
+				enabled: False (0)
+				item_id: 442
+			enable/disable_object [Index: 3, Display: 3]:
+				object_list_unit_id: Fire Galley (1103)
+				source_player: Player Three (3)
+				enabled: False (0)
+				item_id: 1103
+			enable/disable_object [Index: 4, Display: 4]:
+				object_list_unit_id: Fire Ship (529)
+				source_player: Player Three (3)
+				enabled: False (0)
+				item_id: 529
+			enable/disable_object [Index: 5, Display: 5]:
+				object_list_unit_id: Fast Fire Ship (532)
+				source_player: Player Three (3)
+				enabled: False (0)
+				item_id: 532
+			enable/disable_object [Index: 6, Display: 6]:
+				object_list_unit_id: Demolition Raft (1104)
+				source_player: Player Three (3)
+				enabled: False (0)
+				item_id: 1104
+			enable/disable_object [Index: 7, Display: 7]:
+				object_list_unit_id: Demolition Ship (527)
+				source_player: Player Three (3)
+				enabled: False (0)
+				item_id: 527
+			enable/disable_object [Index: 8, Display: 8]:
+				object_list_unit_id: Heavy Demolition Ship (528)
+				source_player: Player Three (3)
+				enabled: False (0)
+				item_id: 528
+			enable/disable_object [Index: 9, Display: 9]:
+				object_list_unit_id: Cannon Galleon (420)
+				source_player: Player Three (3)
+				enabled: False (0)
+				item_id: 420
+			enable/disable_object [Index: 10, Display: 10]:
+				object_list_unit_id: Elite Cannon Galleon (691)
+				source_player: Player Three (3)
+				enabled: False (0)
+				item_id: 691
+			enable/disable_object [Index: 11, Display: 11]:
+				object_list_unit_id: Dromon (1795)
+				source_player: Player Three (3)
+				enabled: False (0)
+				item_id: 1795
+			enable/disable_object [Index: 12, Display: 12]:
+				object_list_unit_id: Longboat (250)
+				source_player: Player Three (3)
+				enabled: False (0)
+				item_id: 250
+			enable/disable_object [Index: 13, Display: 13]:
+				object_list_unit_id: Elite Longboat (533)
+				source_player: Player Three (3)
+				enabled: False (0)
+				item_id: 533
+			enable/disable_object [Index: 14, Display: 14]:
+				object_list_unit_id: Turtle Ship (831)
+				source_player: Player Three (3)
+				enabled: False (0)
+				item_id: 831
+			enable/disable_object [Index: 15, Display: 15]:
+				object_list_unit_id: Elite Turtle Ship (832)
+				source_player: Player Three (3)
+				enabled: False (0)
+				item_id: 832
+			enable/disable_object [Index: 16, Display: 16]:
+				object_list_unit_id: Caravel (1004)
+				source_player: Player Three (3)
+				enabled: False (0)
+				item_id: 1004
+			enable/disable_object [Index: 17, Display: 17]:
+				object_list_unit_id: Elite Caravel (1006)
+				source_player: Player Three (3)
+				enabled: False (0)
+				item_id: 1006
+			enable/disable_object [Index: 18, Display: 18]:
+				object_list_unit_id: Thirisadai (1750)
+				source_player: Player Three (3)
+				enabled: False (0)
+				item_id: 1750
+			activate_trigger [Index: 19, Display: 19]:
+				trigger_id: "Free Navy Player3" (34)
+
+	'Limit Navy Player4' [Index: 29, Display: 29]:
+		enabled: True
+		looping: False
+		description: 'to limit the amount of navy units a player can have'
+		description_stid: 0
+		short_description_stid: 0
+		conditions:
+			own_objects [Index: 0, Display: 0]:
+				quantity: 5
+				source_player: Player Four (4)
+				object_group: Warship (22)
+				include_changeable_weapon_objects: False (0)
+		effects:
+			enable/disable_object [Index: 0, Display: 0]:
+				object_list_unit_id: Galley (539)
+				source_player: Player Four (4)
+				enabled: False (0)
+				item_id: 539
+			enable/disable_object [Index: 1, Display: 1]:
+				object_list_unit_id: War Galley (21)
+				source_player: Player Four (4)
+				enabled: False (0)
+				item_id: 21
+			enable/disable_object [Index: 2, Display: 2]:
+				object_list_unit_id: Galleon (442)
+				source_player: Player Four (4)
+				enabled: False (0)
+				item_id: 442
+			enable/disable_object [Index: 3, Display: 3]:
+				object_list_unit_id: Fire Galley (1103)
+				source_player: Player Four (4)
+				enabled: False (0)
+				item_id: 1103
+			enable/disable_object [Index: 4, Display: 4]:
+				object_list_unit_id: Fire Ship (529)
+				source_player: Player Four (4)
+				enabled: False (0)
+				item_id: 529
+			enable/disable_object [Index: 5, Display: 5]:
+				object_list_unit_id: Fast Fire Ship (532)
+				source_player: Player Four (4)
+				enabled: False (0)
+				item_id: 532
+			enable/disable_object [Index: 6, Display: 6]:
+				object_list_unit_id: Demolition Raft (1104)
+				source_player: Player Four (4)
+				enabled: False (0)
+				item_id: 1104
+			enable/disable_object [Index: 7, Display: 7]:
+				object_list_unit_id: Demolition Ship (527)
+				source_player: Player Four (4)
+				enabled: False (0)
+				item_id: 527
+			enable/disable_object [Index: 8, Display: 8]:
+				object_list_unit_id: Heavy Demolition Ship (528)
+				source_player: Player Four (4)
+				enabled: False (0)
+				item_id: 528
+			enable/disable_object [Index: 9, Display: 9]:
+				object_list_unit_id: Cannon Galleon (420)
+				source_player: Player Four (4)
+				enabled: False (0)
+				item_id: 420
+			enable/disable_object [Index: 10, Display: 10]:
+				object_list_unit_id: Elite Cannon Galleon (691)
+				source_player: Player Four (4)
+				enabled: False (0)
+				item_id: 691
+			enable/disable_object [Index: 11, Display: 11]:
+				object_list_unit_id: Dromon (1795)
+				source_player: Player Four (4)
+				enabled: False (0)
+				item_id: 1795
+			enable/disable_object [Index: 12, Display: 12]:
+				object_list_unit_id: Longboat (250)
+				source_player: Player Four (4)
+				enabled: False (0)
+				item_id: 250
+			enable/disable_object [Index: 13, Display: 13]:
+				object_list_unit_id: Elite Longboat (533)
+				source_player: Player Four (4)
+				enabled: False (0)
+				item_id: 533
+			enable/disable_object [Index: 14, Display: 14]:
+				object_list_unit_id: Turtle Ship (831)
+				source_player: Player Four (4)
+				enabled: False (0)
+				item_id: 831
+			enable/disable_object [Index: 15, Display: 15]:
+				object_list_unit_id: Elite Turtle Ship (832)
+				source_player: Player Four (4)
+				enabled: False (0)
+				item_id: 832
+			enable/disable_object [Index: 16, Display: 16]:
+				object_list_unit_id: Caravel (1004)
+				source_player: Player Four (4)
+				enabled: False (0)
+				item_id: 1004
+			enable/disable_object [Index: 17, Display: 17]:
+				object_list_unit_id: Elite Caravel (1006)
+				source_player: Player Four (4)
+				enabled: False (0)
+				item_id: 1006
+			enable/disable_object [Index: 18, Display: 18]:
+				object_list_unit_id: Thirisadai (1750)
+				source_player: Player Four (4)
+				enabled: False (0)
+				item_id: 1750
+			activate_trigger [Index: 19, Display: 19]:
+				trigger_id: "Free Navy Player4" (35)
+
+	'Limit Navy Player5' [Index: 30, Display: 30]:
+		enabled: True
+		looping: False
+		description: 'to limit the amount of navy units a player can have'
+		description_stid: 0
+		short_description_stid: 0
+		conditions:
+			own_objects [Index: 0, Display: 0]:
+				quantity: 5
+				source_player: Player Five (5)
+				object_group: Warship (22)
+				include_changeable_weapon_objects: False (0)
+		effects:
+			enable/disable_object [Index: 0, Display: 0]:
+				object_list_unit_id: Galley (539)
+				source_player: Player Five (5)
+				enabled: False (0)
+				item_id: 539
+			enable/disable_object [Index: 1, Display: 1]:
+				object_list_unit_id: War Galley (21)
+				source_player: Player Five (5)
+				enabled: False (0)
+				item_id: 21
+			enable/disable_object [Index: 2, Display: 2]:
+				object_list_unit_id: Galleon (442)
+				source_player: Player Five (5)
+				enabled: False (0)
+				item_id: 442
+			enable/disable_object [Index: 3, Display: 3]:
+				object_list_unit_id: Fire Galley (1103)
+				source_player: Player Five (5)
+				enabled: False (0)
+				item_id: 1103
+			enable/disable_object [Index: 4, Display: 4]:
+				object_list_unit_id: Fire Ship (529)
+				source_player: Player Five (5)
+				enabled: False (0)
+				item_id: 529
+			enable/disable_object [Index: 5, Display: 5]:
+				object_list_unit_id: Fast Fire Ship (532)
+				source_player: Player Five (5)
+				enabled: False (0)
+				item_id: 532
+			enable/disable_object [Index: 6, Display: 6]:
+				object_list_unit_id: Demolition Raft (1104)
+				source_player: Player Five (5)
+				enabled: False (0)
+				item_id: 1104
+			enable/disable_object [Index: 7, Display: 7]:
+				object_list_unit_id: Demolition Ship (527)
+				source_player: Player Five (5)
+				enabled: False (0)
+				item_id: 527
+			enable/disable_object [Index: 8, Display: 8]:
+				object_list_unit_id: Heavy Demolition Ship (528)
+				source_player: Player Five (5)
+				enabled: False (0)
+				item_id: 528
+			enable/disable_object [Index: 9, Display: 9]:
+				object_list_unit_id: Cannon Galleon (420)
+				source_player: Player Five (5)
+				enabled: False (0)
+				item_id: 420
+			enable/disable_object [Index: 10, Display: 10]:
+				object_list_unit_id: Elite Cannon Galleon (691)
+				source_player: Player Five (5)
+				enabled: False (0)
+				item_id: 691
+			enable/disable_object [Index: 11, Display: 11]:
+				object_list_unit_id: Dromon (1795)
+				source_player: Player Five (5)
+				enabled: False (0)
+				item_id: 1795
+			enable/disable_object [Index: 12, Display: 12]:
+				object_list_unit_id: Longboat (250)
+				source_player: Player Five (5)
+				enabled: False (0)
+				item_id: 250
+			enable/disable_object [Index: 13, Display: 13]:
+				object_list_unit_id: Elite Longboat (533)
+				source_player: Player Five (5)
+				enabled: False (0)
+				item_id: 533
+			enable/disable_object [Index: 14, Display: 14]:
+				object_list_unit_id: Turtle Ship (831)
+				source_player: Player Five (5)
+				enabled: False (0)
+				item_id: 831
+			enable/disable_object [Index: 15, Display: 15]:
+				object_list_unit_id: Elite Turtle Ship (832)
+				source_player: Player Five (5)
+				enabled: False (0)
+				item_id: 832
+			enable/disable_object [Index: 16, Display: 16]:
+				object_list_unit_id: Caravel (1004)
+				source_player: Player Five (5)
+				enabled: False (0)
+				item_id: 1004
+			enable/disable_object [Index: 17, Display: 17]:
+				object_list_unit_id: Elite Caravel (1006)
+				source_player: Player Five (5)
+				enabled: False (0)
+				item_id: 1006
+			enable/disable_object [Index: 18, Display: 18]:
+				object_list_unit_id: Thirisadai (1750)
+				source_player: Player Five (5)
+				enabled: False (0)
+				item_id: 1750
+			activate_trigger [Index: 19, Display: 19]:
+				trigger_id: "Free Navy Player5" (36)
+
+	'Limit Navy Player6' [Index: 31, Display: 31]:
+		enabled: True
+		looping: False
+		description: 'to limit the amount of navy units a player can have'
+		description_stid: 0
+		short_description_stid: 0
+		conditions:
+			own_objects [Index: 0, Display: 0]:
+				quantity: 5
+				source_player: Player Six (6)
+				object_group: Warship (22)
+				include_changeable_weapon_objects: False (0)
+		effects:
+			enable/disable_object [Index: 0, Display: 0]:
+				object_list_unit_id: Galley (539)
+				source_player: Player Six (6)
+				enabled: False (0)
+				item_id: 539
+			enable/disable_object [Index: 1, Display: 1]:
+				object_list_unit_id: War Galley (21)
+				source_player: Player Six (6)
+				enabled: False (0)
+				item_id: 21
+			enable/disable_object [Index: 2, Display: 2]:
+				object_list_unit_id: Galleon (442)
+				source_player: Player Six (6)
+				enabled: False (0)
+				item_id: 442
+			enable/disable_object [Index: 3, Display: 3]:
+				object_list_unit_id: Fire Galley (1103)
+				source_player: Player Six (6)
+				enabled: False (0)
+				item_id: 1103
+			enable/disable_object [Index: 4, Display: 4]:
+				object_list_unit_id: Fire Ship (529)
+				source_player: Player Six (6)
+				enabled: False (0)
+				item_id: 529
+			enable/disable_object [Index: 5, Display: 5]:
+				object_list_unit_id: Fast Fire Ship (532)
+				source_player: Player Six (6)
+				enabled: False (0)
+				item_id: 532
+			enable/disable_object [Index: 6, Display: 6]:
+				object_list_unit_id: Demolition Raft (1104)
+				source_player: Player Six (6)
+				enabled: False (0)
+				item_id: 1104
+			enable/disable_object [Index: 7, Display: 7]:
+				object_list_unit_id: Demolition Ship (527)
+				source_player: Player Six (6)
+				enabled: False (0)
+				item_id: 527
+			enable/disable_object [Index: 8, Display: 8]:
+				object_list_unit_id: Heavy Demolition Ship (528)
+				source_player: Player Six (6)
+				enabled: False (0)
+				item_id: 528
+			enable/disable_object [Index: 9, Display: 9]:
+				object_list_unit_id: Cannon Galleon (420)
+				source_player: Player Six (6)
+				enabled: False (0)
+				item_id: 420
+			enable/disable_object [Index: 10, Display: 10]:
+				object_list_unit_id: Elite Cannon Galleon (691)
+				source_player: Player Six (6)
+				enabled: False (0)
+				item_id: 691
+			enable/disable_object [Index: 11, Display: 11]:
+				object_list_unit_id: Dromon (1795)
+				source_player: Player Six (6)
+				enabled: False (0)
+				item_id: 1795
+			enable/disable_object [Index: 12, Display: 12]:
+				object_list_unit_id: Longboat (250)
+				source_player: Player Six (6)
+				enabled: False (0)
+				item_id: 250
+			enable/disable_object [Index: 13, Display: 13]:
+				object_list_unit_id: Elite Longboat (533)
+				source_player: Player Six (6)
+				enabled: False (0)
+				item_id: 533
+			enable/disable_object [Index: 14, Display: 14]:
+				object_list_unit_id: Turtle Ship (831)
+				source_player: Player Six (6)
+				enabled: False (0)
+				item_id: 831
+			enable/disable_object [Index: 15, Display: 15]:
+				object_list_unit_id: Elite Turtle Ship (832)
+				source_player: Player Six (6)
+				enabled: False (0)
+				item_id: 832
+			enable/disable_object [Index: 16, Display: 16]:
+				object_list_unit_id: Caravel (1004)
+				source_player: Player Six (6)
+				enabled: False (0)
+				item_id: 1004
+			enable/disable_object [Index: 17, Display: 17]:
+				object_list_unit_id: Elite Caravel (1006)
+				source_player: Player Six (6)
+				enabled: False (0)
+				item_id: 1006
+			enable/disable_object [Index: 18, Display: 18]:
+				object_list_unit_id: Thirisadai (1750)
+				source_player: Player Six (6)
+				enabled: False (0)
+				item_id: 1750
+			activate_trigger [Index: 19, Display: 19]:
+				trigger_id: "Free Navy Player6" (37)
+
+	'Limit Navy Player7' [Index: 32, Display: 32]:
+		enabled: True
+		looping: False
+		description: 'to limit the amount of navy units a player can have'
+		description_stid: 0
+		short_description_stid: 0
+		conditions:
+			own_objects [Index: 0, Display: 0]:
+				quantity: 5
+				source_player: Player Seven (7)
+				object_group: Warship (22)
+				include_changeable_weapon_objects: False (0)
+		effects:
+			enable/disable_object [Index: 0, Display: 0]:
+				object_list_unit_id: Galley (539)
+				source_player: Player Seven (7)
+				enabled: False (0)
+				item_id: 539
+			enable/disable_object [Index: 1, Display: 1]:
+				object_list_unit_id: War Galley (21)
+				source_player: Player Seven (7)
+				enabled: False (0)
+				item_id: 21
+			enable/disable_object [Index: 2, Display: 2]:
+				object_list_unit_id: Galleon (442)
+				source_player: Player Seven (7)
+				enabled: False (0)
+				item_id: 442
+			enable/disable_object [Index: 3, Display: 3]:
+				object_list_unit_id: Fire Galley (1103)
+				source_player: Player Seven (7)
+				enabled: False (0)
+				item_id: 1103
+			enable/disable_object [Index: 4, Display: 4]:
+				object_list_unit_id: Fire Ship (529)
+				source_player: Player Seven (7)
+				enabled: False (0)
+				item_id: 529
+			enable/disable_object [Index: 5, Display: 5]:
+				object_list_unit_id: Fast Fire Ship (532)
+				source_player: Player Seven (7)
+				enabled: False (0)
+				item_id: 532
+			enable/disable_object [Index: 6, Display: 6]:
+				object_list_unit_id: Demolition Raft (1104)
+				source_player: Player Seven (7)
+				enabled: False (0)
+				item_id: 1104
+			enable/disable_object [Index: 7, Display: 7]:
+				object_list_unit_id: Demolition Ship (527)
+				source_player: Player Seven (7)
+				enabled: False (0)
+				item_id: 527
+			enable/disable_object [Index: 8, Display: 8]:
+				object_list_unit_id: Heavy Demolition Ship (528)
+				source_player: Player Seven (7)
+				enabled: False (0)
+				item_id: 528
+			enable/disable_object [Index: 9, Display: 9]:
+				object_list_unit_id: Cannon Galleon (420)
+				source_player: Player Seven (7)
+				enabled: False (0)
+				item_id: 420
+			enable/disable_object [Index: 10, Display: 10]:
+				object_list_unit_id: Elite Cannon Galleon (691)
+				source_player: Player Seven (7)
+				enabled: False (0)
+				item_id: 691
+			enable/disable_object [Index: 11, Display: 11]:
+				object_list_unit_id: Dromon (1795)
+				source_player: Player Seven (7)
+				enabled: False (0)
+				item_id: 1795
+			enable/disable_object [Index: 12, Display: 12]:
+				object_list_unit_id: Longboat (250)
+				source_player: Player Seven (7)
+				enabled: False (0)
+				item_id: 250
+			enable/disable_object [Index: 13, Display: 13]:
+				object_list_unit_id: Elite Longboat (533)
+				source_player: Player Seven (7)
+				enabled: False (0)
+				item_id: 533
+			enable/disable_object [Index: 14, Display: 14]:
+				object_list_unit_id: Turtle Ship (831)
+				source_player: Player Seven (7)
+				enabled: False (0)
+				item_id: 831
+			enable/disable_object [Index: 15, Display: 15]:
+				object_list_unit_id: Elite Turtle Ship (832)
+				source_player: Player Seven (7)
+				enabled: False (0)
+				item_id: 832
+			enable/disable_object [Index: 16, Display: 16]:
+				object_list_unit_id: Caravel (1004)
+				source_player: Player Seven (7)
+				enabled: False (0)
+				item_id: 1004
+			enable/disable_object [Index: 17, Display: 17]:
+				object_list_unit_id: Elite Caravel (1006)
+				source_player: Player Seven (7)
+				enabled: False (0)
+				item_id: 1006
+			enable/disable_object [Index: 18, Display: 18]:
+				object_list_unit_id: Thirisadai (1750)
+				source_player: Player Seven (7)
+				enabled: False (0)
+				item_id: 1750
+			activate_trigger [Index: 19, Display: 19]:
+				trigger_id: "Free Navy Player7" (38)
+
+	'Limit Navy Player8' [Index: 33, Display: 33]:
+		enabled: True
+		looping: False
+		description: 'to limit the amount of navy units a player can have'
+		description_stid: 0
+		short_description_stid: 0
+		conditions:
+			own_objects [Index: 0, Display: 0]:
+				quantity: 5
+				source_player: Player Eight (8)
+				object_group: Warship (22)
+				include_changeable_weapon_objects: False (0)
+		effects:
+			enable/disable_object [Index: 0, Display: 0]:
+				object_list_unit_id: Galley (539)
+				source_player: Player Eight (8)
+				enabled: False (0)
+				item_id: 539
+			enable/disable_object [Index: 1, Display: 1]:
+				object_list_unit_id: War Galley (21)
+				source_player: Player Eight (8)
+				enabled: False (0)
+				item_id: 21
+			enable/disable_object [Index: 2, Display: 2]:
+				object_list_unit_id: Galleon (442)
+				source_player: Player Eight (8)
+				enabled: False (0)
+				item_id: 442
+			enable/disable_object [Index: 3, Display: 3]:
+				object_list_unit_id: Fire Galley (1103)
+				source_player: Player Eight (8)
+				enabled: False (0)
+				item_id: 1103
+			enable/disable_object [Index: 4, Display: 4]:
+				object_list_unit_id: Fire Ship (529)
+				source_player: Player Eight (8)
+				enabled: False (0)
+				item_id: 529
+			enable/disable_object [Index: 5, Display: 5]:
+				object_list_unit_id: Fast Fire Ship (532)
+				source_player: Player Eight (8)
+				enabled: False (0)
+				item_id: 532
+			enable/disable_object [Index: 6, Display: 6]:
+				object_list_unit_id: Demolition Raft (1104)
+				source_player: Player Eight (8)
+				enabled: False (0)
+				item_id: 1104
+			enable/disable_object [Index: 7, Display: 7]:
+				object_list_unit_id: Demolition Ship (527)
+				source_player: Player Eight (8)
+				enabled: False (0)
+				item_id: 527
+			enable/disable_object [Index: 8, Display: 8]:
+				object_list_unit_id: Heavy Demolition Ship (528)
+				source_player: Player Eight (8)
+				enabled: False (0)
+				item_id: 528
+			enable/disable_object [Index: 9, Display: 9]:
+				object_list_unit_id: Cannon Galleon (420)
+				source_player: Player Eight (8)
+				enabled: False (0)
+				item_id: 420
+			enable/disable_object [Index: 10, Display: 10]:
+				object_list_unit_id: Elite Cannon Galleon (691)
+				source_player: Player Eight (8)
+				enabled: False (0)
+				item_id: 691
+			enable/disable_object [Index: 11, Display: 11]:
+				object_list_unit_id: Dromon (1795)
+				source_player: Player Eight (8)
+				enabled: False (0)
+				item_id: 1795
+			enable/disable_object [Index: 12, Display: 12]:
+				object_list_unit_id: Longboat (250)
+				source_player: Player Eight (8)
+				enabled: False (0)
+				item_id: 250
+			enable/disable_object [Index: 13, Display: 13]:
+				object_list_unit_id: Elite Longboat (533)
+				source_player: Player Eight (8)
+				enabled: False (0)
+				item_id: 533
+			enable/disable_object [Index: 14, Display: 14]:
+				object_list_unit_id: Turtle Ship (831)
+				source_player: Player Eight (8)
+				enabled: False (0)
+				item_id: 831
+			enable/disable_object [Index: 15, Display: 15]:
+				object_list_unit_id: Elite Turtle Ship (832)
+				source_player: Player Eight (8)
+				enabled: False (0)
+				item_id: 832
+			enable/disable_object [Index: 16, Display: 16]:
+				object_list_unit_id: Caravel (1004)
+				source_player: Player Eight (8)
+				enabled: False (0)
+				item_id: 1004
+			enable/disable_object [Index: 17, Display: 17]:
+				object_list_unit_id: Elite Caravel (1006)
+				source_player: Player Eight (8)
+				enabled: False (0)
+				item_id: 1006
+			enable/disable_object [Index: 18, Display: 18]:
+				object_list_unit_id: Thirisadai (1750)
+				source_player: Player Eight (8)
+				enabled: False (0)
+				item_id: 1750
+			activate_trigger [Index: 19, Display: 19]:
+				trigger_id: "Free Navy Player8" (39)
+
+	'Free Navy Player3' [Index: 34, Display: 34]:
+		enabled: False
+		looping: False
+		description: 'to limit the amount of navy units a player can have'
+		description_stid: 0
+		short_description_stid: 0
+		conditions:
+			own_fewer_objects [Index: 0, Display: 0]:
+				quantity: 4
+				source_player: Player Two (2)
+				object_group: Warship (22)
+				include_changeable_weapon_objects: False (0)
+		effects:
+			enable/disable_object [Index: 0, Display: 0]:
+				object_list_unit_id: Galley (539)
+				source_player: Player Three (3)
+				enabled: True (1)
+				item_id: 539
+			enable/disable_object [Index: 1, Display: 1]:
+				object_list_unit_id: War Galley (21)
+				source_player: Player Three (3)
+				enabled: True (1)
+				item_id: 21
+			enable/disable_object [Index: 2, Display: 2]:
+				object_list_unit_id: Galleon (442)
+				source_player: Player Three (3)
+				enabled: True (1)
+				item_id: 442
+			enable/disable_object [Index: 3, Display: 3]:
+				object_list_unit_id: Fire Galley (1103)
+				source_player: Player Three (3)
+				enabled: True (1)
+				item_id: 1103
+			enable/disable_object [Index: 4, Display: 4]:
+				object_list_unit_id: Fire Ship (529)
+				source_player: Player Three (3)
+				enabled: True (1)
+				item_id: 529
+			enable/disable_object [Index: 5, Display: 5]:
+				object_list_unit_id: Fast Fire Ship (532)
+				source_player: Player Three (3)
+				enabled: True (1)
+				item_id: 532
+			enable/disable_object [Index: 6, Display: 6]:
+				object_list_unit_id: Demolition Raft (1104)
+				source_player: Player Three (3)
+				enabled: True (1)
+				item_id: 1104
+			enable/disable_object [Index: 7, Display: 7]:
+				object_list_unit_id: Demolition Ship (527)
+				source_player: Player Three (3)
+				enabled: True (1)
+				item_id: 527
+			enable/disable_object [Index: 8, Display: 8]:
+				object_list_unit_id: Heavy Demolition Ship (528)
+				source_player: Player Three (3)
+				enabled: True (1)
+				item_id: 528
+			enable/disable_object [Index: 9, Display: 9]:
+				object_list_unit_id: Cannon Galleon (420)
+				source_player: Player Three (3)
+				enabled: True (1)
+				item_id: 420
+			enable/disable_object [Index: 10, Display: 10]:
+				object_list_unit_id: Elite Cannon Galleon (691)
+				source_player: Player Three (3)
+				enabled: True (1)
+				item_id: 691
+			enable/disable_object [Index: 11, Display: 11]:
+				object_list_unit_id: Dromon (1795)
+				source_player: Player Three (3)
+				enabled: True (1)
+				item_id: 1795
+			enable/disable_object [Index: 12, Display: 12]:
+				object_list_unit_id: Longboat (250)
+				source_player: Player Three (3)
+				enabled: True (1)
+				item_id: 250
+			enable/disable_object [Index: 13, Display: 13]:
+				object_list_unit_id: Elite Longboat (533)
+				source_player: Player Three (3)
+				enabled: True (1)
+				item_id: 533
+			enable/disable_object [Index: 14, Display: 14]:
+				object_list_unit_id: Turtle Ship (831)
+				source_player: Player Three (3)
+				enabled: True (1)
+				item_id: 831
+			enable/disable_object [Index: 15, Display: 15]:
+				object_list_unit_id: Elite Turtle Ship (832)
+				source_player: Player Three (3)
+				enabled: True (1)
+				item_id: 832
+			enable/disable_object [Index: 16, Display: 16]:
+				object_list_unit_id: Caravel (1004)
+				source_player: Player Three (3)
+				enabled: True (1)
+				item_id: 1004
+			enable/disable_object [Index: 17, Display: 17]:
+				object_list_unit_id: Elite Caravel (1006)
+				source_player: Player Three (3)
+				enabled: True (1)
+				item_id: 1006
+			enable/disable_object [Index: 18, Display: 18]:
+				object_list_unit_id: Thirisadai (1750)
+				source_player: Player Three (3)
+				enabled: True (1)
+				item_id: 1750
+			activate_trigger [Index: 19, Display: 19]:
+				trigger_id: "Limit Navy Player3" (28)
+
+	'Free Navy Player4' [Index: 35, Display: 35]:
+		enabled: False
+		looping: False
+		description: 'to limit the amount of navy units a player can have'
+		description_stid: 0
+		short_description_stid: 0
+		conditions:
+			own_fewer_objects [Index: 0, Display: 0]:
+				quantity: 4
+				source_player: Player Two (2)
+				object_group: Warship (22)
+				include_changeable_weapon_objects: False (0)
+		effects:
+			enable/disable_object [Index: 0, Display: 0]:
+				object_list_unit_id: Galley (539)
+				source_player: Player Four (4)
+				enabled: True (1)
+				item_id: 539
+			enable/disable_object [Index: 1, Display: 1]:
+				object_list_unit_id: War Galley (21)
+				source_player: Player Four (4)
+				enabled: True (1)
+				item_id: 21
+			enable/disable_object [Index: 2, Display: 2]:
+				object_list_unit_id: Galleon (442)
+				source_player: Player Four (4)
+				enabled: True (1)
+				item_id: 442
+			enable/disable_object [Index: 3, Display: 3]:
+				object_list_unit_id: Fire Galley (1103)
+				source_player: Player Four (4)
+				enabled: True (1)
+				item_id: 1103
+			enable/disable_object [Index: 4, Display: 4]:
+				object_list_unit_id: Fire Ship (529)
+				source_player: Player Four (4)
+				enabled: True (1)
+				item_id: 529
+			enable/disable_object [Index: 5, Display: 5]:
+				object_list_unit_id: Fast Fire Ship (532)
+				source_player: Player Four (4)
+				enabled: True (1)
+				item_id: 532
+			enable/disable_object [Index: 6, Display: 6]:
+				object_list_unit_id: Demolition Raft (1104)
+				source_player: Player Four (4)
+				enabled: True (1)
+				item_id: 1104
+			enable/disable_object [Index: 7, Display: 7]:
+				object_list_unit_id: Demolition Ship (527)
+				source_player: Player Four (4)
+				enabled: True (1)
+				item_id: 527
+			enable/disable_object [Index: 8, Display: 8]:
+				object_list_unit_id: Heavy Demolition Ship (528)
+				source_player: Player Four (4)
+				enabled: True (1)
+				item_id: 528
+			enable/disable_object [Index: 9, Display: 9]:
+				object_list_unit_id: Cannon Galleon (420)
+				source_player: Player Four (4)
+				enabled: True (1)
+				item_id: 420
+			enable/disable_object [Index: 10, Display: 10]:
+				object_list_unit_id: Elite Cannon Galleon (691)
+				source_player: Player Four (4)
+				enabled: True (1)
+				item_id: 691
+			enable/disable_object [Index: 11, Display: 11]:
+				object_list_unit_id: Dromon (1795)
+				source_player: Player Four (4)
+				enabled: True (1)
+				item_id: 1795
+			enable/disable_object [Index: 12, Display: 12]:
+				object_list_unit_id: Longboat (250)
+				source_player: Player Four (4)
+				enabled: True (1)
+				item_id: 250
+			enable/disable_object [Index: 13, Display: 13]:
+				object_list_unit_id: Elite Longboat (533)
+				source_player: Player Four (4)
+				enabled: True (1)
+				item_id: 533
+			enable/disable_object [Index: 14, Display: 14]:
+				object_list_unit_id: Turtle Ship (831)
+				source_player: Player Four (4)
+				enabled: True (1)
+				item_id: 831
+			enable/disable_object [Index: 15, Display: 15]:
+				object_list_unit_id: Elite Turtle Ship (832)
+				source_player: Player Four (4)
+				enabled: True (1)
+				item_id: 832
+			enable/disable_object [Index: 16, Display: 16]:
+				object_list_unit_id: Caravel (1004)
+				source_player: Player Four (4)
+				enabled: True (1)
+				item_id: 1004
+			enable/disable_object [Index: 17, Display: 17]:
+				object_list_unit_id: Elite Caravel (1006)
+				source_player: Player Four (4)
+				enabled: True (1)
+				item_id: 1006
+			enable/disable_object [Index: 18, Display: 18]:
+				object_list_unit_id: Thirisadai (1750)
+				source_player: Player Four (4)
+				enabled: True (1)
+				item_id: 1750
+			activate_trigger [Index: 19, Display: 19]:
+				trigger_id: "Limit Navy Player4" (29)
+
+	'Free Navy Player5' [Index: 36, Display: 36]:
+		enabled: False
+		looping: False
+		description: 'to limit the amount of navy units a player can have'
+		description_stid: 0
+		short_description_stid: 0
+		conditions:
+			own_fewer_objects [Index: 0, Display: 0]:
+				quantity: 4
+				source_player: Player Five (5)
+				object_group: Warship (22)
+				include_changeable_weapon_objects: False (0)
+		effects:
+			enable/disable_object [Index: 0, Display: 0]:
+				object_list_unit_id: Galley (539)
+				source_player: Player Five (5)
+				enabled: True (1)
+				item_id: 539
+			enable/disable_object [Index: 1, Display: 1]:
+				object_list_unit_id: War Galley (21)
+				source_player: Player Five (5)
+				enabled: True (1)
+				item_id: 21
+			enable/disable_object [Index: 2, Display: 2]:
+				object_list_unit_id: Galleon (442)
+				source_player: Player Five (5)
+				enabled: True (1)
+				item_id: 442
+			enable/disable_object [Index: 3, Display: 3]:
+				object_list_unit_id: Fire Galley (1103)
+				source_player: Player Five (5)
+				enabled: True (1)
+				item_id: 1103
+			enable/disable_object [Index: 4, Display: 4]:
+				object_list_unit_id: Fire Ship (529)
+				source_player: Player Five (5)
+				enabled: True (1)
+				item_id: 529
+			enable/disable_object [Index: 5, Display: 5]:
+				object_list_unit_id: Fast Fire Ship (532)
+				source_player: Player Five (5)
+				enabled: True (1)
+				item_id: 532
+			enable/disable_object [Index: 6, Display: 6]:
+				object_list_unit_id: Demolition Raft (1104)
+				source_player: Player Five (5)
+				enabled: True (1)
+				item_id: 1104
+			enable/disable_object [Index: 7, Display: 7]:
+				object_list_unit_id: Demolition Ship (527)
+				source_player: Player Five (5)
+				enabled: True (1)
+				item_id: 527
+			enable/disable_object [Index: 8, Display: 8]:
+				object_list_unit_id: Heavy Demolition Ship (528)
+				source_player: Player Five (5)
+				enabled: True (1)
+				item_id: 528
+			enable/disable_object [Index: 9, Display: 9]:
+				object_list_unit_id: Cannon Galleon (420)
+				source_player: Player Five (5)
+				enabled: True (1)
+				item_id: 420
+			enable/disable_object [Index: 10, Display: 10]:
+				object_list_unit_id: Elite Cannon Galleon (691)
+				source_player: Player Five (5)
+				enabled: True (1)
+				item_id: 691
+			enable/disable_object [Index: 11, Display: 11]:
+				object_list_unit_id: Dromon (1795)
+				source_player: Player Five (5)
+				enabled: True (1)
+				item_id: 1795
+			enable/disable_object [Index: 12, Display: 12]:
+				object_list_unit_id: Longboat (250)
+				source_player: Player Five (5)
+				enabled: True (1)
+				item_id: 250
+			enable/disable_object [Index: 13, Display: 13]:
+				object_list_unit_id: Elite Longboat (533)
+				source_player: Player Five (5)
+				enabled: True (1)
+				item_id: 533
+			enable/disable_object [Index: 14, Display: 14]:
+				object_list_unit_id: Turtle Ship (831)
+				source_player: Player Five (5)
+				enabled: True (1)
+				item_id: 831
+			enable/disable_object [Index: 15, Display: 15]:
+				object_list_unit_id: Elite Turtle Ship (832)
+				source_player: Player Five (5)
+				enabled: True (1)
+				item_id: 832
+			enable/disable_object [Index: 16, Display: 16]:
+				object_list_unit_id: Caravel (1004)
+				source_player: Player Five (5)
+				enabled: True (1)
+				item_id: 1004
+			enable/disable_object [Index: 17, Display: 17]:
+				object_list_unit_id: Elite Caravel (1006)
+				source_player: Player Five (5)
+				enabled: True (1)
+				item_id: 1006
+			enable/disable_object [Index: 18, Display: 18]:
+				object_list_unit_id: Thirisadai (1750)
+				source_player: Player Five (5)
+				enabled: True (1)
+				item_id: 1750
+			activate_trigger [Index: 19, Display: 19]:
+				trigger_id: "Limit Navy Player5" (30)
+
+	'Free Navy Player6' [Index: 37, Display: 37]:
+		enabled: False
+		looping: False
+		description: 'to limit the amount of navy units a player can have'
+		description_stid: 0
+		short_description_stid: 0
+		conditions:
+			own_fewer_objects [Index: 0, Display: 0]:
+				quantity: 4
+				source_player: Player Six (6)
+				object_group: Warship (22)
+				include_changeable_weapon_objects: False (0)
+		effects:
+			enable/disable_object [Index: 0, Display: 0]:
+				object_list_unit_id: Galley (539)
+				source_player: Player Six (6)
+				enabled: True (1)
+				item_id: 539
+			enable/disable_object [Index: 1, Display: 1]:
+				object_list_unit_id: War Galley (21)
+				source_player: Player Six (6)
+				enabled: True (1)
+				item_id: 21
+			enable/disable_object [Index: 2, Display: 2]:
+				object_list_unit_id: Galleon (442)
+				source_player: Player Six (6)
+				enabled: True (1)
+				item_id: 442
+			enable/disable_object [Index: 3, Display: 3]:
+				object_list_unit_id: Fire Galley (1103)
+				source_player: Player Six (6)
+				enabled: True (1)
+				item_id: 1103
+			enable/disable_object [Index: 4, Display: 4]:
+				object_list_unit_id: Fire Ship (529)
+				source_player: Player Six (6)
+				enabled: True (1)
+				item_id: 529
+			enable/disable_object [Index: 5, Display: 5]:
+				object_list_unit_id: Fast Fire Ship (532)
+				source_player: Player Six (6)
+				enabled: True (1)
+				item_id: 532
+			enable/disable_object [Index: 6, Display: 6]:
+				object_list_unit_id: Demolition Raft (1104)
+				source_player: Player Six (6)
+				enabled: True (1)
+				item_id: 1104
+			enable/disable_object [Index: 7, Display: 7]:
+				object_list_unit_id: Demolition Ship (527)
+				source_player: Player Six (6)
+				enabled: True (1)
+				item_id: 527
+			enable/disable_object [Index: 8, Display: 8]:
+				object_list_unit_id: Heavy Demolition Ship (528)
+				source_player: Player Six (6)
+				enabled: True (1)
+				item_id: 528
+			enable/disable_object [Index: 9, Display: 9]:
+				object_list_unit_id: Cannon Galleon (420)
+				source_player: Player Six (6)
+				enabled: True (1)
+				item_id: 420
+			enable/disable_object [Index: 10, Display: 10]:
+				object_list_unit_id: Elite Cannon Galleon (691)
+				source_player: Player Six (6)
+				enabled: True (1)
+				item_id: 691
+			enable/disable_object [Index: 11, Display: 11]:
+				object_list_unit_id: Dromon (1795)
+				source_player: Player Six (6)
+				enabled: True (1)
+				item_id: 1795
+			enable/disable_object [Index: 12, Display: 12]:
+				object_list_unit_id: Longboat (250)
+				source_player: Player Six (6)
+				enabled: True (1)
+				item_id: 250
+			enable/disable_object [Index: 13, Display: 13]:
+				object_list_unit_id: Elite Longboat (533)
+				source_player: Player Six (6)
+				enabled: True (1)
+				item_id: 533
+			enable/disable_object [Index: 14, Display: 14]:
+				object_list_unit_id: Turtle Ship (831)
+				source_player: Player Six (6)
+				enabled: True (1)
+				item_id: 831
+			enable/disable_object [Index: 15, Display: 15]:
+				object_list_unit_id: Elite Turtle Ship (832)
+				source_player: Player Six (6)
+				enabled: True (1)
+				item_id: 832
+			enable/disable_object [Index: 16, Display: 16]:
+				object_list_unit_id: Caravel (1004)
+				source_player: Player Six (6)
+				enabled: True (1)
+				item_id: 1004
+			enable/disable_object [Index: 17, Display: 17]:
+				object_list_unit_id: Elite Caravel (1006)
+				source_player: Player Six (6)
+				enabled: True (1)
+				item_id: 1006
+			enable/disable_object [Index: 18, Display: 18]:
+				object_list_unit_id: Thirisadai (1750)
+				source_player: Player Six (6)
+				enabled: True (1)
+				item_id: 1750
+			activate_trigger [Index: 19, Display: 19]:
+				trigger_id: "Free Navy Player6" (37)
+
+	'Free Navy Player7' [Index: 38, Display: 38]:
+		enabled: False
+		looping: False
+		description: 'to limit the amount of navy units a player can have'
+		description_stid: 0
+		short_description_stid: 0
+		conditions:
+			own_fewer_objects [Index: 0, Display: 0]:
+				quantity: 4
+				source_player: Player Seven (7)
+				object_group: Warship (22)
+				include_changeable_weapon_objects: False (0)
+		effects:
+			enable/disable_object [Index: 0, Display: 0]:
+				object_list_unit_id: Galley (539)
+				source_player: Player Seven (7)
+				enabled: True (1)
+				item_id: 539
+			enable/disable_object [Index: 1, Display: 1]:
+				object_list_unit_id: War Galley (21)
+				source_player: Player Seven (7)
+				enabled: True (1)
+				item_id: 21
+			enable/disable_object [Index: 2, Display: 2]:
+				object_list_unit_id: Galleon (442)
+				source_player: Player Seven (7)
+				enabled: True (1)
+				item_id: 442
+			enable/disable_object [Index: 3, Display: 3]:
+				object_list_unit_id: Fire Galley (1103)
+				source_player: Player Seven (7)
+				enabled: True (1)
+				item_id: 1103
+			enable/disable_object [Index: 4, Display: 4]:
+				object_list_unit_id: Fire Ship (529)
+				source_player: Player Seven (7)
+				enabled: True (1)
+				item_id: 529
+			enable/disable_object [Index: 5, Display: 5]:
+				object_list_unit_id: Fast Fire Ship (532)
+				source_player: Player Seven (7)
+				enabled: True (1)
+				item_id: 532
+			enable/disable_object [Index: 6, Display: 6]:
+				object_list_unit_id: Demolition Raft (1104)
+				source_player: Player Seven (7)
+				enabled: True (1)
+				item_id: 1104
+			enable/disable_object [Index: 7, Display: 7]:
+				object_list_unit_id: Demolition Ship (527)
+				source_player: Player Seven (7)
+				enabled: True (1)
+				item_id: 527
+			enable/disable_object [Index: 8, Display: 8]:
+				object_list_unit_id: Heavy Demolition Ship (528)
+				source_player: Player Seven (7)
+				enabled: True (1)
+				item_id: 528
+			enable/disable_object [Index: 9, Display: 9]:
+				object_list_unit_id: Cannon Galleon (420)
+				source_player: Player Seven (7)
+				enabled: True (1)
+				item_id: 420
+			enable/disable_object [Index: 10, Display: 10]:
+				object_list_unit_id: Elite Cannon Galleon (691)
+				source_player: Player Seven (7)
+				enabled: True (1)
+				item_id: 691
+			enable/disable_object [Index: 11, Display: 11]:
+				object_list_unit_id: Dromon (1795)
+				source_player: Player Seven (7)
+				enabled: True (1)
+				item_id: 1795
+			enable/disable_object [Index: 12, Display: 12]:
+				object_list_unit_id: Longboat (250)
+				source_player: Player Seven (7)
+				enabled: True (1)
+				item_id: 250
+			enable/disable_object [Index: 13, Display: 13]:
+				object_list_unit_id: Elite Longboat (533)
+				source_player: Player Seven (7)
+				enabled: True (1)
+				item_id: 533
+			enable/disable_object [Index: 14, Display: 14]:
+				object_list_unit_id: Turtle Ship (831)
+				source_player: Player Seven (7)
+				enabled: True (1)
+				item_id: 831
+			enable/disable_object [Index: 15, Display: 15]:
+				object_list_unit_id: Elite Turtle Ship (832)
+				source_player: Player Seven (7)
+				enabled: True (1)
+				item_id: 832
+			enable/disable_object [Index: 16, Display: 16]:
+				object_list_unit_id: Caravel (1004)
+				source_player: Player Seven (7)
+				enabled: True (1)
+				item_id: 1004
+			enable/disable_object [Index: 17, Display: 17]:
+				object_list_unit_id: Elite Caravel (1006)
+				source_player: Player Seven (7)
+				enabled: True (1)
+				item_id: 1006
+			enable/disable_object [Index: 18, Display: 18]:
+				object_list_unit_id: Thirisadai (1750)
+				source_player: Player Seven (7)
+				enabled: True (1)
+				item_id: 1750
+			activate_trigger [Index: 19, Display: 19]:
+				trigger_id: "Limit Navy Player7" (32)
+
+	'Free Navy Player8' [Index: 39, Display: 39]:
+		enabled: False
+		looping: False
+		description: 'to limit the amount of navy units a player can have'
+		description_stid: 0
+		short_description_stid: 0
+		conditions:
+			own_fewer_objects [Index: 0, Display: 0]:
+				quantity: 4
+				source_player: Player Eight (8)
+				object_group: Warship (22)
+				include_changeable_weapon_objects: False (0)
+		effects:
+			enable/disable_object [Index: 0, Display: 0]:
+				object_list_unit_id: Galley (539)
+				source_player: Player Eight (8)
+				enabled: True (1)
+				item_id: 539
+			enable/disable_object [Index: 1, Display: 1]:
+				object_list_unit_id: War Galley (21)
+				source_player: Player Eight (8)
+				enabled: True (1)
+				item_id: 21
+			enable/disable_object [Index: 2, Display: 2]:
+				object_list_unit_id: Galleon (442)
+				source_player: Player Eight (8)
+				enabled: True (1)
+				item_id: 442
+			enable/disable_object [Index: 3, Display: 3]:
+				object_list_unit_id: Fire Galley (1103)
+				source_player: Player Eight (8)
+				enabled: True (1)
+				item_id: 1103
+			enable/disable_object [Index: 4, Display: 4]:
+				object_list_unit_id: Fire Ship (529)
+				source_player: Player Eight (8)
+				enabled: True (1)
+				item_id: 529
+			enable/disable_object [Index: 5, Display: 5]:
+				object_list_unit_id: Fast Fire Ship (532)
+				source_player: Player Eight (8)
+				enabled: True (1)
+				item_id: 532
+			enable/disable_object [Index: 6, Display: 6]:
+				object_list_unit_id: Demolition Raft (1104)
+				source_player: Player Eight (8)
+				enabled: True (1)
+				item_id: 1104
+			enable/disable_object [Index: 7, Display: 7]:
+				object_list_unit_id: Demolition Ship (527)
+				source_player: Player Eight (8)
+				enabled: True (1)
+				item_id: 527
+			enable/disable_object [Index: 8, Display: 8]:
+				object_list_unit_id: Heavy Demolition Ship (528)
+				source_player: Player Eight (8)
+				enabled: True (1)
+				item_id: 528
+			enable/disable_object [Index: 9, Display: 9]:
+				object_list_unit_id: Cannon Galleon (420)
+				source_player: Player Eight (8)
+				enabled: True (1)
+				item_id: 420
+			enable/disable_object [Index: 10, Display: 10]:
+				object_list_unit_id: Elite Cannon Galleon (691)
+				source_player: Player Eight (8)
+				enabled: True (1)
+				item_id: 691
+			enable/disable_object [Index: 11, Display: 11]:
+				object_list_unit_id: Dromon (1795)
+				source_player: Player Eight (8)
+				enabled: True (1)
+				item_id: 1795
+			enable/disable_object [Index: 12, Display: 12]:
+				object_list_unit_id: Longboat (250)
+				source_player: Player Eight (8)
+				enabled: True (1)
+				item_id: 250
+			enable/disable_object [Index: 13, Display: 13]:
+				object_list_unit_id: Elite Longboat (533)
+				source_player: Player Eight (8)
+				enabled: True (1)
+				item_id: 533
+			enable/disable_object [Index: 14, Display: 14]:
+				object_list_unit_id: Turtle Ship (831)
+				source_player: Player Eight (8)
+				enabled: True (1)
+				item_id: 831
+			enable/disable_object [Index: 15, Display: 15]:
+				object_list_unit_id: Elite Turtle Ship (832)
+				source_player: Player Eight (8)
+				enabled: True (1)
+				item_id: 832
+			enable/disable_object [Index: 16, Display: 16]:
+				object_list_unit_id: Caravel (1004)
+				source_player: Player Eight (8)
+				enabled: True (1)
+				item_id: 1004
+			enable/disable_object [Index: 17, Display: 17]:
+				object_list_unit_id: Elite Caravel (1006)
+				source_player: Player Eight (8)
+				enabled: True (1)
+				item_id: 1006
+			enable/disable_object [Index: 18, Display: 18]:
+				object_list_unit_id: Thirisadai (1750)
+				source_player: Player Eight (8)
+				enabled: True (1)
+				item_id: 1750
+			activate_trigger [Index: 19, Display: 19]:
+				trigger_id: "Limit Navy Player8" (33)
+
+	'buff fire tower1' [Index: 40, Display: 40]:
+		enabled: True
+		looping: True
+		description_stid: 0
+		short_description_stid: 0
+		effects:
+			heal_object [Index: 0, Display: 0]:
+				quantity: 100
+				source_player: Player One (1)
+				selected_object_ids: 1 unit:
+					0: Fire Tower (190) [P1, X125.5, Y78.5] (267785)
+			change_object_range [Index: 1, Display: 1]:
+				quantity: 15
+				source_player: Player One (1)
+				operation: Set (1)
+				selected_object_ids: 1 unit:
+					0: Fire Tower (190) [P1, X125.5, Y78.5] (267785)
+
+	'buff fire tower2' [Index: 41, Display: 41]:
+		enabled: True
+		looping: True
+		description_stid: 0
+		short_description_stid: 0
+		effects:
+			heal_object [Index: 0, Display: 0]:
+				quantity: 100
+				source_player: Player One (1)
+				selected_object_ids: 1 unit:
+					0: Fire Tower (190) [P3, X74.5, Y168.5] (267786)
+			change_object_range [Index: 1, Display: 1]:
+				quantity: 15
+				source_player: Player One (1)
+				operation: Set (1)
+				selected_object_ids: 1 unit:
+					0: Fire Tower (190) [P3, X74.5, Y168.5] (267786)
+
+	'buff fire tower3' [Index: 42, Display: 42]:
+		enabled: True
+		looping: True
+		description_stid: 0
+		short_description_stid: 0
+		effects:
+			heal_object [Index: 0, Display: 0]:
+				quantity: 100
+				source_player: Player One (1)
+				selected_object_ids: 1 unit:
+					0: Fire Tower (190) [P5, X144.5, Y78.5] (267787)
+			change_object_range [Index: 1, Display: 1]:
+				quantity: 15
+				source_player: Player One (1)
+				operation: Set (1)
+				selected_object_ids: 1 unit:
+					0: Fire Tower (190) [P5, X144.5, Y78.5] (267787)
+
+	'buff fire tower4' [Index: 43, Display: 43]:
+		enabled: True
+		looping: True
+		description_stid: 0
+		short_description_stid: 0
+		effects:
+			heal_object [Index: 0, Display: 0]:
+				quantity: 100
+				source_player: Player One (1)
+				selected_object_ids: 1 unit:
+					0: Fire Tower (190) [P7, X105.5, Y177.5] (255623)
+			change_object_range [Index: 1, Display: 1]:
+				quantity: 15
+				source_player: Player One (1)
+				operation: Set (1)
+				selected_object_ids: 1 unit:
+					0: Fire Tower (190) [P7, X105.5, Y177.5] (255623)
+
+	'Side Bridge Reinforcement' [Index: 44, Display: 44]:
+		enabled: True
+		looping: False
+		description_stid: 0
+		short_description_stid: 0
+		conditions:
+			objects_in_area [Index: 0, Display: 0]:
+				quantity: 10
+				source_player: Player One (1)
+				area_x1: 175
+				area_y1: 12
+				area_x2: 193
+				area_y2: 42
+				object_type: Military (4)
+				inverted: False (0)
+				object_state: Alive (2)
+				include_changeable_weapon_objects: False (0)
+			or [Index: 1, Display: 1]:
+				<< No Attributes >>
+			objects_in_area [Index: 2, Display: 2]:
+				quantity: 10
+				source_player: Player Two (2)
+				area_x1: 173
+				area_y1: 13
+				area_x2: 192
+				area_y2: 46
+				object_type: Military (4)
+				inverted: False (0)
+				object_state: Alive (2)
+				include_changeable_weapon_objects: False (0)
+			or [Index: 3, Display: 3]:
+				<< No Attributes >>
+			objects_in_area [Index: 4, Display: 4]:
+				quantity: 10
+				source_player: Player Three (3)
+				area_x1: 173
+				area_y1: 12
+				area_x2: 191
+				area_y2: 41
+				object_type: Military (4)
+				inverted: False (0)
+				object_state: Alive (2)
+				include_changeable_weapon_objects: False (0)
+			or [Index: 5, Display: 5]:
+				<< No Attributes >>
+			objects_in_area [Index: 6, Display: 6]:
+				quantity: 10
+				source_player: Player Four (4)
+				area_x1: 174
+				area_y1: 13
+				area_x2: 192
+				area_y2: 41
+				object_type: Military (4)
+				inverted: False (0)
+				object_state: Alive (2)
+				include_changeable_weapon_objects: False (0)
+		effects:
+			activate_trigger [Index: 0, Display: 0]:
+				trigger_id: "Side Bridge Spawn" (45)
+			display_instructions [Index: 1, Display: 1]:
+				object_list_unit_id: Unknown (2325)
+				source_player: Player Eight (8)
+				display_time: 5
+				instruction_panel_position: Middle (1)
+				play_sound: False (0)
+				message: 'Enemy Reinforcement are coming to push back the bridge side				'
+			create_object [Index: 2, Display: 2]:
+				object_list_unit_id: Cannon Galleon (420)
+				source_player: Player Six (6)
+				location_x: 214
+				location_y: 3
+				item_id: 420
+			create_object [Index: 3, Display: 3]:
+				object_list_unit_id: Cannon Galleon (420)
+				source_player: Player Six (6)
+				location_x: 214
+				location_y: 6
+				item_id: 420
+			create_object [Index: 4, Display: 4]:
+				object_list_unit_id: Fire Ship (529)
+				source_player: Player Six (6)
+				location_x: 219
+				location_y: 4
+				item_id: 529
+			create_object [Index: 5, Display: 5]:
+				object_list_unit_id: Fire Ship (529)
+				source_player: Player Six (6)
+				location_x: 219
+				location_y: 8
+				item_id: 529
+			create_object [Index: 6, Display: 6]:
+				object_list_unit_id: Fire Ship (529)
+				source_player: Player Six (6)
+				location_x: 208
+				location_y: 6
+				item_id: 529
+			create_object [Index: 7, Display: 7]:
+				object_list_unit_id: Fire Ship (529)
+				source_player: Player Six (6)
+				location_x: 219
+				location_y: 9
+				item_id: 529
+			create_object [Index: 8, Display: 8]:
+				object_list_unit_id: Fire Ship (529)
+				source_player: Player Six (6)
+				location_x: 219
+				location_y: 8
+				item_id: 529
+			create_object [Index: 9, Display: 9]:
+				object_list_unit_id: Cannon Galleon (420)
+				source_player: Player Six (6)
+				location_x: 219
+				location_y: 1
+				item_id: 420
+			create_object [Index: 10, Display: 10]:
+				object_list_unit_id: Cannon Galleon (420)
+				source_player: Player Six (6)
+				location_x: 212
+				location_y: 2
+				item_id: 420
+			create_object [Index: 11, Display: 11]:
+				object_list_unit_id: Elite Cannon Galleon (691)
+				source_player: Player Six (6)
+				location_x: 220
+				location_y: 4
+				item_id: 691
+			create_object [Index: 12, Display: 12]:
+				object_list_unit_id: Cannon Galleon (420)
+				source_player: Player Six (6)
+				location_x: 220
+				location_y: 8
+				item_id: 420
+			create_object [Index: 13, Display: 13]:
+				object_list_unit_id: Cannon Galleon (420)
+				source_player: Player Six (6)
+				location_x: 219
+				location_y: 8
+				item_id: 420
+			create_object [Index: 14, Display: 14]:
+				object_list_unit_id: Cannon Galleon (420)
+				source_player: Player Six (6)
+				location_x: 213
+				location_y: 2
+				item_id: 420
+			create_object [Index: 15, Display: 15]:
+				object_list_unit_id: Elite Cannon Galleon (691)
+				source_player: Player Six (6)
+				location_x: 220
+				location_y: 8
+				item_id: 691
+			attack_move [Index: 16, Display: 16]:
+				source_player: Player Six (6)
+				location_x: 186
+				location_y: 7
+				area_x1: 198
+				area_y1: 1
+				area_x2: 220
+				area_y2: 19
+				object_type: Military (4)
+			play_sound [Index: 17, Display: 17]:
+				source_player: Player Six (6)
+				sound_name: 'Play_e5l'
+
+	'Side Bridge Spawn' [Index: 45, Display: 45]:
+		enabled: False
+		looping: True
+		description_stid: 0
+		short_description_stid: 0
+		conditions:
+			timer [Index: 0, Display: 0]:
+				timer: 6
+				inverted: False (0)
+		effects:
+			create_object [Index: 0, Display: 0]:
+				object_list_unit_id: Condottiero (882)
+				source_player: Player Six (6)
+				location_x: 239
+				location_y: 43
+				item_id: 882
+			activate_trigger [Index: 1, Display: 1]:
+				trigger_id: "Side Bridge Cancel " (46)
+			create_object [Index: 2, Display: 2]:
+				object_list_unit_id: Elite Steppe Lancer (1372)
+				source_player: Player Six (6)
+				location_x: 237
+				location_y: 52
+				item_id: 1372
+			create_object [Index: 3, Display: 3]:
+				object_list_unit_id: Norse Warrior (361)
+				source_player: Player Six (6)
+				location_x: 237
+				location_y: 43
+				item_id: 361
+			attack_move [Index: 4, Display: 4]:
+				source_player: Player Six (6)
+				location_x: 143
+				location_y: 16
+				area_x1: 228
+				area_y1: 33
+				area_x2: 239
+				area_y2: 67
+				object_type: Military (4)
+			create_object [Index: 5, Display: 5]:
+				object_list_unit_id: Norse Warrior (361)
+				source_player: Player Six (6)
+				location_x: 239
+				location_y: 46
+				item_id: 361
+			create_object [Index: 6, Display: 6]:
+				object_list_unit_id: Siege Ram (548)
+				source_player: Player Six (6)
+				location_x: 237
+				location_y: 50
+				item_id: 548
+			create_object [Index: 7, Display: 7]:
+				object_list_unit_id: Trebuchet Packed (331)
+				source_player: Player Six (6)
+				location_x: 239
+				location_y: 50
+				item_id: 331
+			create_object [Index: 8, Display: 8]:
+				object_list_unit_id: Paladin (569)
+				source_player: Player Six (6)
+				location_x: 239
+				location_y: 55
+				item_id: 569
+			create_object [Index: 9, Display: 9]:
+				object_list_unit_id: Condottiero (882)
+				source_player: Player Six (6)
+				location_x: 233
+				location_y: 49
+				item_id: 882
+			create_object [Index: 10, Display: 10]:
+				object_list_unit_id: Condottiero (882)
+				source_player: Player Six (6)
+				location_x: 237
+				location_y: 48
+				item_id: 882
+			create_object [Index: 11, Display: 11]:
+				object_list_unit_id: Condottiero (882)
+				source_player: Player Six (6)
+				location_x: 235
+				location_y: 53
+				item_id: 882
+			create_object [Index: 12, Display: 12]:
+				object_list_unit_id: Condottiero (882)
+				source_player: Player Six (6)
+				location_x: 234
+				location_y: 51
+				item_id: 882
+			create_object [Index: 13, Display: 13]:
+				object_list_unit_id: Condottiero (882)
+				source_player: Player Six (6)
+				location_x: 236
+				location_y: 55
+				item_id: 882
+			create_object [Index: 14, Display: 14]:
+				object_list_unit_id: Condottiero (882)
+				source_player: Player Six (6)
+				location_x: 233
+				location_y: 49
+				item_id: 882
+			create_object [Index: 15, Display: 15]:
+				object_list_unit_id: Condottiero (882)
+				source_player: Player Six (6)
+				location_x: 239
+				location_y: 43
+				item_id: 882
+			create_object [Index: 16, Display: 16]:
+				object_list_unit_id: Condottiero (882)
+				source_player: Player Six (6)
+				location_x: 239
+				location_y: 55
+				item_id: 882
+			create_object [Index: 17, Display: 17]:
+				object_list_unit_id: Condottiero (882)
+				source_player: Player Six (6)
+				location_x: 235
+				location_y: 41
+				item_id: 882
+			create_object [Index: 18, Display: 18]:
+				object_list_unit_id: Condottiero (882)
+				source_player: Player Six (6)
+				location_x: 232
+				location_y: 43
+				item_id: 882
+
+	'Side Bridge Cancel ' [Index: 46, Display: 46]:
+		enabled: False
+		looping: False
+		description_stid: 0
+		short_description_stid: 0
+		conditions:
+			timer [Index: 0, Display: 0]:
+				timer: 150
+				inverted: False (0)
+		effects:
+			deactivate_trigger [Index: 0, Display: 0]:
+				trigger_id: "Side Bridge Spawn" (45)
+
+	'Hero Player1' [Index: 47, Display: 47]:
+		enabled: True
+		looping: False
+		description_stid: 0
+		short_description_stid: 0
+		conditions:
+			own_fewer_objects [Index: 0, Display: 0]:
+				quantity: 0
+				object_list: Kotyan Khan (1267)
+				source_player: Player One (1)
+				include_changeable_weapon_objects: False (0)
+		effects:
+			display_timer [Index: 0, Display: 0]:
+				display_time: 2
+				time_unit: Minutes (1)
+				timer: 0
+				reset_timer: True (1)
+				message: 'Player1 Hero Spawn %d minutes in Center Church'
+			activate_trigger [Index: 1, Display: 1]:
+				trigger_id: "Hero Player1 Respawn" (48)
+
+	'Hero Player1 Respawn' [Index: 48, Display: 48]:
+		enabled: False
+		looping: False
+		description_stid: 0
+		short_description_stid: 0
+		conditions:
+			timer [Index: 0, Display: 0]:
+				timer: 120
+				inverted: False (0)
+		effects:
+			create_object [Index: 0, Display: 0]:
+				object_list_unit_id: Kotyan Khan (1267)
+				source_player: Player One (1)
+				location_x: 103
+				location_y: 41
+				item_id: 1267
+			activate_trigger [Index: 1, Display: 1]:
+				trigger_id: "Hero Player1" (47)
+			change_view [Index: 2, Display: 2]:
+				source_player: Player One (1)
+				location_x: 101
+				location_y: 42
+				scroll: False (0)
+			modify_attribute [Index: 3, Display: 3]:
+				quantity: 1595
+				object_list_unit_id: Kotyan Khan (1267)
+				source_player: Player One (1)
+				item_id: 1267
+				operation: Set (1)
+				object_attributes: Projectile Unit (16)
+			modify_attribute [Index: 4, Display: 4]:
+				quantity: 11
+				object_list_unit_id: Kotyan Khan (1267)
+				source_player: Player One (1)
+				item_id: 1267
+				operation: Set (1)
+				object_attributes: Max Range (12)
+			modify_attribute [Index: 5, Display: 5]:
+				armour_attack_quantity: 40
+				armour_attack_class: Base Pierce (3)
+				object_list_unit_id: Kotyan Khan (1267)
+				source_player: Player One (1)
+				item_id: 1267
+				operation: Set (1)
+				object_attributes: Attack (9)
+			modify_attribute [Index: 6, Display: 6]:
+				quantity: 20
+				object_list_unit_id: Kotyan Khan (1267)
+				source_player: Player One (1)
+				item_id: 1267
+				operation: Set (1)
+				object_attributes: Base Armor (15)
+			modify_attribute [Index: 7, Display: 7]:
+				quantity: 2
+				object_list_unit_id: Kotyan Khan (1267)
+				source_player: Player One (1)
+				item_id: 1267
+				operation: Set (1)
+				object_attributes: Blast Width (22)
+			modify_attribute [Index: 8, Display: 8]:
+				quantity: 4
+				object_list_unit_id: Kotyan Khan (1267)
+				source_player: Player One (1)
+				item_id: 1267
+				operation: Set (1)
+				object_attributes: Blast Attack Level (44)
+			modify_attribute [Index: 9, Display: 9]:
+				quantity: 70
+				object_list_unit_id: Kotyan Khan (1267)
+				source_player: Player One (1)
+				item_id: 1267
+				operation: Set (1)
+				object_attributes: Accuracy Percent (11)
+			modify_attribute [Index: 10, Display: 10]:
+				quantity: 1
+				object_list_unit_id: Kotyan Khan (1267)
+				source_player: Player One (1)
+				item_id: 1267
+				operation: Set (1)
+				object_attributes: Attack Dispersion (64)
+			modify_attribute [Index: 11, Display: 11]:
+				quantity: 3
+				object_list_unit_id: Kotyan Khan (1267)
+				source_player: Player One (1)
+				item_id: 1267
+				operation: Set (1)
+				object_attributes: Total Missiles (102)
+			modify_attribute [Index: 12, Display: 12]:
+				quantity: 3
+				object_list_unit_id: Kotyan Khan (1267)
+				source_player: Player One (1)
+				item_id: 1267
+				operation: Set (1)
+				object_attributes: Max Total Missiles (107)
+			modify_attribute [Index: 13, Display: 13]:
+				armour_attack_quantity: 20
+				armour_attack_class: Base Pierce (3)
+				object_list_unit_id: Kotyan Khan (1267)
+				source_player: Player One (1)
+				item_id: 1267
+				operation: Set (1)
+				object_attributes: Armor (8)
+			modify_attribute [Index: 14, Display: 14]:
+				armour_attack_quantity: 20
+				armour_attack_class: Base Melee (4)
+				object_list_unit_id: Kotyan Khan (1267)
+				source_player: Player One (1)
+				item_id: 1267
+				operation: Set (1)
+				object_attributes: Armor (8)
+			modify_attribute [Index: 15, Display: 15]:
+				quantity: 2
+				object_list_unit_id: Kotyan Khan (1267)
+				source_player: Player One (1)
+				item_id: 1267
+				operation: Divide (5)
+				object_attributes: Attack Reload Time (10)
+
+	'Hero Player2' [Index: 49, Display: 49]:
+		enabled: True
+		looping: False
+		description_stid: 0
+		short_description_stid: 0
+		conditions:
+			own_fewer_objects [Index: 0, Display: 0]:
+				quantity: 0
+				object_list: Ulrich Von Jungingen (1727)
+				source_player: Player Two (2)
+				include_changeable_weapon_objects: False (0)
+		effects:
+			display_timer [Index: 0, Display: 0]:
+				display_time: 2
+				time_unit: Minutes (1)
+				timer: 1
+				reset_timer: True (1)
+				message: 'Player2 Hero Spawn %d minutes in Center Church'
+			activate_trigger [Index: 1, Display: 1]:
+				trigger_id: "Hero Player2 Respawn" (50)
+
+	'Hero Player2 Respawn' [Index: 50, Display: 50]:
+		enabled: False
+		looping: False
+		description_stid: 0
+		short_description_stid: 0
+		conditions:
+			timer [Index: 0, Display: 0]:
+				timer: 120
+				inverted: False (0)
+		effects:
+			create_object [Index: 0, Display: 0]:
+				object_list_unit_id: Ulrich Von Jungingen (1727)
+				source_player: Player Two (2)
+				location_x: 53
+				location_y: 114
+				item_id: 1727
+			activate_trigger [Index: 1, Display: 1]:
+				trigger_id: "Hero Player2" (49)
+			change_view [Index: 2, Display: 2]:
+				source_player: Player Two (2)
+				location_x: 54
+				location_y: 113
+				scroll: False (0)
+			modify_attribute [Index: 3, Display: 3]:
+				quantity: 3
+				object_list_unit_id: Ulrich Von Jungingen (1727)
+				source_player: Player Two (2)
+				item_id: 1727
+				operation: Set (1)
+				object_attributes: Blast Width (22)
+			modify_attribute [Index: 4, Display: 4]:
+				quantity: 2
+				object_list_unit_id: Ulrich Von Jungingen (1727)
+				source_player: Player Two (2)
+				item_id: 1727
+				operation: Set (1)
+				object_attributes: Movement Speed (5)
+			modify_attribute [Index: 5, Display: 5]:
+				armour_attack_quantity: 25
+				armour_attack_class: Base Melee (4)
+				object_list_unit_id: Ulrich Von Jungingen (1727)
+				source_player: Player Two (2)
+				item_id: 1727
+				operation: Set (1)
+				object_attributes: Attack (9)
+			modify_attribute [Index: 6, Display: 6]:
+				armour_attack_quantity: 25
+				armour_attack_class: Base Pierce (3)
+				object_list_unit_id: Ulrich Von Jungingen (1727)
+				source_player: Player Two (2)
+				item_id: 1727
+				operation: Set (1)
+				object_attributes: Armor (8)
+			modify_attribute [Index: 7, Display: 7]:
+				armour_attack_quantity: 25
+				armour_attack_class: Base Melee (4)
+				object_list_unit_id: Ulrich Von Jungingen (1727)
+				source_player: Player Two (2)
+				item_id: 1727
+				operation: Set (1)
+				object_attributes: Armor (8)
+			modify_attribute [Index: 8, Display: 8]:
+				quantity: 4
+				object_list_unit_id: Ulrich Von Jungingen (1727)
+				source_player: Player Two (2)
+				item_id: 1727
+				operation: Set (1)
+				object_attributes: Blast Attack Level (44)
+			modify_attribute [Index: 9, Display: 9]:
+				quantity: 2
+				object_list_unit_id: Ulrich Von Jungingen (1727)
+				source_player: Player Two (2)
+				item_id: 1727
+				operation: Set (1)
+				object_attributes: Max Range (12)
+			modify_attribute [Index: 10, Display: 10]:
+				quantity: 20
+				object_list_unit_id: Ulrich Von Jungingen (1727)
+				source_player: Player Two (2)
+				item_id: 1727
+				operation: Set (1)
+				object_attributes: Max Total Missiles (107)
+			modify_attribute [Index: 11, Display: 11]:
+				quantity: 20
+				object_list_unit_id: Ulrich Von Jungingen (1727)
+				source_player: Player Two (2)
+				item_id: 1727
+				operation: Set (1)
+				object_attributes: Total Missiles (102)
+			modify_attribute [Index: 12, Display: 12]:
+				quantity: 676
+				object_list_unit_id: Ulrich Von Jungingen (1727)
+				source_player: Player Two (2)
+				item_id: 1727
+				operation: Set (1)
+				object_attributes: Projectile Unit (16)
+			modify_attribute [Index: 13, Display: 13]:
+				quantity: 30
+				object_list_unit_id: Ulrich Von Jungingen (1727)
+				source_player: Player Two (2)
+				item_id: 1727
+				operation: Set (1)
+				object_attributes: Accuracy Percent (11)
+			modify_attribute [Index: 14, Display: 14]:
+				quantity: 1
+				object_list_unit_id: Ulrich Von Jungingen (1727)
+				source_player: Player Two (2)
+				item_id: 1727
+				operation: Set (1)
+				object_attributes: Attack Dispersion (64)
+
+	'Hero Player3' [Index: 51, Display: 51]:
+		enabled: True
+		looping: False
+		description_stid: 0
+		short_description_stid: 0
+		conditions:
+			own_fewer_objects [Index: 0, Display: 0]:
+				quantity: 0
+				object_list: Jean Bureau (650)
+				source_player: Player Three (3)
+				include_changeable_weapon_objects: False (0)
+		effects:
+			display_timer [Index: 0, Display: 0]:
+				display_time: 2
+				time_unit: Minutes (1)
+				timer: 2
+				reset_timer: True (1)
+				message: 'Player3 Hero Spawn %d minutes in Center Church'
+			activate_trigger [Index: 1, Display: 1]:
+				trigger_id: "Hero Player3 Respawn" (52)
+
+	'Hero Player3 Respawn' [Index: 52, Display: 52]:
+		enabled: False
+		looping: False
+		description_stid: 0
+		short_description_stid: 0
+		conditions:
+			timer [Index: 0, Display: 0]:
+				timer: 120
+				inverted: False (0)
+		effects:
+			create_object [Index: 0, Display: 0]:
+				object_list_unit_id: Jean Bureau (650)
+				source_player: Player Three (3)
+				location_x: 27
+				location_y: 187
+				item_id: 650
+			activate_trigger [Index: 1, Display: 1]:
+				trigger_id: "Hero Player3" (51)
+			modify_attribute [Index: 2, Display: 2]:
+				quantity: 75
+				object_list_unit_id: Jean Bureau (650)
+				source_player: Player Three (3)
+				item_id: 650
+				operation: Set (1)
+				object_attributes: Max Total Missiles (107)
+			modify_attribute [Index: 3, Display: 3]:
+				quantity: 75
+				object_list_unit_id: Jean Bureau (650)
+				source_player: Player Three (3)
+				item_id: 650
+				operation: Set (1)
+				object_attributes: Total Missiles (102)
+			modify_attribute [Index: 4, Display: 4]:
+				quantity: 658
+				object_list_unit_id: Jean Bureau (650)
+				source_player: Player Three (3)
+				item_id: 650
+				operation: Set (1)
+				object_attributes: Projectile Unit (16)
+			modify_attribute [Index: 5, Display: 5]:
+				quantity: 35
+				object_list_unit_id: Jean Bureau (650)
+				source_player: Player Three (3)
+				item_id: 650
+				operation: Set (1)
+				object_attributes: Accuracy Percent (11)
+			change_view [Index: 6, Display: 6]:
+				source_player: Player Three (3)
+				location_x: 27
+				location_y: 185
+				scroll: False (0)
+			modify_attribute [Index: 7, Display: 7]:
+				quantity: 1
+				object_list_unit_id: Jean Bureau (650)
+				source_player: Player Three (3)
+				item_id: 650
+				operation: Set (1)
+				object_attributes: Attack Dispersion (64)
+			modify_attribute [Index: 8, Display: 8]:
+				quantity: 13
+				object_list_unit_id: Jean Bureau (650)
+				source_player: Player Three (3)
+				item_id: 650
+				operation: Set (1)
+				object_attributes: Max Range (12)
+			modify_attribute [Index: 9, Display: 9]:
+				armour_attack_quantity: 15
+				armour_attack_class: Base Melee (4)
+				object_list_unit_id: Jean Bureau (650)
+				source_player: Player Three (3)
+				item_id: 650
+				operation: Set (1)
+				object_attributes: Attack (9)
+			modify_attribute [Index: 10, Display: 10]:
+				quantity: 2
+				object_list_unit_id: Jean Bureau (650)
+				source_player: Player Three (3)
+				item_id: 650
+				operation: Set (1)
+				object_attributes: Blast Attack Level (44)
+			modify_attribute [Index: 11, Display: 11]:
+				quantity: 1
+				object_list_unit_id: Jean Bureau (650)
+				source_player: Player Three (3)
+				item_id: 650
+				operation: Set (1)
+				object_attributes: Blast Width (22)
+			modify_attribute [Index: 12, Display: 12]:
+				quantity: 150
+				object_list_unit_id: Jean Bureau (650)
+				source_player: Player Three (3)
+				item_id: 650
+				operation: Set (1)
+				object_attributes: Hit Points (0)
+			modify_attribute [Index: 13, Display: 13]:
+				quantity: 15
+				object_list_unit_id: Jean Bureau (650)
+				source_player: Player Three (3)
+				item_id: 650
+				operation: Set (1)
+				object_attributes: Max Range (12)
+			modify_attribute [Index: 14, Display: 14]:
+				quantity: 1
+				object_list_unit_id: Jean Bureau (650)
+				source_player: Player Three (3)
+				item_id: 650
+				operation: Set (1)
+				object_attributes: Movement Speed (5)
+
+	'Hero Player4' [Index: 53, Display: 53]:
+		enabled: True
+		looping: False
+		description_stid: 0
+		short_description_stid: 0
+		conditions:
+			own_fewer_objects [Index: 0, Display: 0]:
+				quantity: 0
+				object_list: Unknown (2347)
+				source_player: Player Four (4)
+				include_changeable_weapon_objects: False (0)
+		effects:
+			display_timer [Index: 0, Display: 0]:
+				display_time: 2
+				time_unit: Minutes (1)
+				timer: 3
+				reset_timer: True (1)
+				message: 'Player4 Hero Spawn %d minutes in Center Church'
+			activate_trigger [Index: 1, Display: 1]:
+				trigger_id: "Hero Player4 Respawn" (54)
+
+	'Hero Player4 Respawn' [Index: 54, Display: 54]:
+		enabled: False
+		looping: False
+		description_stid: 0
+		short_description_stid: 0
+		conditions:
+			timer [Index: 0, Display: 0]:
+				timer: 120
+				inverted: False (0)
+		effects:
+			create_object [Index: 0, Display: 0]:
+				object_list_unit_id: Unknown (2347)
+				source_player: Player Four (4)
+				location_x: 22
+				location_y: 102
+				item_id: 2347
+			activate_trigger [Index: 1, Display: 1]:
+				trigger_id: "Hero Player4" (53)
+			change_view [Index: 2, Display: 2]:
+				source_player: Player Four (4)
+				location_x: 22
+				location_y: 103
+				scroll: False (0)
+			modify_attribute [Index: 3, Display: 3]:
+				quantity: 1
+				object_list_unit_id: Unknown (2347)
+				source_player: Player Four (4)
+				item_id: 2347
+				operation: Set (1)
+				object_attributes: Blast Width (22)
+			modify_attribute [Index: 4, Display: 4]:
+				quantity: 4
+				object_list_unit_id: Unknown (2347)
+				source_player: Player Four (4)
+				item_id: 2347
+				operation: Set (1)
+				object_attributes: Blast Attack Level (44)
+			modify_attribute [Index: 5, Display: 5]:
+				armour_attack_quantity: 25
+				armour_attack_class: Base Melee (4)
+				object_list_unit_id: Unknown (2347)
+				source_player: Player Four (4)
+				item_id: 2347
+				operation: Set (1)
+				object_attributes: Attack (9)
+			modify_attribute [Index: 6, Display: 6]:
+				quantity: 4
+				object_list_unit_id: Unknown (2347)
+				source_player: Player Four (4)
+				item_id: 2347
+				operation: Set (1)
+				object_attributes: Max Range (12)
+			modify_attribute [Index: 7, Display: 7]:
+				quantity: 7
+				object_list_unit_id: Unknown (2347)
+				source_player: Player Four (4)
+				item_id: 2347
+				operation: Set (1)
+				object_attributes: Max Total Missiles (107)
+			modify_attribute [Index: 8, Display: 8]:
+				quantity: 7
+				object_list_unit_id: Unknown (2347)
+				source_player: Player Four (4)
+				item_id: 2347
+				operation: Set (1)
+				object_attributes: Total Missiles (102)
+			modify_attribute [Index: 9, Display: 9]:
+				quantity: 676
+				object_list_unit_id: Unknown (2347)
+				source_player: Player Four (4)
+				item_id: 2347
+				operation: Set (1)
+				object_attributes: Projectile Unit (16)
+			modify_attribute [Index: 10, Display: 10]:
+				armour_attack_quantity: 25
+				armour_attack_class: Base Pierce (3)
+				object_list_unit_id: Unknown (2347)
+				source_player: Player Four (4)
+				item_id: 2347
+				operation: Set (1)
+				object_attributes: Armor (8)
+			modify_attribute [Index: 11, Display: 11]:
+				armour_attack_quantity: 25
+				armour_attack_class: Base Melee (4)
+				object_list_unit_id: Unknown (2347)
+				source_player: Player Four (4)
+				item_id: 2347
+				operation: Set (1)
+				object_attributes: Armor (8)
+			modify_attribute [Index: 12, Display: 12]:
+				quantity: 2
+				object_list_unit_id: Unknown (2347)
+				source_player: Player Four (4)
+				item_id: 2347
+				operation: Set (1)
+				object_attributes: Movement Speed (5)
+
+	'Hero5 ' [Index: 55, Display: 55]:
+		enabled: True
+		looping: False
+		description_stid: 0
+		short_description_stid: 0
+		conditions:
+			own_fewer_objects [Index: 0, Display: 0]:
+				quantity: 0
+				object_list: Tsar Konstantin (1266)
+				source_player: Player Five (5)
+				include_changeable_weapon_objects: False (0)
+		effects:
+			activate_trigger [Index: 0, Display: 0]:
+				trigger_id: "Hero Respawn5" (56)
+
+	'Hero Respawn5' [Index: 56, Display: 56]:
+		enabled: False
+		looping: False
+		description_stid: 0
+		short_description_stid: 0
+		conditions:
+			timer [Index: 0, Display: 0]:
+				timer: 120
+				inverted: False (0)
+		effects:
+			create_object [Index: 0, Display: 0]:
+				object_list_unit_id: Tsar Konstantin (1266)
+				source_player: Player Five (5)
+				location_x: 180
+				location_y: 174
+				item_id: 1266
+			activate_trigger [Index: 1, Display: 1]:
+				trigger_id: "Hero5 " (55)
+			modify_attribute [Index: 2, Display: 2]:
+				quantity: 627
+				object_list_unit_id: Tsar Konstantin (1266)
+				source_player: Player Five (5)
+				item_id: 1266
+				operation: Set (1)
+				object_attributes: Projectile Unit (16)
+			modify_attribute [Index: 3, Display: 3]:
+				quantity: 9
+				object_list_unit_id: Tsar Konstantin (1266)
+				source_player: Player Five (5)
+				item_id: 1266
+				operation: Set (1)
+				object_attributes: Max Range (12)
+			modify_attribute [Index: 4, Display: 4]:
+				armour_attack_quantity: 25
+				armour_attack_class: Base Pierce (3)
+				object_list_unit_id: Tsar Konstantin (1266)
+				source_player: Player Five (5)
+				item_id: 1266
+				operation: Set (1)
+				object_attributes: Attack (9)
+			modify_attribute [Index: 5, Display: 5]:
+				quantity: 1
+				object_list_unit_id: Tsar Konstantin (1266)
+				source_player: Player Five (5)
+				item_id: 1266
+				operation: Set (1)
+				object_attributes: Blast Width (22)
+			modify_attribute [Index: 6, Display: 6]:
+				quantity: 4
+				object_list_unit_id: Tsar Konstantin (1266)
+				source_player: Player Five (5)
+				item_id: 1266
+				operation: Set (1)
+				object_attributes: Blast Attack Level (44)
+			modify_attribute [Index: 7, Display: 7]:
+				armour_attack_quantity: 13
+				armour_attack_class: Base Pierce (3)
+				object_list_unit_id: Tsar Konstantin (1266)
+				source_player: Player Five (5)
+				item_id: 1266
+				operation: Set (1)
+				object_attributes: Armor (8)
+			modify_attribute [Index: 8, Display: 8]:
+				armour_attack_quantity: 5
+				armour_attack_class: Base Melee (4)
+				object_list_unit_id: Tsar Konstantin (1266)
+				source_player: Player Five (5)
+				item_id: 1266
+				operation: Set (1)
+				object_attributes: Armor (8)
+			modify_attribute [Index: 9, Display: 9]:
+				quantity: 2
+				object_list_unit_id: Tsar Konstantin (1266)
+				source_player: Player Five (5)
+				item_id: 1266
+				operation: Divide (5)
+				object_attributes: Attack Reload Time (10)
+			modify_attribute [Index: 10, Display: 10]:
+				quantity: 50
+				object_list_unit_id: Tsar Konstantin (1266)
+				source_player: Player Five (5)
+				item_id: 1266
+				operation: Set (1)
+				object_attributes: Accuracy Percent (11)
+			modify_attribute [Index: 11, Display: 11]:
+				quantity: 1
+				object_list_unit_id: Tsar Konstantin (1266)
+				source_player: Player Five (5)
+				item_id: 1266
+				operation: Set (1)
+				object_attributes: Attack Dispersion (64)
+
+	'Hero6' [Index: 57, Display: 57]:
+		enabled: True
+		looping: False
+		description_stid: 0
+		short_description_stid: 0
+		conditions:
+			own_fewer_objects [Index: 0, Display: 0]:
+				quantity: 0
+				object_list: Ulrich Von Jungingen (1727)
+				source_player: Player Six (6)
+				include_changeable_weapon_objects: False (0)
+		effects:
+			activate_trigger [Index: 0, Display: 0]:
+				trigger_id: "Hero Respawn 6" (58)
+
+	'Hero Respawn 6' [Index: 58, Display: 58]:
+		enabled: False
+		looping: False
+		description_stid: 0
+		short_description_stid: 0
+		conditions:
+			timer [Index: 0, Display: 0]:
+				timer: 120
+				inverted: False (0)
+		effects:
+			create_object [Index: 0, Display: 0]:
+				object_list_unit_id: Ulrich Von Jungingen (1727)
+				source_player: Player Six (6)
+				location_x: 205
+				location_y: 84
+				item_id: 1727
+			activate_trigger [Index: 1, Display: 1]:
+				trigger_id: "Hero6" (57)
+			modify_attribute [Index: 2, Display: 2]:
+				armour_attack_quantity: 25
+				armour_attack_class: Base Melee (4)
+				object_list_unit_id: Ulrich Von Jungingen (1727)
+				source_player: Player Six (6)
+				item_id: 1727
+				operation: Set (1)
+				object_attributes: Attack (9)
+			modify_attribute [Index: 3, Display: 3]:
+				quantity: 2
+				object_list_unit_id: Ulrich Von Jungingen (1727)
+				source_player: Player Six (6)
+				item_id: 1727
+				operation: Set (1)
+				object_attributes: Movement Speed (5)
+			modify_attribute [Index: 4, Display: 4]:
+				quantity: 3
+				object_list_unit_id: Ulrich Von Jungingen (1727)
+				source_player: Player Six (6)
+				item_id: 1727
+				operation: Set (1)
+				object_attributes: Blast Width (22)
+			modify_attribute [Index: 5, Display: 5]:
+				armour_attack_quantity: 25
+				armour_attack_class: Base Melee (4)
+				object_list_unit_id: Ulrich Von Jungingen (1727)
+				source_player: Player Six (6)
+				item_id: 1727
+				operation: Set (1)
+				object_attributes: Armor (8)
+			modify_attribute [Index: 6, Display: 6]:
+				armour_attack_quantity: 25
+				armour_attack_class: Base Pierce (3)
+				object_list_unit_id: Ulrich Von Jungingen (1727)
+				source_player: Player Six (6)
+				item_id: 1727
+				operation: Set (1)
+				object_attributes: Armor (8)
+			modify_attribute [Index: 7, Display: 7]:
+				quantity: 4
+				object_list_unit_id: Ulrich Von Jungingen (1727)
+				source_player: Player Six (6)
+				item_id: 1727
+				operation: Set (1)
+				object_attributes: Blast Attack Level (44)
+			modify_attribute [Index: 8, Display: 8]:
+				quantity: 2
+				object_list_unit_id: Ulrich Von Jungingen (1727)
+				source_player: Player Six (6)
+				item_id: 1727
+				operation: Set (1)
+				object_attributes: Max Range (12)
+			modify_attribute [Index: 9, Display: 9]:
+				quantity: 20
+				object_list_unit_id: Ulrich Von Jungingen (1727)
+				source_player: Player Six (6)
+				item_id: 1727
+				operation: Set (1)
+				object_attributes: Total Missiles (102)
+			modify_attribute [Index: 10, Display: 10]:
+				quantity: 20
+				object_list_unit_id: Ulrich Von Jungingen (1727)
+				source_player: Player Six (6)
+				item_id: 1727
+				operation: Set (1)
+				object_attributes: Max Total Missiles (107)
+			modify_attribute [Index: 11, Display: 11]:
+				quantity: 676
+				object_list_unit_id: Ulrich Von Jungingen (1727)
+				source_player: Player Six (6)
+				item_id: 1727
+				operation: Set (1)
+				object_attributes: Projectile Unit (16)
+			modify_attribute [Index: 12, Display: 12]:
+				quantity: 30
+				object_list_unit_id: Ulrich Von Jungingen (1727)
+				source_player: Player Six (6)
+				item_id: 1727
+				operation: Set (1)
+				object_attributes: Accuracy Percent (11)
+			modify_attribute [Index: 13, Display: 13]:
+				quantity: 1
+				object_list_unit_id: Ulrich Von Jungingen (1727)
+				source_player: Player Six (6)
+				item_id: 1727
+				operation: Set (1)
+				object_attributes: Attack Dispersion (64)
+
+	'Hero7' [Index: 59, Display: 59]:
+		enabled: True
+		looping: False
+		description_stid: 0
+		short_description_stid: 0
+		conditions:
+			own_fewer_objects [Index: 0, Display: 0]:
+				quantity: 0
+				object_list: Jean Bureau (650)
+				source_player: Player Seven (7)
+				include_changeable_weapon_objects: False (0)
+		effects:
+			activate_trigger [Index: 0, Display: 0]:
+				trigger_id: "Hero Respawn 7" (60)
+
+	'Hero Respawn 7' [Index: 60, Display: 60]:
+		enabled: False
+		looping: False
+		description_stid: 0
+		short_description_stid: 0
+		conditions:
+			timer [Index: 0, Display: 0]:
+				timer: 120
+				inverted: False (0)
+		effects:
+			create_object [Index: 0, Display: 0]:
+				object_list_unit_id: Jean Bureau (650)
+				source_player: Player Seven (7)
+				location_x: 130
+				location_y: 210
+				item_id: 650
+			activate_trigger [Index: 1, Display: 1]:
+				trigger_id: "Hero7" (59)
+			modify_attribute [Index: 2, Display: 2]:
+				quantity: 75
+				object_list_unit_id: Jean Bureau (650)
+				source_player: Player Seven (7)
+				item_id: 650
+				operation: Set (1)
+				object_attributes: Max Total Missiles (107)
+			modify_attribute [Index: 3, Display: 3]:
+				quantity: 75
+				object_list_unit_id: Jean Bureau (650)
+				source_player: Player Seven (7)
+				item_id: 650
+				operation: Set (1)
+				object_attributes: Total Missiles (102)
+			modify_attribute [Index: 4, Display: 4]:
+				quantity: 658
+				object_list_unit_id: Jean Bureau (650)
+				source_player: Player Seven (7)
+				item_id: 650
+				operation: Set (1)
+				object_attributes: Projectile Unit (16)
+			modify_attribute [Index: 5, Display: 5]:
+				quantity: 1
+				object_list_unit_id: Jean Bureau (650)
+				source_player: Player Seven (7)
+				item_id: 650
+				operation: Set (1)
+				object_attributes: Attack Dispersion (64)
+			modify_attribute [Index: 6, Display: 6]:
+				quantity: 35
+				object_list_unit_id: Jean Bureau (650)
+				source_player: Player Seven (7)
+				item_id: 650
+				operation: Set (1)
+				object_attributes: Accuracy Percent (11)
+			modify_attribute [Index: 7, Display: 7]:
+				quantity: 13
+				object_list_unit_id: Jean Bureau (650)
+				source_player: Player Seven (7)
+				item_id: 650
+				operation: Set (1)
+				object_attributes: Max Range (12)
+			modify_attribute [Index: 8, Display: 8]:
+				armour_attack_quantity: 15
+				armour_attack_class: Base Melee (4)
+				object_list_unit_id: Jean Bureau (650)
+				source_player: Player Seven (7)
+				item_id: 650
+				operation: Set (1)
+				object_attributes: Attack (9)
+			modify_attribute [Index: 9, Display: 9]:
+				quantity: 2
+				object_list_unit_id: Jean Bureau (650)
+				source_player: Player Seven (7)
+				item_id: 650
+				operation: Set (1)
+				object_attributes: Blast Attack Level (44)
+			modify_attribute [Index: 10, Display: 10]:
+				quantity: 1
+				object_list_unit_id: Jean Bureau (650)
+				source_player: Player Seven (7)
+				item_id: 650
+				operation: Set (1)
+				object_attributes: Blast Width (22)
+			modify_attribute [Index: 11, Display: 11]:
+				quantity: 150
+				object_list_unit_id: Jean Bureau (650)
+				source_player: Player Seven (7)
+				item_id: 650
+				operation: Set (1)
+				object_attributes: Hit Points (0)
+			modify_attribute [Index: 12, Display: 12]:
+				quantity: 15
+				object_list_unit_id: Jean Bureau (650)
+				source_player: Player Seven (7)
+				item_id: 650
+				operation: Set (1)
+				object_attributes: Max Range (12)
+			modify_attribute [Index: 13, Display: 13]:
+				quantity: 1
+				object_list_unit_id: Jean Bureau (650)
+				source_player: Player Seven (7)
+				item_id: 650
+				operation: Set (1)
+				object_attributes: Movement Speed (5)
+
+	'Hero8' [Index: 61, Display: 61]:
+		enabled: True
+		looping: False
+		description_stid: 0
+		short_description_stid: 0
+		conditions:
+			own_fewer_objects [Index: 0, Display: 0]:
+				quantity: 0
+				object_list: Gods Own Sling Packed (729)
+				source_player: Player Eight (8)
+				include_changeable_weapon_objects: False (0)
+			and [Index: 1, Display: 1]:
+				<< No Attributes >>
+			own_fewer_objects [Index: 2, Display: 2]:
+				quantity: 0
+				object_list: Gods Own Sling (683)
+				source_player: Player Eight (8)
+				include_changeable_weapon_objects: False (0)
+		effects:
+			activate_trigger [Index: 0, Display: 0]:
+				trigger_id: "Hero Respawn 8" (62)
+
+	'Hero Respawn 8' [Index: 62, Display: 62]:
+		enabled: False
+		looping: False
+		description_stid: 0
+		short_description_stid: 0
+		conditions:
+			timer [Index: 0, Display: 0]:
+				timer: 120
+				inverted: False (0)
+		effects:
+			create_object [Index: 0, Display: 0]:
+				object_list_unit_id: Gods Own Sling Packed (729)
+				source_player: Player Eight (8)
+				location_x: 233
+				location_y: 147
+				item_id: 729
+			activate_trigger [Index: 1, Display: 1]:
+				trigger_id: "Hero8" (61)
+			modify_attribute [Index: 2, Display: 2]:
+				quantity: 676
+				object_list_unit_id: Gods Own Sling (683)
+				source_player: Player Eight (8)
+				item_id: 683
+				operation: Set (1)
+				object_attributes: Projectile Unit (16)
+			modify_attribute [Index: 3, Display: 3]:
+				quantity: 10
+				object_list_unit_id: Gods Own Sling (683)
+				source_player: Player Eight (8)
+				item_id: 683
+				operation: Set (1)
+				object_attributes: Total Missiles (102)
+			modify_attribute [Index: 4, Display: 4]:
+				quantity: 10
+				object_list_unit_id: Gods Own Sling (683)
+				source_player: Player Eight (8)
+				item_id: 683
+				operation: Set (1)
+				object_attributes: Max Total Missiles (107)
+			modify_attribute [Index: 5, Display: 5]:
+				armour_attack_quantity: 50
+				armour_attack_class: Base Melee (4)
+				object_list_unit_id: Gods Own Sling (683)
+				source_player: Player Eight (8)
+				item_id: 683
+				operation: Set (1)
+				object_attributes: Attack (9)
+			modify_attribute [Index: 6, Display: 6]:
+				quantity: 50
+				object_list_unit_id: Gods Own Sling (683)
+				source_player: Player Eight (8)
+				item_id: 683
+				operation: Set (1)
+				object_attributes: Accuracy Percent (11)
+			modify_attribute [Index: 7, Display: 7]:
+				quantity: 1
+				object_list_unit_id: Gods Own Sling (683)
+				source_player: Player Eight (8)
+				item_id: 683
+				operation: Set (1)
+				object_attributes: Attack Dispersion (64)
+			modify_attribute [Index: 8, Display: 8]:
+				quantity: 1
+				object_list_unit_id: Gods Own Sling (683)
+				source_player: Player Eight (8)
+				item_id: 683
+				operation: Set (1)
+				object_attributes: Blast Width (22)
+			modify_attribute [Index: 9, Display: 9]:
+				quantity: 2
+				object_list_unit_id: Gods Own Sling (683)
+				source_player: Player Eight (8)
+				item_id: 683
+				operation: Set (1)
+				object_attributes: Blast Attack Level (44)
+			modify_attribute [Index: 10, Display: 10]:
+				quantity: 2
+				object_list_unit_id: Gods Own Sling (683)
+				source_player: Player Eight (8)
+				item_id: 683
+				operation: Set (1)
+				object_attributes: Movement Speed (5)
+			modify_attribute [Index: 11, Display: 11]:
+				quantity: 15
+				object_list_unit_id: Gods Own Sling (683)
+				source_player: Player Eight (8)
+				item_id: 683
+				operation: Set (1)
+				object_attributes: Fog Visibility (28)
+			modify_attribute [Index: 12, Display: 12]:
+				quantity: 20
+				object_list_unit_id: Gods Own Sling (683)
+				source_player: Player Eight (8)
+				item_id: 683
+				operation: Set (1)
+				object_attributes: Line Of Sight (1)
+
+	'Create Upper Bridge' [Index: 63, Display: 63]:
+		enabled: True
+		looping: False
+		description_stid: 0
+		short_description_stid: 0
+		conditions:
+			timer [Index: 0, Display: 0]:
+				timer: 5400
+				inverted: False (0)
+		effects:
+			replace_object [Index: 0, Display: 0]:
+				source_player: Player Gaia (0)
+				target_player: Player Gaia (0)
+				area_x1: 181
+				area_y1: 7
+				area_x2: 184
+				area_y2: 10
+				object_list_unit_id_2: Wooden Bridge B Middle (1313)
+			display_instructions [Index: 1, Display: 1]:
+				object_list_unit_id: Coustillier (1655)
+				source_player: Player Gaia (0)
+				display_time: 10
+				instruction_panel_position: Top (0)
+				play_sound: False (0)
+				message: 'The barricade and rocks have been cleaned, the north side bridge is open!'
+			change_view [Index: 2, Display: 2]:
+				source_player: Player One (1)
+				location_x: 182
+				location_y: 9
+				scroll: True (1)
+			change_view [Index: 3, Display: 3]:
+				source_player: Player Two (2)
+				location_x: 182
+				location_y: 9
+				scroll: True (1)
+			change_view [Index: 4, Display: 4]:
+				source_player: Player Three (3)
+				location_x: 182
+				location_y: 10
+				scroll: True (1)
+			change_view [Index: 5, Display: 5]:
+				source_player: Player Four (4)
+				location_x: 182
+				location_y: 10
+				scroll: True (1)
+			change_view [Index: 6, Display: 6]:
+				source_player: Player Five (5)
+				location_x: 182
+				location_y: 10
+				scroll: True (1)
+			change_view [Index: 7, Display: 7]:
+				source_player: Player Six (6)
+				location_x: 182
+				location_y: 10
+				scroll: True (1)
+			change_view [Index: 8, Display: 8]:
+				source_player: Player Seven (7)
+				location_x: 182
+				location_y: 10
+				scroll: True (1)
+			change_view [Index: 9, Display: 9]:
+				source_player: Player Eight (8)
+				location_x: 182
+				location_y: 10
+				scroll: True (1)
+
+	'Cancel Hero5 Respawn' [Index: 64, Display: 64]:
+		enabled: True
+		looping: False
+		description_stid: 0
+		short_description_stid: 0
+		conditions:
+			destroy_object [Index: 0, Display: 0]:
+				unit_object: 1 unit:
+					0: Unknown (2262) [P5, X180.0, Y172.0] (328305)
+				inverted: False (0)
+		effects:
+			deactivate_trigger [Index: 0, Display: 0]:
+				trigger_id: "Hero5 " (55)
+			deactivate_trigger [Index: 1, Display: 1]:
+				trigger_id: "Hero Respawn5" (56)
+
+	'Cancel Hero6 Respawn' [Index: 65, Display: 65]:
+		enabled: True
+		looping: False
+		description_stid: 0
+		short_description_stid: 0
+		conditions:
+			destroy_object [Index: 0, Display: 0]:
+				unit_object: 1 unit:
+					0: Unknown (2262) [P6, X205.0, Y82.0] (328275)
+				inverted: False (0)
+		effects:
+			deactivate_trigger [Index: 0, Display: 0]:
+				trigger_id: "Hero Respawn 6" (58)
+			deactivate_trigger [Index: 1, Display: 1]:
+				trigger_id: "Hero Respawn5" (56)
+
+	'Cancel Hero7 Respawn' [Index: 66, Display: 66]:
+		enabled: True
+		looping: False
+		description_stid: 0
+		short_description_stid: 0
+		conditions:
+			destroy_object [Index: 0, Display: 0]:
+				unit_object: 1 unit:
+					0: Unknown (2262) [P7, X130.0, Y208.0] (328335)
+				inverted: False (0)
+		effects:
+			deactivate_trigger [Index: 0, Display: 0]:
+				trigger_id: "Hero7" (59)
+			deactivate_trigger [Index: 1, Display: 1]:
+				trigger_id: "Hero Respawn 7" (60)
+
+	'Cancel Hero8 Respawn' [Index: 67, Display: 67]:
+		enabled: True
+		looping: False
+		description_stid: 0
+		short_description_stid: 0
+		conditions:
+			destroy_object [Index: 0, Display: 0]:
+				unit_object: 1 unit:
+					0: Unknown (2262) [P8, X233.0, Y145.0] (328365)
+				inverted: False (0)
+		effects:
+			deactivate_trigger [Index: 0, Display: 0]:
+				trigger_id: "Hero8" (61)
+			deactivate_trigger [Index: 1, Display: 1]:
+				trigger_id: "Hero Respawn 8" (62)
+
+	'Upper Bridge to Gaia' [Index: 68, Display: 68]:
+		enabled: True
+		looping: False
+		description_stid: 0
+		short_description_stid: 0
+		effects:
+			change_ownership [Index: 0, Display: 0]:
+				source_player: Player One (1)
+				target_player: Player Gaia (0)
+				area_x1: 180
+				area_y1: 5
+				area_x2: 185
+				area_y2: 11
+				flash_object: False (0)
+			modify_attribute [Index: 1, Display: 1]:
+				armour_attack_quantity: 64318
+				armour_attack_class: Wonder (0)
+				object_list_unit_id: Barricade B (1218)
+				source_player: Player Gaia (0)
+				item_id: 1218
+				operation: Subtract (3)
+				object_attributes: Armor (8)
+
+Variables:
+	<<No Variables>>

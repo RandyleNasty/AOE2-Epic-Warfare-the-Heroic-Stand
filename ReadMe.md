@@ -5,3 +5,18 @@
  Dependency:
 
  AoE2ScenarioParser
+
+
+ https://ksneijders.github.io/AoE2ScenarioParser/hello_world/
+ 
+
+ Parser Tutorial
+ https://github.com/duyhung2h/AoE2ScenarioParserTutorial/blob/main/%5BExample1%5D%20-%20How%20to%20add%20triggers/example%20-%20how%20to%20add%20triggers.py
+
+
+
+ Terrain ID
+ https://docs.google.com/spreadsheets/d/1Fg4BM8dY0FoJ5yoQtL5S4f9LEcMIrYbH0skrFBnrS14/edit?gid=101522202#gid=101522202
+
+ID List Reddit
+ https://www.reddit.com/r/aoe2/comments/17lawye/where_do_i_get_the_objectterrainresources_id/?rdt=40612

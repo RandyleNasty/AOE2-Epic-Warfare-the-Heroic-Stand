@@ -1,0 +1,114 @@
+Const. ID#	RMS Constant	WK Const.	Descriptive Name	DE Scenario Editor	Internal Name	HD Scenario Editor	UP 1.5 Scenario Editor	AoC 1.0 Scenario Editor	HD Texture File	DE Texture File(s)	Minimap Color 	Building Allowed	Unit Pathing	Comments																
+0	GRASS	GRASS	Grass 1	Grass 1	Grass	Grass 1	Grass 1	Grass	g_grs	g_grs		all	land	default terrain																
+1	WATER	WATER, DLC_WATER5	Water, Shallow	Water, Shallow	Water, Shallow	Water, Shallow	Water, Shallow	Water, Shallow	g_wtr	g_wtr		water	ships	normal water																
+2	BEACH	BEACH, DLC_BEACH2, DLC_BEACH3, DLC_BEACH4	Beach	Beach	Beach	Beach	Beach	-	g_bch	g_bch		walls only	all	automatically placed when land terrains border water																
+3	DIRT3	DIRT3, DIRT4, DLC_DIRT4	Dirt 3	Dirt 3	Dirt 3	Dirt 3	Dirt 3	Dirt 3	g_ds3	g_ds3		all	land	grassy																
+4	SHALLOW	SHALLOW, DLC_NEWSHALLOW	Shallows	Shallows	Shallows	Shallows	Shallows	Shallows	g_sha	g_sha		water	all	can be used to create river crossings																
+5	LEAVES	LEAVES, DLC_JUNGLELEAVES	Underbrush	Underbrush	Underbrush	Leaves	Leaves	Leaves	g_for	g_for		all	land	used as the underlying texture for many forest types																
+6	DIRT	DIRT	Dirt 1	Dirt 1	Dirt	Dirt 1	Dirt 1	Dirt 1	g_des	g_des		all	land	brown with the occasional cactus																
+7	-	-	Farm	Farm	Farm1	Farm	Farm	-	g_fm1	g_fm1		all	land	no food																
+8	-	-	Farm, Dead	Farm, Dead	Farm2	Farm, dead	Dead Farm	-	g_fm2	g_fm2		all	land	no food																
+9	GRASS3	GRASS3, MOORLAND	Grass 3	Grass 3	Grass 3	Grass 3	Grass 3	Grass 3	g_gr3	g_gr3		all	land	brownish grass																
+10	FOREST	FOREST, DLC_RAINFOREST	Forest, Oak	Forest, Oak	Forest	Forest	Forest	Forest	g_for	g_for		all	land	placed on LEAVES																
+11	DIRT2	DLC_MANGROVESHALLOW	Dirt 2	Dirt 2	Dirt 2	Dirt 2	Dirt 2	Dirt 2	g_ds2	g_ds2		all	land	dirt/grass mixture																
+12	GRASS2	GRASS2, DLC_JUNGLEGRASS	Grass 2	Grass 2	Grass 2	Grass 2	Grass 2	Grass 2	g_gr2	g_gr2		all	land	very green grass																
+13	PALM_DESERT	PALM_DESERT	Forest, Palm Desert	Forest, Palm Desert	Palm Desert	Palm Desert	Plam Desert	Palm Desert	g_pal	g_pal		all	land	placed on DESERT																
+14	DESERT	DESERT, SAVANNAH	Desert, Sand	Desert, Sand	Desert	Desert, Sand	Desert	Desert	g_pal	g_pal		all	land	sandy and light colored																
+15	-	-	Water 2D, Shoreless	Water 2D, Shoreless	Water, Old	Water 2D, Shoreless	Water, Shallow (Other)	-	g_wtr	g_wtr		water	ships	looks like WATER; no beaches; not dockable																
+16	ROCK1	BAOBAB, BAOBAB_FOREST, BAOBABS	Grass, Other	Grass, Other	Old Grass	Grass, Other 2	Unknown	-	g_grs	g_grs		all	land	looks like GRASS; automatically placed under cliffs																
+17	JUNGLE	JUNGLE	Forest, Jungle	Forest, Jungle	Jungle	Jungle	Jungle	Jungle	g_for	g_for		all	land	placed on LEAVES																
+18	BAMBOO	BAMBOO	Forest, Bamboo	Forest, Bamboo	Bamboo	Bamboo	Bamboo	Bamboo	g_for	g_for		all	land	placed on LEAVES																
+19	PINE_FOREST	PINE_FOREST	Forest, Pine	Forest, Pine	Pine Forest	Pine Forest	Pine Forest	Pine Forest	g_for	g_for		all	land	placed on LEAVES																
+20	-	DLC_MANGROVEFOREST	Forest, Oak Bush	Forest, Oak Bush	Forest, Oak Bush	Oak Forest	Oak Forest	Oak Forest	g_for	g_for		all	land	placed on LEAVES																
+21	SNOW_FOREST	SNOW_FOREST, DRAGONFOREST	Forest, Pine Snow	Forest, Pine Snow	Snow Forest	Snow Pine Forest	Snow Pine Forest	Snow Pine Forest	g_snf	g_snf		all	land	placed on underbrush snow																
+22	DEEP_WATER	DEEP_WATER, DLC_WATER4	Water, Deep	Water, Deep	Water, Deep	Water, Deep	Water, Deep	Water, Deep	g_wt2	g_wt2		water	ships	not dockable																
+23	MED_WATER	MED_WATER	Water, Medium	Water, Medium	Water, Medium	Water, Medium	Water, Medium	Water, Medium	g_wt3	g_wt3		water	ships	not dockable																
+24	ROAD	ROAD	Road	Road	Road	Road	Road	Road	g_rd1	g_rd1		all	land	clean road; cannot place natural resources																
+25	ROAD2	ROAD2, DLC_DRYROAD	Road, Broken	Road, Broken	Road, Broken	Road, Broken	Road, Broken	Road, Broken	g_rd2	g_rd2		all	land	road with dirt patches; cannot place natural resources																
+26	-	-	Ice, Navigable	Ice, Navigable	Ice Navigable	Ice	Ice (Other)	-	g_ice	g_ice		docks only	all	looks like ICE																
+27	-	DIRT2	Grass, Foundation	Grass, Foundation	Foundation	Grass, Foundation	Building	-	g_ds2	g_ds2		all	land	looks like DIRT2; no beaches; still dockable; foundation terrain for buildings																
+28	-	-	Water 2D, Bridge	Water 2D, Bridge	Water, Bridge	Water 2D, Bridge	Water, Shallow (Bridge)	-	g_wtr	g_wtr		none	land	no beaches; produced by bridge objects; acts as a land terrain																
+29	-	-	Farm, 0%	Farm, 0%	Farm Cnst1	Farm, 0%	Farm 1	-	g_fc1	g_fc1		all	land	no food																
+30	-	-	Farm, 33%	Farm, 33%	Farm Cnst2	Farm, 33%	Farm 2	-	g_fc2	g_fc2		all	land	no food																
+31	-	-	Farm, 67%	Farm, 67%	Farm Cnst3	Farm, 67%	Farm 3	-	g_fc3	g_fc3		all	land	no food																
+32	SNOW	SNOW	Snow	Snow	Snow	Snow	Snow	Snow	g_sno	g_sno		all	land	icy beach when bordering water																
+33	DIRT_SNOW	ROAD_SNOW, ROAD_SNOWY	OBSOLETE: Snow Grass	-	OBSOLETE (Snow Dirt)	Snow Dirt	Snow Dirt	Snow Dirt	g_snd	g_des and g_sno		all	land	icy beach when bordering water; cannot be layered																
+34	GRASS_SNOW	GRASS_SNOW	OBSOLETE: Snow Dirt	-	OBSOLETE (Snow Grass)	Snow Grass	Snow Grass	Snow Grass	g_sng	g_grs and g_sno		all	land	icy beach when bordering water; cannot be layered																
+35	ICE	ICE	Ice	Ice	Ice	Ice2	Ice	Ice	g_ice	g_ice		none	land	cannot place natural resources																
+36	-	DIRT_SNOW	Snow, Foundation	Snow, Foundation	Snow Foundat	Snow, Foundation	Building (Snow)	-	g_snd	g_des and g_sno		all	land	looks like SNOW_DIRT; no beaches; still dockable; foundation terrain for buildings on snowy terrains; cannot be layered																
+37	 ICYSHORE	-	Beach, Ice	Beach, Ice	Ice, Beach	Ice, Beach	Beach (Ice)	-	g_ice	g_ice_beach		walls only	all	created when snowy terrains border water; looks different from other ice terrains																
+38	-	CRACKEDIT	OBSOLETE: Road, Snow	-	OBSOLETE (Road, Snow)	Road, Snow	Road, Snow	Road, Snow	g_sr1	g_rd2 and g_sno		all	land	road with dirt and snow patches; cannot place natural resources; cannot be layered																
+39	-	DLC_JUNGLEROAD	OBSOLETE: Road, Fungus	-	OBSOLETE (Road, Fungus)	Road, Fungus	Road, Fungus	Road, Fungus	g_sr2	g_sr2 and g_des		all	land	road with dirt and grass patches; cannot place natural resources; cannot be layered																
+40	DLC_ROCK	DLC_ROCK, QUICKSAND	Rock 1	Rock 1	Rock 1	Rock 1	Road (Other)	-	g_rck	g_rck		none	land	used for King of the Hill; cannot place natural resources																
+41	DLC_SAVANNAH	ACACIA_FOREST	Dirt, Savannah	Dirt, Savannah	Savannah	Savannah	Grass 1 (Other)	-	g_gr5	g_gr5		all	land	light brown																
+42	DLC_DIRT4	n/a	Dirt 4	Dirt 4	Dirt 4	Dirt 4	n/a	n/a	g_ds4	g_ds4		all	land	dirt with some grass																
+43	DLC_DRYROAD	n/a	OBSOLETE: Road, Desert	-	OBSOLETE (Road, Desert)	Road, Desert	n/a	n/a	g_rd3	g_rd2 and g_pal		all	land	road with sand patches; cannot place natural resources; cannot be layered																
+44	DLC_MOORLAND	n/a	OBSOLETE: Dirt, Mud	-	OBSOLETE (Moorland)	Moorland	n/a	n/a	g_gr4	g_gr4 and g_grs		all	land	mud with some grass; cannot be layered																
+45	DLC_CRACKED	n/a	Desert, Cracked	Desert, Cracked	Desert, Cracked	Desert, Cracked	n/a	n/a	g_pal1	g_pal1		all	land	buildings take 25% more damage																
+46	DLC_QUICKSAND	n/a	Desert, Quicksand	Desert, Quicksand	Desert, Quicksand	Quicksand	n/a	n/a	g_qs	g_qs		none	land	cannot place natural resources																
+47	DLC_BLACK	n/a	Black	Black	Black	Black	n/a	n/a	g_bla	g_bla		none	(land)	completely black; units have buggy pathfinding when trying to cross																
+48	DLC_DRAGONFOREST	n/a	Forest, Dragon Tree	Forest, Dragon Tree	Dragon Forest	Dragon Tree Forest	n/a	n/a	g_des	g_des		all	land	placed on DIRT																
+49	DLC_BAOBABFOREST	n/a	Forest, Baobab	Forest, Baobab	Baobab Forest	Baobab Forest	n/a	n/a	g_ds4	g_ds4		all	land	200 wood per tree; 25% tree density; placed on DLC_DIRT4																
+50	DLC_ACACIAFOREST	n/a	Forest, Acacia	Forest, Acacia	Acacia Forest	Acacia Forest	n/a	n/a	g_gr5	g_gr5		all	land	150 wood per tree; 50% tree density; placed on DLC_SAVANNAH																
+51	DLC_BEACH2	n/a	Beach, White, Vegatation	Beach, White, Vegatation	Beach, White Vegetation	Beach, White, Vegatation	n/a	n/a	g_bc4	g_bc4		walls only	all	alternative beach terrain																
+52	DLC_BEACH3	n/a	Beach, Vegetation	Beach, Vegetation	Beach, Vegetation	Beach, Vegetation	n/a	n/a	g_bc2	g_bc2		walls only	all	alternative beach terrain																
+53	DLC_BEACH4	n/a	Beach, White	Beach, White	Beach, White	Beach, White	n/a	n/a	g_bc3	g_bc3		walls only	all	alternative beach terrain																
+54	DLC_MANGROVESHALLOW	n/a	Shallows, Mangrove	Shallows, Mangrove	Mangrove Shallows	Shallows, Mangrove	n/a	n/a	g_sh3	g_sh3		all	all	light blue with mangrove roots																
+55	DLC_MANGROVEFOREST	n/a	Forest, Mangrove	Forest, Mangrove	Mangrove Forest	Mangrove Forest	n/a	n/a	g_sh4	g_sh3		all	all	80% tree density; placed on DLC_MANGROVESHALLOW																
+56	DLC_RAINFOREST	n/a	Forest, Rainforest	Forest, Rainforest	Rainforest	Rainforest	n/a	n/a	g_fo2	g_fo2		all	land	placed on underbrush jungle																
+57	DLC_WATER4	n/a	Water, Deep Ocean	Water, Deep Ocean	Water, Deep Ocean	Water, Deep Ocean	n/a	n/a	g_wt4	g_wt4		water	ships	not dockable; darker than DEEP_WATER																
+58	DLC_WATER5	n/a	Water, Azure	Water, Azure	Water, Azure	Water, Azure	n/a	n/a	g_wt5	g_wt5		water	ships	brighter than WATER																
+59	DLC_NEWSHALLOW	n/a	Shallows, Azure	Shallows, Azure	Shallows, Azure	Shallows, Azure	n/a	n/a	g_sh2	g_sh2		water	all	bright blue																
+60	DLC_JUNGLEGRASS	n/a	Grass, Jungle	Grass, Jungle	Jungle Grass	Grass, Jungle	n/a	n/a	g_gr6	g_gr6		all	land	dark green																
+61	DLC_JUNGLEROAD	n/a	OBSOLETE: Road, Jungle	-	 OBSOLETE (Road, Jungle)	Road, Jungle	n/a	n/a	g_rd4	g_sr2 and g_gr6		all	land	road covered in grass; no resource restrictions; cannot be layered																
+62	DLC_JUNGLELEAVES	n/a	OBSOLETE: Underbrush, Jungle	-	OBSOLETE (Leaves, Jungle)	Leaves, Jungle	n/a	n/a	g_fo2	g_fo2 and g_gr6		all	land	jungle grass with leafy patches; cannot be layered																
+63	-	n/a	Rice Farm	Rice Farm	RFarm1	Rice Farm	n/a	n/a	g_rm1	g_rm1		all	all	no food																
+64	-	n/a	Rice Farm, Dead	Rice Farm, Dead	RFarm2	Rice Farm, Dead	n/a	n/a	g_rm2	g_rm2		all	all	no food																
+65	-	n/a	Rice Farm, 0%	Rice Farm, 0%	RFarm Cnst1	Rice Farm, 0%	n/a	n/a	g_rc1	g_rc1		all	all	no food																
+66	-	n/a	Rice Farm, 33%	Rice Farm, 33%	RFarm Cnst2	Rice Farm, 33%	n/a	n/a	g_rc2	g_rc2		all	all	no food																
+67	-	n/a	Rice Farm, 66%	Rice Farm, 66%	RFarm Cnst3	Rice Farm, 66%	n/a	n/a	g_rc3	g_rc3		all	all	no food																
+68	-	n/a	Unused Land 68	-	Reserved	-	n/a	n/a	g_r01	g_r01		all	land	uses the classic grass texture from AoC																
+69	-	n/a	Corruption	-	Very Evil Fog	-	n/a	n/a	g_r01	g_kf1		all	(land)	used for battle royale; visible through fog of war; does not cause damage; makes farms invisible; units have buggy pathfinding when trying to cross																
+70	-	n/a	Gravel, Default	Gravel, Default	Gravel Default	Moddable Land 70	n/a	n/a	g_m00	g_gravel_default		all	land	gray gravel																
+71	-	n/a	Underbrush, Leaves	Underbrush, Leaves	Underbrush, Leaves	Moddable Land 71	n/a	n/a	g_m01	g_underbrush_leaves		all	land	more leafy than LEAVES																
+72	-	n/a	Underbrush, Snow	Underbrush, Snow	Underbrush, Snow	Moddable Land 72	n/a	n/a	g_m02	g_snf		all	land	used for snowy forest terrains																
+73	-	n/a	Snow, Light	Snow, Light	Snow Light	Moddable Land 73	n/a	n/a	g_m03	g_sno		all	land	snow that layers weakly with terrain_mask																
+74	-	n/a	Snow, Strong	Snow, Strong	Snow Deep	Moddable Land 74	n/a	n/a	g_m04	g_sno		all	land	snow that layers strongly with terrain_mask																
+75	-	n/a	Road, Fungus	Road, Fungus	NEW Road, Fungus	Moddable Land 75	n/a	n/a	g_m05	g_sr2		all	land	very mossy road; no resource restrictions																
+76	-	n/a	Dirt, Mud	Dirt, Mud	NEW Moorland	Moddable Land 76	n/a	n/a	g_m06	g_gr4		all	land	brown mud																
+77	-	n/a	Underbrush, Jungle	Underbrush, Jungle	NEW Leaves, Jungle	Moddable Land 77	n/a	n/a	g_m07	g_fo2		all	land	greenish leaves																
+78	-	n/a	Road, Gravel	Road, Gravel	NEW Road, Gravel (Desert)	Moddable Land 78	n/a	n/a	g_m08	g_rd5		all	land	road with gravel; no resource restrictions																
+79	-	n/a	Beach (Non-Navigable)	Beach (Non-Navigable)	Beach (Non-Navigable)	Moddable Land 79	n/a	n/a	g_m09	g_bch		all	land	looks like BEACH; acts as a land terrain																
+80	-	n/a	Beach (Non-Navigable), Wet Sand	Beach (Non-Navigable), Wet Sand	Beach, Wet (Non-Navigable)	Moddable Land 80	n/a	n/a	g_m10	g_beach_wet		all	land	looks like DLC_WETBEACH; acts as a land terrain																
+81	-	n/a	Beach (Non-Navigable), Wet Gravel	Beach (Non-Navigable), Wet Gravel	Beach, Gravel Wet (Non-Navigable)	Moddable Land 81	n/a	n/a	g_m11	g_gravel_wet		all	land	looks like DLC_GRAVELBEACH; acts as a land terrain																
+82	-	n/a	Beach (Non-Navigable), Wet Rock	Beach (Non-Navigable), Wet Rock	Beach, Rock Wet (Non-Navigable)	Moddable Land 82	n/a	n/a	g_m12	g_rock_wet		all	land	looks like DLC_WETROCKBEACH; acts as a land terrain																
+83	-	n/a	Grass, Jungle (Rainforest)	Grass, Jungle	Jungle Grass (Rainforest)	Moddable Land 83	n/a	n/a	g_m13	g_gr6		all	land	dark green; like DLC_JUNGLEGRASS but with slightly different plant coverage																
+84	-	n/a	Moddable Land 84	-	Moddable Grass	Moddable Land 84	n/a	n/a	g_m14	o_mod		all	land	uses placeholder texture																
+85	-	n/a	Moddable Land 85	-	Moddable Grass	Moddable Land 85	n/a	n/a	g_m15	o_mod		all	land	uses placeholder texture																
+86	-	n/a	Moddable Land 86	-	Moddable Grass	Moddable Land 86	n/a	n/a	g_m16	o_mod		all	land	uses placeholder texture																
+87	-	n/a	Moddable Land 87	-	Moddable Grass	Moddable Land 87	n/a	n/a	g_m17	o_mod		all	land	uses placeholder texture																
+88	MEDITERRANEAN_FOREST	n/a	Forest, Mediteranean	Forest, Mediteranean	Forest, Mediterranean	Moddable Land 88	n/a	n/a	g_m18	g_for		all	land	mixture of cypress, olive and italian pine trees; placed on LEAVES																
+89	-	n/a	Forest, Bush	Forest, Bush	Forest, Bush	Moddable Land 89	n/a	n/a	g_m19	g_for		all	land	bushes; placed on LEAVES																
+90	-	n/a	Forest, Reeds (Shallows)	Forest, Reeds (Shallows)	Forest, Reeds (Shallows)	Moddable Beach 90	n/a	n/a	g_m20	g_sha		water	all	50 wood per tree; placed on SHALLOW; looks like SHALLOW on the minimap																
+91	DLC_REEDSBEACH	n/a	Forest, Reeds (Beach)	Forest, Reeds (Beach)	Forest, Reeds (Beach)	Moddable Beach 91	n/a	n/a	g_m21	g_beach_wet		walls only	all	50 wood per tree; placed on DLC_WETBEACH																
+92	-	n/a	Forest, Reeds	Forest, Reeds	Forest, Reeds	Moddable Walkable Shallows 92	n/a	n/a	g_m22	g_for		all	land	50 wood per tree; placed on LEAVES																
+93	-	n/a	Moddable Walkable Shallows 93	-	Moddable Shallows	Moddable Walkable Shallows 93	n/a	n/a	g_m23	o_mod		water	all	uses placeholder texture																
+94	-	n/a	Moddable Walkable Shallows 94	-	Moddable Shallows	Moddable Walkable Shallows 94	n/a	n/a	g_m24	o_mod		water	all	uses placeholder texture																
+95	-	n/a	Water, Green	Water, Green	Water, Green	Moddable Shallow Water 95	n/a	n/a	g_m25	g_wt_green		water	ships	dockable																
+96	-	n/a	Water, Brown	Water, Brown	Water, Brown	Moddable Shallow Water 96	n/a	n/a	g_m26	g_wt_brown		water	ships	dockable																
+97	-	n/a	Moddable Water 97	-	Moddable Normal Water	Moddable Water 97	n/a	n/a	g_m27	o_mod		water	ships	uses placeholder texture; not dockable																
+98	-	n/a	Moddable Water 98	-	Moddable Normal Water	Moddable Water 98	n/a	n/a	g_m28	o_mod		water	ships	uses placeholder texture; not dockable																
+99	-	n/a	Moddable Deep Water 99	-	Moddable Deep Water	Moddable Deep Water 99	n/a	n/a	g_m29	o_mod		water	ships	uses placeholder texture; not dockable																
+100	DLC_DRYGRASS	n/a	Grass, Dry	Grass, Dry	Dry Grass	n/a	n/a	n/a	n/a	g_gr7		all	land	brownish grass																
+101	DLC_BOGLAND	n/a	Swamp, Bogland	Swamp, Bogland	Bogland	n/a	n/a	n/a	n/a	g_qs2		none	land	blueish grass; cannot place natural resources																
+102	DLC_DESERTGRAVEL	n/a	Gravel, Desert	Gravel, Desert	Desert, Gravel	n/a	n/a	n/a	n/a	g_ds5		all	land	lighter version of gravel																
+103	DLC_ROADGRAVEL	n/a	OBSOLETE: Road, Gravel	-	OBSOLETE (Road, Gravel)	n/a	n/a	n/a	n/a	g_rd5 and g_des		all	land	gravel road with dirt patches; no resource restrictions; cannot be layered																
+104	DLC_FORESTAUTUMN	n/a	Forest, Autumn	Forest, Autumn	Forest, Autumn	n/a	n/a	n/a	n/a	g_for		all	land	placed on LEAVES																
+105	DLC_FORESTSNOWAUTUMN	n/a	Forest, Autumn Snow	Forest, Autumn Snow	Forest, Snow Autumn	n/a	n/a	n/a	n/a	g_snf		all	land	snowy version of DLC_FORESTAUTUMN; placed on underbrush snow																
+106	DLC_FORESTDEAD	n/a	Forest, Dead	Forest, Dead	Dead Forest	n/a	n/a	n/a	n/a	g_snf		all	land	snowy bushes and dead trees; placed on underbrush snow																
+107	DLC_WETBEACH	n/a	Beach, Wet	Beach, Wet	Beach, Wet	n/a	n/a	n/a	n/a	g_beach_wet		walls only	all	alternative beach terrain																
+108	DLC_GRAVELBEACH	n/a	Beach, Wet Gravel	Beach, Wet Gravel	Beach, Gravel Wet	n/a	n/a	n/a	n/a	g_gravel_wet		walls only	all	alternative beach terrain																
+109	DLC_WETROCKBEACH	n/a	Beach, Wet Rock	Beach, Wet Rock	Beach, Rock Wet	n/a	n/a	n/a	n/a	g_rock_wet		walls only	all	alternative beach terrain																
+110	BIRCH_FOREST		Forest, Birch							g_for		all	land	placed on LEAVES																
+111	MUDDY_SHALLOW		Swamp, Shallows							g_sh4		water	all	acts like SHALLOW																
+112	-		Forest, Palm Grass							g_gr2		all	land	like PALM_DESERT, but placed on GRASS2																
