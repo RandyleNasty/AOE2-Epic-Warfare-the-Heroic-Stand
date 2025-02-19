@@ -33,11 +33,11 @@ scenario_folder = "C:/Users/Randy/Games/Age of Empires 2 DE/76561198060805641/re
 
 #input_path = scenario_folder + "hero test.aoe2scenario"
 #output_path = scenario_folder + "hero test Parsed.aoe2scenario"
-input_path = scenario_folder + "Epic_Warfare Remastered v2_0.aoe2scenario"
+input_path = scenario_folder + "Epic_Warfare Remastered v2_1.aoe2scenario"
 
 #input_path = scenario_folder + "Epic_Warfare Remastered v2_0 Parsed.aoe2scenario"
 
-output_path = scenario_folder + "Epic_Warfare Remastered v2_0 Parsed.aoe2scenario"
+output_path = scenario_folder + "Epic_Warfare Remastered v2_1 Parsed.aoe2scenario"
 
 # declare scenario class
 
@@ -67,9 +67,12 @@ list_hero_ids = [HeroInfo.FRANKISH_PALADIN.ID,
                  HeroInfo.BAYINNAUNG.ID
                  ]
 
+
+list_description = ["knight", "archer", "super cannon", "Invicible footman","laser mounter archer", "fire knight", "Ballista Chariot", "Mounted Gun Powder"]
+
 # conduct trigger wisely by encapusaltion
 for playid in PlayerId.all()[1:]:
-    process_heros_for_every_player(source_trigger_manager, list_hero_ids, playid)
+    process_heros_for_every_player(source_trigger_manager, list_hero_ids, playid, list_description)
 
 # very fragile value! if in map the commander tent changes, could cause crash!
 tents_selected_object_ids = [317958, 317979, 322879, 319227, 328305, 328275, 328335, 328365]
@@ -91,22 +94,32 @@ boost_jean_bureau(source_trigger_manager, HeroInfo.JEAN_BUREAU.ID, [1, 2, 3, 4, 
 
 boost_darius(source_trigger_manager, Darius_ID, [1, 2, 3, 4, 5, 6, 7, 8])
 
+
+
+"""
+TO DO
+"""
+boost_ulrich(source_trigger_manager, HeroInfo.FRANKISH_PALADIN.ID, [1, 2, 3, 4, 5, 6, 7, 8])
+boost_ulrich(source_trigger_manager, HeroInfo.BAYINNAUNG.ID, [1, 2, 3, 4, 5, 6, 7, 8])
+boost_ulrich(source_trigger_manager, Themistocles_ID, [1, 2, 3, 4, 5, 6, 7, 8])
+
+
 #put change object cost to last, not before modify attribute.
 
-for player_id in PlayerId.all()[1:]:
-    for hero_id in list_hero_ids:
-        trigger = source_trigger_manager.add_trigger(
-                                    "change_hero_cost_" + str(player_id) + "_" + str(hero_id), 
-                                    enabled=True,
-                                    looping=False)
-        trigger.new_effect.change_object_cost(object_list_unit_id = hero_id,
-                                                resource_1 = 8,
-                                                resource_1_quantity = 1,
-                                                resource_2 = 0,
-                                                resource_2_quantity = 0,
-                                                resource_3 = 0,
-                                                resource_3_quantity = 0,
-                                                source_player = player_id)
+# for player_id in PlayerId.all()[1:]:
+#     for hero_id in list_hero_ids:
+#         trigger = source_trigger_manager.add_trigger(
+#                                     "change_hero_cost_" + str(player_id) + "_" + str(hero_id), 
+#                                     enabled=True,
+#                                     looping=False)
+#         trigger.new_effect.change_object_cost(object_list_unit_id = hero_id,
+#                                                 resource_1 = 8,
+#                                                 resource_1_quantity = 1,
+#                                                 resource_2 = 0,
+#                                                 resource_2_quantity = 0,
+#                                                 resource_3 = 0,
+#                                                 resource_3_quantity = 0,
+#                                                 source_player = player_id)
 
 
 

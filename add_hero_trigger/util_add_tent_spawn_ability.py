@@ -1,3 +1,4 @@
+from email import message
 from AoE2ScenarioParser.scenarios.aoe2_de_scenario import AoE2DEScenario
 from AoE2ScenarioParser.datasets.trigger_lists import *
 
@@ -15,17 +16,17 @@ from AoE2ScenarioParser.datasets.trigger_lists import Operation
 
 
 
-def process_heros_for_every_player(trigger_manager, list_hero_ids, playerid):
+def process_heros_for_every_player(trigger_manager, list_hero_ids, playerid, list_description):
     trigger_hero_add_tent_spawn_ability = trigger_manager.add_trigger(
                                 "hero_add_tent_spawn_ability_globally_" + str(playerid), 
                                 enabled=True,
                                 looping=False)
     for index, hero_id in enumerate(list_hero_ids):
-        process_single_hero(trigger_manager, hero_id, index + 1, trigger_hero_add_tent_spawn_ability, playerid)
+        process_single_hero(trigger_manager, hero_id, index + 1, trigger_hero_add_tent_spawn_ability, playerid, list_description[index])
 
 
 
-def process_single_hero(trigger_manager, hero_id, num_train_button, trigger_hero_add_tent_spawn_ability, playerid):
+def process_single_hero(trigger_manager, hero_id, num_train_button, trigger_hero_add_tent_spawn_ability, playerid, description):
     #train location, train button, enable the hero. train time, train cost    
     GREEK_COMMANDER_TENT_ID = 2262
 
@@ -54,6 +55,26 @@ def process_single_hero(trigger_manager, hero_id, num_train_button, trigger_hero
                                                                     object_list_unit_id = hero_id,
                                                                     operation = Operation.SET
                                                                     )
+
+    # trigger_hero_add_tent_spawn_ability.new_effect.modify_attribute(object_attributes = ObjectAttribute.SHORT_DESCRIPTION_ID,
+    #                                                                 quantity = 0,
+    #                                                                 source_player = playerid, 
+    #                                                                 object_list_unit_id = hero_id,
+    #                                                                 operation = Operation.SET,
+    #                                                                 message = "test introduction"
+    #                                                                 )
+
+
+    trigger_hero_add_tent_spawn_ability.new_effect.change_object_description(source_player = playerid, object_list_unit_id = hero_id, message = description)
+
+    trigger_hero_add_tent_spawn_ability.new_effect.change_object_cost(object_list_unit_id = hero_id,
+                                                    resource_1 = 8,
+                                                    resource_1_quantity = 1,
+                                                    resource_2 = 0,
+                                                    resource_2_quantity = 0,
+                                                    resource_3 = 0,
+                                                    resource_3_quantity = 0,
+                                                    source_player = playerid)
 
 """ 
     change_object_cost [Index: 5, Display: 5]:
