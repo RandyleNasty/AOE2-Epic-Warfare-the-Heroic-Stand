@@ -54,14 +54,7 @@ def process_single_hero(trigger_manager, hero_id, num_train_button, trigger_hero
                                                                     object_list_unit_id = hero_id,
                                                                     operation = Operation.SET
                                                                     )
-    trigger_hero_add_tent_spawn_ability.new_effect.change_object_cost(object_list_unit_id = hero_id,
-                                                                       resource_1 = 8,
-                                                                       resource_1_quantity = 1,
-                                                                       resource_2 = 0,
-                                                                       resource_2_quantity = 0,
-                                                                       resource_3 = 0,
-                                                                       resource_3_quantity = 0,
-                                                                       source_player = playerid)
+
 """ 
     change_object_cost [Index: 5, Display: 5]:
         object_list_unit_id: Frankish Paladin (632)
