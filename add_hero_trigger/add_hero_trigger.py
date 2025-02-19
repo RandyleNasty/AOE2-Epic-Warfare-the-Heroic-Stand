@@ -74,12 +74,18 @@ No No No, use own hero to activate which hero selected by player or random
 """
 
 
-trigger_delay_hero_auto_spawn = source_trigger_manager.add_trigger(
-                                "trigger_delay_hero_auto_spawn", 
+
+trigger_detect_if_selected_hero1 = source_trigger_manager.add_trigger(
+                                "trigger_detect_if_selected_hero1", 
                                 enabled=True,
                                 looping=False)
-trigger_delay_hero_auto_spawn.new_condition.timer(timer = 60)
-trigger_delay_hero_auto_spawn.new_effect.activate_trigger(trigger_id=len(source_trigger_manager.triggers)) #activate the next added trigger
+trigger_detect_if_selected_hero1.new_condition.own_objects(source_player=1,
+                                                                    object_list = HeroInfo.FRANKISH_PALADIN.ID,
+                                                                    quantity = 1)
+
+
+
+trigger_detect_if_selected_hero1.new_effect.activate_trigger(trigger_id=len(source_trigger_manager.triggers)) #activate the next added trigger
 
 
 trigger_detect_hero_die_activate_count_down = source_trigger_manager.add_trigger(
@@ -90,10 +96,6 @@ trigger_detect_hero_die_activate_count_down = source_trigger_manager.add_trigger
 
 trigger_detect_hero_die_activate_count_down.new_condition.own_fewer_objects(source_player=1,
                                                                             object_list = HeroInfo.FRANKISH_PALADIN.ID,
-                                                                            quantity = 0)
-trigger_detect_hero_die_activate_count_down.new_condition.and_()
-trigger_detect_hero_die_activate_count_down.new_condition.own_fewer_objects(source_player=1,
-                                                                            object_list = HeroInfo.ROBIN_HOOD.ID,
                                                                             quantity = 0)
 
 trigger_detect_hero_die_activate_count_down.new_effect.display_timer(display_time = 1, time_unit=1, timer = 5, reset_timer = 1, message= 'Player1 Hero Spawns in ')
@@ -109,6 +111,62 @@ trigger_start_timer_and_spawn_hero.new_condition.timer(timer = 30)
 trigger_start_timer_and_spawn_hero.new_effect.tribute(quantity=1, tribute_list=8, source_player=0, target_player=1)
 trigger_start_timer_and_spawn_hero.new_effect.train_unit(object_list_unit_id=HeroInfo.FRANKISH_PALADIN.ID, quantity=1, selected_object_ids= 317958, source_player=1)
 trigger_start_timer_and_spawn_hero.new_effect.activate_trigger(trigger_id = len(source_trigger_manager.triggers) - 2) #activate the last added trigger
+
+
+
+
+
+
+
+
+trigger_detect_if_selected_hero2 = source_trigger_manager.add_trigger(
+                                "trigger_detect_if_selected_hero1", 
+                                enabled=True,
+                                looping=False)
+trigger_detect_if_selected_hero2.new_condition.own_objects(source_player=1,
+                                                                    object_list = HeroInfo.FRANKISH_PALADIN.ID,
+                                                                    quantity = 1)
+
+
+
+trigger_detect_if_selected_hero2.new_effect.activate_trigger(trigger_id=len(source_trigger_manager.triggers)) #activate the next added trigger
+
+
+trigger_detect_hero_die_activate_count_down2 = source_trigger_manager.add_trigger(
+                                "detect_hero_own_and_random_spawn_one", 
+                                enabled=False,
+                                looping=False)
+
+
+trigger_detect_hero_die_activate_count_down2.new_condition.own_fewer_objects(source_player=1,
+                                                                            object_list = HeroInfo.ROBIN_HOOD.ID,
+                                                                            quantity = 0)
+
+trigger_detect_hero_die_activate_count_down2.new_effect.display_timer(display_time = 1, time_unit=1, timer = 5, reset_timer = 1, message= 'Player1 Hero Spawns in ')
+trigger_detect_hero_die_activate_count_down2.new_effect.activate_trigger(trigger_id=len(source_trigger_manager.triggers)) #activate the next added trigger
+
+
+
+trigger_start_timer_and_spawn_hero2 = source_trigger_manager.add_trigger("start_timer_and_spawn_hero", enabled=False, looping=False)
+trigger_start_timer_and_spawn_hero2.new_condition.timer(timer = 30)
+
+
+
+trigger_start_timer_and_spawn_hero2.new_effect.tribute(quantity=1, tribute_list=8, source_player=0, target_player=1)
+trigger_start_timer_and_spawn_hero2.new_effect.train_unit(object_list_unit_id=HeroInfo.FRANKISH_PALADIN.ID, quantity=1, selected_object_ids= 317958, source_player=1)
+trigger_start_timer_and_spawn_hero2.new_effect.activate_trigger(trigger_id = len(source_trigger_manager.triggers) - 2) #activate the last added trigger
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -141,7 +199,7 @@ trigger_may_choose_first_hero = source_trigger_manager.add_trigger(
                                 looping=False)
 
 trigger_may_choose_first_hero.new_condition.chance(quantity=50)
-trigger_may_choose_first_hero.new_effect.train_unit(object_list_unit_id=HeroInfo.FRANKISH_PALADIN.ID, 
+trigger_may_choose_first_hero.new_effect.train_unit(object_list_unit_id=HeroInfo.ROBIN_HOOD.ID, 
                                                                    quantity=1, 
                                                                    selected_object_ids= 317958,
                                                                    source_player=1)
