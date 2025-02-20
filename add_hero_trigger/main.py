@@ -19,11 +19,8 @@ from AoE2ScenarioParser.datasets.trigger_lists import Operation
 
 from util_add_tent_spawn_ability import *
 
-from boost_khan_mounted_archer import *
-from boost_tsar_constantin import *
-from boost_ulrich_knight import *
-from boost_jean_bureau import *
-from boost_darius import *
+
+from hero_abstract_class import *
 # File & Folder setup - Declare your scenario directory path
 #scenario_folder = "C:/Users/Admin/Games/Age of Empires 2 DE/76561198148041091/resources/_common/scenario/"
 
@@ -57,18 +54,31 @@ with open("trigger_info.txt", "w", encoding="utf-8") as file:
 
 Themistocles_ID = 2315
 Darius_ID = 2347
+Jean_De_Lorrain_ID = 644  
+#HeroInfo.ROBIN_HOOD.ID
 list_hero_ids = [HeroInfo.FRANKISH_PALADIN.ID, 
-                 HeroInfo.ROBIN_HOOD.ID, 
+                 Jean_De_Lorrain_ID,
                  HeroInfo.JEAN_BUREAU.ID,
                  Themistocles_ID,
                  HeroInfo.KOTYAN_KHAN.ID,
                  HeroInfo.ULRICH_VON_JUNGINGEN.ID,
                  HeroInfo.TSAR_KONSTANTIN.ID,
-                 HeroInfo.BAYINNAUNG.ID
+                 HeroInfo.BAYINNAUNG.ID,
                  ]
 
 
-list_description = ["knight", "archer", "super cannon", "Invicible footman","laser mounter archer", "fire knight", "Ballista Chariot", "Mounted Gun Powder"]
+
+
+list_description = ["knight", 
+                    "Vaelor, the Stormbow, a feared master of the battlefield, wields the legendary Stormbow, capable of unleashing a relentless downpour of arrows upon his enemies. His volleys blot out the sun, leaving no escape for those caught beneath his deadly rain. Tales of his wrath spread across kingdoms, as entire armies have fallen under his sky-darkening assault."
+                    "super cannon", 
+                    "Invicible footman",
+                    "laser mounter archer", 
+                    "fire knight", 
+                    "Ballista Chariot", 
+                    "Mounted Gun Powder",
+                    "Elephant"
+                    ]
 
 # conduct trigger wisely by encapusaltion
 for playid in PlayerId.all()[1:]:
@@ -82,26 +92,129 @@ TIME_WINDOW_PLAYER_CHOOSE_HERO = 30
 
 
 
-
+# Instantiate Jean Bureau
+inst_jean_bureau = Hero(
+    hero_id=HeroInfo.JEAN_BUREAU.ID,  # You'll need to provide the correct hero_id
+    max_range=15,  #
+    min_range=2,  # Not modified in the original function
+    total_missile=75,
+    projectile_unit=658,
+    accuracy_percent=35,
+    attack_dispersion=1,
+    #melee_armour=0,  # Not modified in the original function
+    #pierce_armor=0,  # Not modified in the original function
+    melee_attack=15,
+    movement_speed=1,
+    health_point=150,
+    blast_width=1,
+    blast_attack_level=2
+)
             
+inst_hero_ulrich = Hero(
+    hero_id=HeroInfo.ULRICH_VON_JUNGINGEN.ID,  # You'll need to provide the correct hero_id
+    melee_attack=25,
+    movement_speed=2,
+    blast_width=3,
+    melee_armour=25,
+    pierce_armor=25,
+    blast_attack_level=4,
+    max_range=2,
+    total_missile=20,
+    projectile_unit=676,
+    accuracy_percent=30
+)
 
-boost_ranged_hero(source_trigger_manager, HeroInfo.KOTYAN_KHAN.ID, players_applied=[1, 2, 3, 4, 5, 6, 7, 8])
-boost_tsar_constantin(source_trigger_manager, HeroInfo.TSAR_KONSTANTIN.ID, players_applied=[1, 2, 3, 4, 5, 6, 7, 8])
+inst_hero_darius = Hero(
+    hero_id=Darius_ID,  # You'll need to provide the correct hero_id
+    blast_width=1,
+    blast_attack_level=4,
+    melee_attack=25,
+    total_missile=7,  # This covers both Max Total Missiles and Total Missiles
+    projectile_unit=676,  # We use 676 instead of 7 as it's the last and likely correct value
+    pierce_armor=25,
+    melee_armour=25,
+    movement_speed=2
+)
 
-boost_ulrich(source_trigger_manager, HeroInfo.ULRICH_VON_JUNGINGEN.ID, [1, 2, 3, 4, 5, 6, 7, 8])
 
-boost_jean_bureau(source_trigger_manager, HeroInfo.JEAN_BUREAU.ID, [1, 2, 3, 4, 5, 6, 7, 8])
+inst_hero_mounted_archer = Hero(
+    hero_id=HeroInfo.KOTYAN_KHAN.ID,  # You'll need to provide the correct hero_id
+    max_range=11,
+    pierce_attack=40,
+    base_armor=20,
+    blast_width=2,
+    blast_attack_level=4,
+    accuracy_percent=70,
+    attack_dispersion=1,
+    total_missile=3,
+    pierce_armor=20,
+    melee_armour=20,
+    attack_reload_divide=2,  # This will be divided, not added
+    projectile_unit = 1595
+)
 
-boost_darius(source_trigger_manager, Darius_ID, [1, 2, 3, 4, 5, 6, 7, 8])
+inst_hero_tsar_constantin = Hero(
+    hero_id=HeroInfo.TSAR_KONSTANTIN.ID,  # You'll need to provide the correct hero_id
+    projectile_unit=627,
+    max_range=9,
+    pierce_attack=25,
+    blast_width=1,
+    blast_attack_level=4,
+    pierce_armor=13,
+    melee_armour=5,
+    attack_reload_divide=10,  # This will be divided, not added
+    accuracy_percent=50,
+    attack_dispersion=1
+)
+
+
+inst_hero_siege_fake_as_archer = Hero(
+    hero_id=Jean_De_Lorrain_ID,  # You'll need to provide the correct hero_id
+    projectile_unit=511,
+    max_range=9,
+    pierce_attack=12,
+    blast_width=1,
+    blast_attack_level=4,
+    pierce_armor=13,
+    melee_armour=5,
+    attack_reload_divide=10,  # This will be divided, not added
+    accuracy_percent=25,
+    total_missile = 70,
+    attack_dispersion=1,
+    attack_graphic = 1786,
+    standing_graphic = 1788,
+    dying_graphic = 1787,
+    walking_graphic = 1789,
+    movement_speed=1,
+    dead_unit_id = 942
+
+)
+
+boost_hero(source_trigger_manager, inst_jean_bureau, PlayerId.all()[1:])
+boost_hero(source_trigger_manager, inst_hero_ulrich, PlayerId.all()[1:])
+boost_hero(source_trigger_manager, inst_hero_darius, PlayerId.all()[1:])
+boost_hero(source_trigger_manager, inst_hero_mounted_archer, PlayerId.all()[1:])
+
+boost_hero(source_trigger_manager, inst_hero_tsar_constantin, PlayerId.all()[1:])
+
+boost_hero(source_trigger_manager, inst_hero_siege_fake_as_archer, PlayerId.all()[1:])
 
 
 
 """
 TO DO
 """
-boost_ulrich(source_trigger_manager, HeroInfo.FRANKISH_PALADIN.ID, [1, 2, 3, 4, 5, 6, 7, 8])
-boost_ulrich(source_trigger_manager, HeroInfo.BAYINNAUNG.ID, [1, 2, 3, 4, 5, 6, 7, 8])
-boost_ulrich(source_trigger_manager, Themistocles_ID, [1, 2, 3, 4, 5, 6, 7, 8])
+#boost_ulrich(source_trigger_manager, HeroInfo.FRANKISH_PALADIN.ID, PlayerId.all()[1:])
+#boost_ulrich(source_trigger_manager, HeroInfo.BAYINNAUNG.ID, PlayerId.all()[1:])
+#boost_ulrich(source_trigger_manager, Themistocles_ID, PlayerId.all()[1:])
+
+
+
+
+
+
+
+
 
 
 #put change object cost to last, not before modify attribute.
