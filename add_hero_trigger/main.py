@@ -64,8 +64,11 @@ list_hero_ids = [HeroInfo.FRANKISH_PALADIN.ID,
                  HeroInfo.ULRICH_VON_JUNGINGEN.ID,
                  HeroInfo.TSAR_KONSTANTIN.ID,
                  HeroInfo.BAYINNAUNG.ID,
-                 HeroInfo.GENGHIS_KHAN.ID
+                 HeroInfo.GENGHIS_KHAN.ID,
+                 HeroInfo.GODS_OWN_SLING_PACKED.ID
                  ]
+
+
 
 
 list_description = ["knight", 
@@ -77,8 +80,15 @@ list_description = ["knight",
                     "Ballista Chariot", 
                     "Mounted Gun Powder",
                     "Elephant",
-                    "Projectile Summon Rider"
+                    "Projectile Summon Rider",
+                    "GOD SWING"
                     ]
+
+
+
+TIME_WINDOW_PLAYER_CHOOSE_HERO = 120
+TIME_HERO_RESPAWN = 120
+NUM_HERO_ALLOWED = 15
 
 # conduct trigger wisely by encapusaltion
 for playid in PlayerId.all()[1:]:
@@ -87,13 +97,53 @@ for playid in PlayerId.all()[1:]:
 # very fragile value! if in map the commander tent changes, could cause crash!
 tents_selected_object_ids = [317958, 317979, 322879, 319227, 328305, 328275, 328335, 328365]
 
-
-TIME_WINDOW_PLAYER_CHOOSE_HERO = 120
-
     # attack_graphic = 1786,
     # standing_graphic = 1788,
     # dying_graphic = 1787,
     # walking_graphic = 1789,
+
+
+"""GOD SWING BOOST"""
+
+inst_god_swing_packed_hero = Hero(
+    hero_id=HeroInfo.GODS_OWN_SLING_PACKED.ID,  # You'll need to provide the correct hero_id
+    projectile_unit=469,
+    max_range=14,
+    min_range=13,
+    blast_width=1,
+    blast_attack_level=2, 
+    accuracy_percent=15,
+    total_missile = 30,
+    attack_dispersion=1,
+    movement_speed=1,
+    health_point = 300,
+    line_of_sight = 15,
+)
+boost_hero(source_trigger_manager, inst_god_swing_packed_hero, PlayerId.all()[1:])
+
+
+inst_god_swing_hero = Hero(
+    hero_id=HeroInfo.GODS_OWN_SLING.ID,  # You'll need to provide the correct hero_id
+    projectile_unit=469,
+    max_range=14,
+    min_range=13,
+    blast_width=1,
+    blast_attack_level=2, 
+    accuracy_percent=15,
+    total_missile = 30,
+    attack_dispersion=1,
+    movement_speed=1,
+    health_point = 300,
+    line_of_sight = 15,
+    combat_ability= 16 + 8,
+)
+
+boost_hero(source_trigger_manager, inst_god_swing_hero, PlayerId.all()[1:])
+
+
+
+
+
 
 inst_frank_paladin_hero = Hero(
     hero_id=HeroInfo.FRANKISH_PALADIN.ID,  # You'll need to provide the correct hero_id
@@ -243,8 +293,7 @@ inst_robin_archer_hero = Hero(
     attack_dispersion=1,
     combat_ability= 16 + 8,
     #walking_graphic = 654,
-    movement_speed=1,
-    dead_unit_id = 942
+    movement_speed=1
 
 )
 
@@ -399,7 +448,7 @@ def give_start_resource_to_players(trigger_manager, resource_id, quantity, playe
 give_start_resource_to_players(
     source_trigger_manager,
     resource_id=8,
-    quantity=1,
+    quantity=NUM_HERO_ALLOWED,
     players=[1, 2, 3, 4, 5, 6, 7, 8]  # Or use PlayerId.humans() if available
 )
 
@@ -461,12 +510,12 @@ def _create_single_hero_triggers(manager, player_id, hero_id, tents_ids):
         enabled=False,
         looping=False
     )
-    respawn_trigger.new_condition.timer(timer=30)
+    respawn_trigger.new_condition.timer(timer=TIME_HERO_RESPAWN)
     
     # Setup trigger relationships
     detect_trigger.new_effect.activate_trigger(death_trigger.trigger_id)
     death_trigger.new_effect.display_timer(
-        display_time=1,
+        display_time=2,
         time_unit=1,
         timer=player_id,
         reset_timer=1,
