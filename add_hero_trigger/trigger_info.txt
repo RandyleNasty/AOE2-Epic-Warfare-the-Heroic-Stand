@@ -598,48 +598,42 @@ Triggers:
 				source_player: Player Four (4)
 				technology: Cartography (19)
 				force_research_technology: False (0)
-			display_instructions [Index: 4, Display: 4]:
-				source_player: Player One (1)
-				display_time: 10
-				instruction_panel_position: Top (0)
-				play_sound: False (0)
-				message: 'Destroy the Enemy Final Castle to Claim Victory!'
-			enable/disable_object [Index: 5, Display: 5]:
+			enable/disable_object [Index: 4, Display: 4]:
 				object_list_unit_id: Dock (45)
 				source_player: Player One (1)
 				enabled: False (0)
 				item_id: 45
-			enable/disable_object [Index: 6, Display: 6]:
+			enable/disable_object [Index: 5, Display: 5]:
 				object_list_unit_id: Dock (45)
 				source_player: Player Two (2)
 				enabled: False (0)
 				item_id: 45
-			enable/disable_object [Index: 7, Display: 7]:
+			enable/disable_object [Index: 6, Display: 6]:
 				object_list_unit_id: Dock (45)
 				source_player: Player Three (3)
 				enabled: False (0)
 				item_id: 45
-			enable/disable_object [Index: 8, Display: 8]:
+			enable/disable_object [Index: 7, Display: 7]:
 				object_list_unit_id: Dock (45)
 				source_player: Player Four (4)
 				enabled: False (0)
 				item_id: 45
-			enable/disable_object [Index: 9, Display: 9]:
+			enable/disable_object [Index: 8, Display: 8]:
 				object_list_unit_id: Dock (45)
 				source_player: Player Five (5)
 				enabled: False (0)
 				item_id: 45
-			enable/disable_object [Index: 10, Display: 10]:
+			enable/disable_object [Index: 9, Display: 9]:
 				object_list_unit_id: Dock (45)
 				source_player: Player Six (6)
 				enabled: False (0)
 				item_id: 45
-			enable/disable_object [Index: 11, Display: 11]:
+			enable/disable_object [Index: 10, Display: 10]:
 				object_list_unit_id: Dock (45)
 				source_player: Player Seven (7)
 				enabled: False (0)
 				item_id: 45
-			enable/disable_object [Index: 12, Display: 12]:
+			enable/disable_object [Index: 11, Display: 11]:
 				object_list_unit_id: Dock (45)
 				source_player: Player Eight (8)
 				enabled: False (0)

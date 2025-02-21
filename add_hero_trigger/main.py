@@ -55,40 +55,59 @@ with open("trigger_info.txt", "w", encoding="utf-8") as file:
 Themistocles_ID = 2315
 Darius_ID = 2347
 Jean_De_Lorrain_ID = 644  
+Dagnajan_Elephant_ID = 1106
 #HeroInfo.ROBIN_HOOD.ID
-list_hero_ids = [HeroInfo.FRANKISH_PALADIN.ID, 
+list_hero_ids = [Darius_ID, 
                  HeroInfo.ROBIN_HOOD.ID,
                  HeroInfo.JEAN_BUREAU.ID,
                  Themistocles_ID,
                  HeroInfo.KOTYAN_KHAN.ID,
                  HeroInfo.ULRICH_VON_JUNGINGEN.ID,
                  HeroInfo.TSAR_KONSTANTIN.ID,
-                 HeroInfo.BAYINNAUNG.ID,
+                 Dagnajan_Elephant_ID,
                  HeroInfo.GENGHIS_KHAN.ID,
                  HeroInfo.GODS_OWN_SLING_PACKED.ID
+
                  ]
 
 
 
 
-list_description = ["knight", 
+list_description = ["Javelin Splashing duo-horse Chariot", 
                     "Vaelor, the Stormbow, a feared master of the battlefield, wields the legendary Stormbow, capable of unleashing a relentless downpour of arrows upon his enemies. His volleys blot out the sun, leaving no escape for those caught beneath his deadly rain. Tales of his wrath spread across kingdoms, as entire armies have fallen under his sky-darkening assault.",
-                    "super cannon", 
-                    "Invicible footman",
-                    "laser mounter archer", 
-                    "fire knight", 
-                    "Ballista Chariot", 
-                    "Mounted Gun Powder",
-                    "Elephant",
-                    "Projectile Summon Rider",
-                    "GOD SWING"
+                    "Skyfall Cluster Bomb Cannon",
+                    "Invisible Footman with Explosives", 
+                    "Explosive Arrow Mounter Archer",
+                    "Flaming Throw knight", 
+                    "Gatling Ballista tri-horse Chariot", 
+                    "Flaming Thunder War Elephant", 
+                    "Knight of the Exploding Wolf Summon",
+                    "God Swing",
                     ]
 
 
 
 TIME_WINDOW_PLAYER_CHOOSE_HERO = 120
 TIME_HERO_RESPAWN = 120
-NUM_HERO_ALLOWED = 15
+NUM_HERO_ALLOWED = 2
+
+instruction_trigger = source_trigger_manager.add_trigger(
+                                "display hero instruction", 
+                                enabled=True,
+                                looping=False)
+instruction_trigger.new_effect.display_instructions(object_list_unit_id=HeroInfo.GENGHIS_KHAN.ID,
+                                                    source_player=0,
+                                                    display_time=TIME_WINDOW_PLAYER_CHOOSE_HERO,
+                                                    message = "Welcome to Epic Warfare - The Heroic Stand! Feel free to select a hero from the Holy Commander Tent. Your first choice will be your main hero, who will respawn throughout the game. The second hero, however, has only one life for your attempt.")
+
+instruction_trigger.new_effect.display_timer(
+    display_time=2,
+    time_unit=1,
+    timer=0,
+    reset_timer=1,
+    message=r"Time out selecting heroes in %d"
+)
+
 
 # conduct trigger wisely by encapusaltion
 for playid in PlayerId.all()[1:]:
@@ -101,6 +120,31 @@ tents_selected_object_ids = [317958, 317979, 322879, 319227, 328305, 328275, 328
     # standing_graphic = 1788,
     # dying_graphic = 1787,
     # walking_graphic = 1789,
+
+
+inst_dagnajan_hero = Hero(
+    hero_id= Dagnajan_Elephant_ID,  # You'll need to provide the correct hero_id
+    projectile_unit=1798,
+    max_range=5,
+    min_range=1,
+    attack_dispersion=1,
+    accuracy_percent=30,
+    pierce_armor=15,
+    melee_armour=8,
+    melee_attack = 15,
+    attack_reload_set=2,  
+    total_missile = 30,
+    combat_ability= 8 + 16,
+    #walking_graphic = 654,
+    movement_speed=1,
+    #projectile_vanish_mode = 1
+    #unit_trait = 8,
+    #trait_piece = 2151,
+)
+boost_hero(source_trigger_manager, inst_dagnajan_hero, PlayerId.all()[1:])
+
+
+
 
 
 """GOD SWING BOOST"""
@@ -126,13 +170,12 @@ inst_god_swing_hero = Hero(
     hero_id=HeroInfo.GODS_OWN_SLING.ID,  # You'll need to provide the correct hero_id
     projectile_unit=469,
     max_range=14,
-    min_range=13,
+    min_range=4,
     blast_width=1,
     blast_attack_level=2, 
     accuracy_percent=15,
     total_missile = 30,
     attack_dispersion=1,
-    movement_speed=1,
     health_point = 300,
     line_of_sight = 15,
     combat_ability= 16 + 8,
@@ -223,50 +266,61 @@ inst_hero_ulrich = Hero(
     max_range=2,
     total_missile=20,
     projectile_unit=676,
-    accuracy_percent=30
+    accuracy_percent=30,
+    combat_ability= 8 + 16,
 )
 
 inst_hero_darius = Hero(
+    max_range=4,
+    min_range = 2,
     hero_id=Darius_ID,  # You'll need to provide the correct hero_id
     blast_width=1,
     blast_attack_level=4,
     melee_attack=25,
-    total_missile=7,  # This covers both Max Total Missiles and Total Missiles
-    projectile_unit=328, 
+    total_missile=40,  # This covers both Max Total Missiles and Total Missiles
+    projectile_unit=1780, 
     pierce_armor=25,
     melee_armour=25,
-    movement_speed=2
+    movement_speed=2,
+    combat_ability= 16 + 8,
+    accuracy_percent = 20,
+    attack_dispersion=4,
+    attack_reload_set = 2,
+
 )
 
 
 inst_hero_mounted_archer = Hero(
     hero_id=HeroInfo.KOTYAN_KHAN.ID,  # You'll need to provide the correct hero_id
-    max_range=11,
-    pierce_attack=40,
-    base_armor=20,
-    blast_width=2,
-    blast_attack_level=4,
+    max_range=9,
+    min_range = 3,
+    pierce_attack=30,
+    base_armor=15,
+    blast_width=1,
+    blast_attack_level=2,
     accuracy_percent=70,
-    attack_dispersion=1,
+    #attack_dispersion=1,
     total_missile=3,
-    pierce_armor=20,
-    melee_armour=20,
-    attack_reload_divide=2,  # This will be divided, not added
-    projectile_unit = 1595
+    pierce_armor=15,
+    melee_armour=8,
+    attack_reload_set=1,  # This will be divided, not added
+    projectile_unit = 1595,
+    combat_ability= 16 + 8,
 )
 
 inst_hero_tsar_constantin = Hero(
     hero_id=HeroInfo.TSAR_KONSTANTIN.ID,  # You'll need to provide the correct hero_id
     projectile_unit=627,
-    max_range=9,
+    max_range=10,
     pierce_attack=25,
     blast_width=1,
     blast_attack_level=4,
     pierce_armor=13,
     melee_armour=5,
-    attack_reload_divide=10,  # This will be divided, not added
+    attack_reload_divide=12,  # This will be divided, not added
     accuracy_percent=50,
-    attack_dispersion=1
+    attack_dispersion=1,
+    combat_ability= 8,
 )
 
 
@@ -281,17 +335,18 @@ inst_hero_tsar_constantin = Hero(
 inst_robin_archer_hero = Hero(
     hero_id=HeroInfo.ROBIN_HOOD.ID,  # You'll need to provide the correct hero_id
     projectile_unit=511,
-    max_range=9,
-    pierce_attack=12,
+    max_range=10,
+    pierce_attack=5,
+    melee_attack=5,
     blast_width=1,
-    blast_attack_level=4,
+    blast_attack_level=2 + 64,
     pierce_armor=13,
     melee_armour=5,
-    attack_reload_set=2,  
+    attack_reload_set=3,  
     accuracy_percent=15,
     total_missile = 80,
     attack_dispersion=1,
-    combat_ability= 16 + 8,
+    combat_ability= 1 + 16 + 8,
     #walking_graphic = 654,
     movement_speed=1
 
@@ -299,20 +354,25 @@ inst_robin_archer_hero = Hero(
 
 
 wolf_id = 700
+sabo_man_id = 706
+summon_cooldown = 10
+summon_hp_drop_per_second = 5
+
 inst_tamar_summon_hero = Hero(
     hero_id= HeroInfo.GENGHIS_KHAN.ID,  # You'll need to provide the correct hero_id
-    projectile_unit=wolf_id,
+    projectile_unit=676,
     secondary_projectile_unit=wolf_id,
-    max_range=9,
-    attack_dispersion=1,
-    accuracy_percent=15,
-    pierce_armor=13,
-    melee_armour=5,
-    attack_reload_set=20,  
+    max_range=7,
+    attack_dispersion=5,
+    accuracy_percent=100,
+    pierce_armor=10,
+    melee_armour=10,
+    melee_attack = 1,
+    attack_reload_set=summon_cooldown,  
     total_missile = 6,
-    combat_ability= 8 + 16 + 32,
+    combat_ability= 16,
     #walking_graphic = 654,
-    movement_speed=1,
+    movement_speed=2,
     dead_unit_id = 942,
     attack_graphic = 12660,
     standing_graphic = 12663,
@@ -320,6 +380,10 @@ inst_tamar_summon_hero = Hero(
     dying_graphic = 12661,
     walking_graphic = 12665,
     icon_id = 414,
+    charge_event = 1,
+    charge_type = 3,
+    recharge_rate = 1,
+    max_charge = summon_cooldown-3,
     #projectile_vanish_mode = 1
     #unit_trait = 8,
     #trait_piece = 2151,
@@ -327,16 +391,25 @@ inst_tamar_summon_hero = Hero(
 inst_summon_unit = Hero(
     hero_id= wolf_id,  # You'll need to provide the correct hero_id
     search_radius = 10,
-    movement_speed = 2,
+    movement_speed = 1,
     line_of_sight = 10,
     hero_status = 64,
+    dead_unit_id = sabo_man_id,
+)
+# not actually doing damage to friendly unit
+inst_sabo_man_unit = Hero(
+    hero_id= sabo_man_id,  # You'll need to provide the correct hero_id
+    melee_attack = 15,
+    blast_attack_level=2 + 64,
+    health_point = 0,
+    blast_width = 2,
 )
 
 # add lifetime of summoned wolf
 global_wolf_minus_hp = source_trigger_manager.add_trigger("global_wolf_minus_hp",enabled=True,looping=True)
 for player in range(1, 9):  # Loop from player 1 to 9
     global_wolf_minus_hp.new_effect.change_object_hp(
-        object_list_unit_id=wolf_id, operation=3, quantity=2, source_player=player
+        object_list_unit_id=wolf_id, operation=3, quantity=summon_hp_drop_per_second, source_player=player
     )
     global_wolf_minus_hp.new_effect.change_object_stance(
         object_list_unit_id=wolf_id, source_player=player, attack_stance=0
@@ -346,6 +419,7 @@ for player in range(1, 9):  # Loop from player 1 to 9
 
 boost_hero(source_trigger_manager, inst_tamar_summon_hero, PlayerId.all()[1:])
 boost_hero(source_trigger_manager, inst_summon_unit, PlayerId.all()[1:])
+boost_hero(source_trigger_manager, inst_sabo_man_unit, PlayerId.all()[1:])
 # elephant, where invisible project, but with flame impact
 
 #change projectile to unit. spawn hero
@@ -385,10 +459,10 @@ inst_themistocles_hero = Hero(
     pierce_attack=15,
     max_range=1,
     min_range=0,
-    pierce_armor=12,
-    melee_armour=12,
-    attack_reload_divide=20,  
-    total_missile = 5,
+    pierce_armor=20,
+    melee_armour=20,
+    attack_reload_set=3,  
+    total_missile = 20,
     combat_ability= 8 + 16,
     attack_dispersion = 5,
     accuracy_percent = 15,
@@ -396,7 +470,7 @@ inst_themistocles_hero = Hero(
     health_point=500,
     #walking_graphic = 654,
     movement_speed=1,
-    dead_unit_id = 942,
+    #dead_unit_id = 942,
     #projectile_vanish_mode = 1
     #unit_trait = 8,
     #trait_piece = 2151,
@@ -503,7 +577,15 @@ def _create_single_hero_triggers(manager, player_id, hero_id, tents_ids):
         object_list=hero_id,
         quantity=0
     )
-    
+
+    if hero_id == HeroInfo.GODS_OWN_SLING_PACKED.ID:
+        death_trigger.new_condition.and_()        
+        death_trigger.new_condition.own_fewer_objects(
+            source_player=player_id,
+            object_list=HeroInfo.GODS_OWN_SLING.ID,
+            quantity=0
+        )   
+
     # Respawn trigger
     respawn_trigger = manager.add_trigger(
         f"respawn_{player_id}_{hero_id}",
@@ -519,7 +601,7 @@ def _create_single_hero_triggers(manager, player_id, hero_id, tents_ids):
         time_unit=1,
         timer=player_id,
         reset_timer=1,
-        message=f'Player {player_id} Hero Spawns in '
+        message=f'Player {player_id} Hero Spawns in ' + r"%d"
     )
     death_trigger.new_effect.activate_trigger(respawn_trigger.trigger_id)
     
@@ -609,7 +691,7 @@ def create_equal_chance_system(trigger_manager, players, hero_ids, tents_list):
 
         #once one chance trigger activate disable other generated chance trigger
         for trigger in chance_triggers:
-            other_triggers = [t for t in chance_triggers if t != trigger]
+            other_triggers = [t for t in chance_triggers if t != trigger][NUM_HERO_ALLOWED - 1:]
             for other in other_triggers:
                 trigger.new_effect.deactivate_trigger(other.trigger_id)
 

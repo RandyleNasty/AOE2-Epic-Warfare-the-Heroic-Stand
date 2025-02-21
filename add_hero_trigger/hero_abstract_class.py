@@ -72,6 +72,10 @@ def boost_hero(trigger_manager, hero, players_applied):
         'search_radius': 23,
         'line_of_sight': 1,
         'hero_status':40,
+        'charge_type': 62,
+        'recharge_rate': 60,
+        'charge_event': 61,
+        'max_charge':59,
     }
 
 
