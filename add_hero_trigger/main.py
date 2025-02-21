@@ -57,27 +57,27 @@ Darius_ID = 2347
 Jean_De_Lorrain_ID = 644  
 #HeroInfo.ROBIN_HOOD.ID
 list_hero_ids = [HeroInfo.FRANKISH_PALADIN.ID, 
-                 Jean_De_Lorrain_ID,
+                 HeroInfo.ROBIN_HOOD.ID,
                  HeroInfo.JEAN_BUREAU.ID,
                  Themistocles_ID,
                  HeroInfo.KOTYAN_KHAN.ID,
                  HeroInfo.ULRICH_VON_JUNGINGEN.ID,
                  HeroInfo.TSAR_KONSTANTIN.ID,
                  HeroInfo.BAYINNAUNG.ID,
+                 HeroInfo.GENGHIS_KHAN.ID
                  ]
 
 
-
-
 list_description = ["knight", 
-                    "Vaelor, the Stormbow, a feared master of the battlefield, wields the legendary Stormbow, capable of unleashing a relentless downpour of arrows upon his enemies. His volleys blot out the sun, leaving no escape for those caught beneath his deadly rain. Tales of his wrath spread across kingdoms, as entire armies have fallen under his sky-darkening assault."
+                    "Vaelor, the Stormbow, a feared master of the battlefield, wields the legendary Stormbow, capable of unleashing a relentless downpour of arrows upon his enemies. His volleys blot out the sun, leaving no escape for those caught beneath his deadly rain. Tales of his wrath spread across kingdoms, as entire armies have fallen under his sky-darkening assault.",
                     "super cannon", 
                     "Invicible footman",
                     "laser mounter archer", 
                     "fire knight", 
                     "Ballista Chariot", 
                     "Mounted Gun Powder",
-                    "Elephant"
+                    "Elephant",
+                    "Projectile Summon Rider"
                     ]
 
 # conduct trigger wisely by encapusaltion
@@ -90,7 +90,10 @@ tents_selected_object_ids = [317958, 317979, 322879, 319227, 328305, 328275, 328
 
 TIME_WINDOW_PLAYER_CHOOSE_HERO = 30
 
-
+    # attack_graphic = 1786,
+    # standing_graphic = 1788,
+    # dying_graphic = 1787,
+    # walking_graphic = 1789,
 
 # Instantiate Jean Bureau
 inst_jean_bureau = Hero(
@@ -130,7 +133,7 @@ inst_hero_darius = Hero(
     blast_attack_level=4,
     melee_attack=25,
     total_missile=7,  # This covers both Max Total Missiles and Total Missiles
-    projectile_unit=676,  # We use 676 instead of 7 as it's the last and likely correct value
+    projectile_unit=328, 
     pierce_armor=25,
     melee_armour=25,
     movement_speed=2
@@ -168,8 +171,8 @@ inst_hero_tsar_constantin = Hero(
 )
 
 
-inst_hero_siege_fake_as_archer = Hero(
-    hero_id=Jean_De_Lorrain_ID,  # You'll need to provide the correct hero_id
+inst_robin_archer_hero = Hero(
+    hero_id=HeroInfo.ROBIN_HOOD.ID,  # You'll need to provide the correct hero_id
     projectile_unit=511,
     max_range=9,
     pierce_attack=12,
@@ -177,18 +180,77 @@ inst_hero_siege_fake_as_archer = Hero(
     blast_attack_level=4,
     pierce_armor=13,
     melee_armour=5,
-    attack_reload_divide=10,  # This will be divided, not added
-    accuracy_percent=25,
-    total_missile = 70,
+    attack_reload_set=2,  
+    accuracy_percent=15,
+    total_missile = 80,
     attack_dispersion=1,
-    attack_graphic = 1786,
-    standing_graphic = 1788,
-    dying_graphic = 1787,
-    walking_graphic = 1789,
+    combat_ability= 16 + 8,
+    #walking_graphic = 654,
     movement_speed=1,
     dead_unit_id = 942
 
 )
+
+
+wolf_id = 700
+inst_tamar_summon_hero = Hero(
+    hero_id= HeroInfo.GENGHIS_KHAN.ID,  # You'll need to provide the correct hero_id
+    projectile_unit=wolf_id,
+    secondary_projectile_unit=wolf_id,
+    max_range=9,
+    attack_dispersion=1,
+    accuracy_percent=15,
+    pierce_armor=13,
+    melee_armour=5,
+    attack_reload_set=20,  
+    total_missile = 6,
+    combat_ability= 8 + 16 + 32,
+    #walking_graphic = 654,
+    movement_speed=1,
+    dead_unit_id = 942,
+    attack_graphic = 12660,
+    standing_graphic = 12663,
+    #standing_graphic_2 = 12662,
+    dying_graphic = 12661,
+    walking_graphic = 12665,
+    icon_id = 414,
+    #projectile_vanish_mode = 1
+    #unit_trait = 8,
+    #trait_piece = 2151,
+)
+inst_summon_unit = Hero(
+    hero_id= wolf_id,  # You'll need to provide the correct hero_id
+    search_radius = 10,
+    movement_speed = 2,
+    line_of_sight = 10,
+    hero_status = 64,
+)
+
+# add lifetime of summoned wolf
+global_wolf_minus_hp = source_trigger_manager.add_trigger("global_wolf_minus_hp",enabled=True,looping=True)
+for player in range(1, 9):  # Loop from player 1 to 9
+    global_wolf_minus_hp.new_effect.change_object_hp(
+        object_list_unit_id=wolf_id, operation=3, quantity=2, source_player=player
+    )
+    global_wolf_minus_hp.new_effect.change_object_stance(
+        object_list_unit_id=wolf_id, source_player=player, attack_stance=0
+    )
+
+
+
+boost_hero(source_trigger_manager, inst_tamar_summon_hero, PlayerId.all()[1:])
+boost_hero(source_trigger_manager, inst_summon_unit, PlayerId.all()[1:])
+# elephant, where invisible project, but with flame impact
+
+#change projectile to unit. spawn hero
+
+
+#inst_projectile_vol_fire = Hero(hero_id = 511, standing_graphic = 1743)
+
+boost_hero(source_trigger_manager, inst_robin_archer_hero, PlayerId.all()[1:])
+inst_projectile_vol_fire = Hero(hero_id = 511, standing_graphic = 1743)
+boost_hero(source_trigger_manager, inst_projectile_vol_fire, PlayerId.all()[1:])
+
 
 boost_hero(source_trigger_manager, inst_jean_bureau, PlayerId.all()[1:])
 boost_hero(source_trigger_manager, inst_hero_ulrich, PlayerId.all()[1:])
@@ -197,8 +259,7 @@ boost_hero(source_trigger_manager, inst_hero_mounted_archer, PlayerId.all()[1:])
 
 boost_hero(source_trigger_manager, inst_hero_tsar_constantin, PlayerId.all()[1:])
 
-boost_hero(source_trigger_manager, inst_hero_siege_fake_as_archer, PlayerId.all()[1:])
-
+#boost_hero(source_trigger_manager, inst_projectile_vol_fire, PlayerId.all()[1:])
 
 
 """
@@ -210,8 +271,30 @@ TO DO
 
 
 
-
-
+Themistocles_ID
+inst_themistocles_hero = Hero(
+    hero_id= Themistocles_ID,  # You'll need to provide the correct hero_id
+    projectile_unit=wolf_id,
+    secondary_projectile_unit=wolf_id,
+    max_range=9,
+    pierce_armor=13,
+    melee_armour=5,
+    attack_reload_set=20,  
+    total_missile = 5,
+    combat_ability= 8 + 16 + 32,
+    #walking_graphic = 654,
+    movement_speed=1,
+    dead_unit_id = 942,
+    attack_graphic = 12660,
+    standing_graphic = 12663,
+    #standing_graphic_2 = 12662,
+    dying_graphic = 12661,
+    walking_graphic = 12665,
+    icon_id = 414,
+    #projectile_vanish_mode = 1
+    #unit_trait = 8,
+    #trait_piece = 2151,
+)
 
 
 
@@ -399,6 +482,8 @@ def create_equal_chance_system(trigger_manager, players, hero_ids, tents_list):
         )
         delay_trigger.new_condition.timer(timer=TIME_WINDOW_PLAYER_CHOOSE_HERO)
         
+        chance_triggers = []
+
         # Create chance triggers
         for idx, (hero_id, chance) in enumerate(zip(hero_ids, chances), 1):
             trigger = trigger_manager.add_trigger(
@@ -413,7 +498,15 @@ def create_equal_chance_system(trigger_manager, players, hero_ids, tents_list):
                 selected_object_ids=spawn_id,
                 source_player=player_id
             )
+            chance_triggers.append(trigger)
             delay_trigger.new_effect.activate_trigger(trigger.trigger_id)
+
+        #once one chance trigger activate disable other generated chance trigger
+        for trigger in chance_triggers:
+            other_triggers = [t for t in chance_triggers if t != trigger]
+            for other in other_triggers:
+                trigger.new_effect.deactivate_trigger(other.trigger_id)
+
 
 # Usage examples:
 # 2 heroes (50/50)

@@ -61,7 +61,17 @@ def boost_hero(trigger_manager, hero, players_applied):
         'undead_graphic': 74,
         'walking_graphic': 75,
         'running_graphic': 76,
-        'dead_unit_id': 57
+        'dead_unit_id': 57,
+        'projectile_arc': 69,
+        'combat_ability': 63,
+        'icon_id': 25,
+        'secondary_projectile_unit': 65,
+        'projectile_vanish_mode': 68,
+        'unit_trait': 54,
+        'trait_piece': 56,
+        'search_radius': 23,
+        'line_of_sight': 1,
+        'hero_status':40,
     }
 
 
