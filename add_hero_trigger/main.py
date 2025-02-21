@@ -88,12 +88,61 @@ for playid in PlayerId.all()[1:]:
 tents_selected_object_ids = [317958, 317979, 322879, 319227, 328305, 328275, 328335, 328365]
 
 
-TIME_WINDOW_PLAYER_CHOOSE_HERO = 30
+TIME_WINDOW_PLAYER_CHOOSE_HERO = 120
 
     # attack_graphic = 1786,
     # standing_graphic = 1788,
     # dying_graphic = 1787,
     # walking_graphic = 1789,
+
+inst_frank_paladin_hero = Hero(
+    hero_id=HeroInfo.FRANKISH_PALADIN.ID,  # You'll need to provide the correct hero_id
+    projectile_unit=1780,
+    max_range=1,
+    min_range=0,
+    pierce_attack=12,
+    blast_width=1,
+    blast_attack_level=2,
+    pierce_armor=10,
+    melee_armour=10,
+    attack_reload_divide=2,  
+    accuracy_percent=15,
+    total_missile = 30,
+    attack_dispersion=1,
+    combat_ability= 16 + 8,
+    #walking_graphic = 654,
+    movement_speed=2,
+    dead_unit_id = 942,
+    health_point = 300,
+
+)
+
+boost_hero(source_trigger_manager, inst_frank_paladin_hero, PlayerId.all()[1:])
+
+inst_mounted_elephant_hero = Hero(
+    hero_id=HeroInfo.BAYINNAUNG.ID,  # You'll need to provide the correct hero_id
+    projectile_unit=1168,
+    max_range=2,
+    min_range=1,
+    pierce_attack=12,
+    blast_width=1,
+    blast_attack_level=2,
+    pierce_armor=5,
+    melee_armour=5,
+    attack_reload_set=2,  
+    accuracy_percent=15,
+    total_missile = 30,
+    attack_dispersion=1,
+    combat_ability= 16 + 8,
+    #walking_graphic = 654,
+    movement_speed=1,
+    dead_unit_id = 942,
+    health_point = 300,
+
+)
+
+boost_hero(source_trigger_manager, inst_mounted_elephant_hero, PlayerId.all()[1:])
+
 
 # Instantiate Jean Bureau
 inst_jean_bureau = Hero(
@@ -169,6 +218,14 @@ inst_hero_tsar_constantin = Hero(
     accuracy_percent=50,
     attack_dispersion=1
 )
+
+
+
+
+
+
+
+
 
 
 inst_robin_archer_hero = Hero(
@@ -267,30 +324,30 @@ TO DO
 """
 #boost_ulrich(source_trigger_manager, HeroInfo.FRANKISH_PALADIN.ID, PlayerId.all()[1:])
 #boost_ulrich(source_trigger_manager, HeroInfo.BAYINNAUNG.ID, PlayerId.all()[1:])
-#boost_ulrich(source_trigger_manager, Themistocles_ID, PlayerId.all()[1:])
+
 
 
 
 Themistocles_ID
 inst_themistocles_hero = Hero(
     hero_id= Themistocles_ID,  # You'll need to provide the correct hero_id
-    projectile_unit=wolf_id,
-    secondary_projectile_unit=wolf_id,
-    max_range=9,
-    pierce_armor=13,
-    melee_armour=5,
-    attack_reload_set=20,  
+    projectile_unit=469,
+    melee_attack=15,
+    pierce_attack=15,
+    max_range=1,
+    min_range=0,
+    pierce_armor=12,
+    melee_armour=12,
+    attack_reload_divide=20,  
     total_missile = 5,
-    combat_ability= 8 + 16 + 32,
+    combat_ability= 8 + 16,
+    attack_dispersion = 5,
+    accuracy_percent = 15,
+    blast_width = 2,
+    health_point=500,
     #walking_graphic = 654,
     movement_speed=1,
     dead_unit_id = 942,
-    attack_graphic = 12660,
-    standing_graphic = 12663,
-    #standing_graphic_2 = 12662,
-    dying_graphic = 12661,
-    walking_graphic = 12665,
-    icon_id = 414,
     #projectile_vanish_mode = 1
     #unit_trait = 8,
     #trait_piece = 2151,
@@ -298,7 +355,7 @@ inst_themistocles_hero = Hero(
 
 
 
-
+boost_hero(source_trigger_manager, inst_themistocles_hero, PlayerId.all()[1:])
 
 #put change object cost to last, not before modify attribute.
 
