@@ -1,5 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Dict, List, Any
+from AoE2ScenarioParser.datasets.trigger_lists import Operation
+
 
 """ def modify_attribute(...) ¶
 The parameters 'armour_attack_quantity' and 'armour_attack_class' are only used when object_attributes is Armor or Attack (8 or 9). Use, 'quantity' otherwise.
@@ -44,12 +46,14 @@ def boost_hero(trigger_manager, hero, players_applied):
         'projectile_unit': 16,
         'accuracy_percent': 11,
         'attack_dispersion': 64,
+        'attack_dispersion_multiply':64,
         'attack_reload_divide': 10,
         'attack_reload_set': 10,
         'melee_armour': (8, 4),
         'pierce_armor': (8, 3),
         'melee_attack': (9, 4),
         'movement_speed': 5,
+        'movement_speed_multiply': 5,
         'health_point': 0,
         'blast_width': 22,
         'blast_attack_level': 44,
@@ -76,6 +80,9 @@ def boost_hero(trigger_manager, hero, players_applied):
         'recharge_rate': 60,
         'charge_event': 61,
         'max_charge':59,
+        'frame_delay':41,
+        'projectile_smart_mode': 19,
+        'blood_unit': 66,
     }
 
 
@@ -97,7 +104,7 @@ def boost_hero(trigger_manager, hero, players_applied):
                         trigger.new_effect.modify_attribute(
                             quantity=value,
                             object_attributes=oa,
-                            operation=1,
+                            operation=Operation.SET,
                             source_player=player_id,
                             object_list_unit_id=hero.hero_id
                         )
@@ -107,7 +114,7 @@ def boost_hero(trigger_manager, hero, players_applied):
                         armour_attack_quantity=value,
                         armour_attack_class=obj_attr[1],
                         object_attributes=obj_attr[0],
-                        operation=1,
+                        operation=Operation.SET,
                         source_player=player_id,
                         object_list_unit_id=hero.hero_id
                     )
@@ -115,16 +122,35 @@ def boost_hero(trigger_manager, hero, players_applied):
                         trigger.new_effect.modify_attribute(
                         quantity=value,
                         object_attributes=obj_attr,
-                        operation=5,
+                        operation=Operation.DIVIDE,
                         source_player=player_id,
                         object_list_unit_id=hero.hero_id
-                    )          
+                    ) 
+                elif attr == "attack_dispersion_multiply":
+                    trigger.new_effect.modify_attribute(
+                        quantity=value,
+                        object_attributes=obj_attr,
+                        operation=Operation.MULTIPLY,
+                        source_player=player_id,
+                        object_list_unit_id=hero.hero_id
+                    )     
+                elif attr == "movement_speed_multiply":
+                    trigger.new_effect.modify_attribute(
+                        quantity=value,
+                        object_attributes=obj_attr,
+                        operation=Operation.MULTIPLY,
+                        source_player=player_id,
+                        object_list_unit_id=hero.hero_id
+                    )      
                 else:
                     # Handle standard attributes
                     trigger.new_effect.modify_attribute(
                         quantity=value,
                         object_attributes=obj_attr,
-                        operation=1,
+                        operation=Operation.SET,
                         source_player=player_id,
                         object_list_unit_id=hero.hero_id
                     )
+            elif attr not in attribute_mapping:
+                assert False, f"attribute not found: {attr}"
+

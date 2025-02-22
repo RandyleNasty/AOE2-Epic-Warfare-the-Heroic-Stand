@@ -21,6 +21,9 @@ from util_add_tent_spawn_ability import *
 
 
 from hero_abstract_class import *
+
+from robin_archer import *
+
 # File & Folder setup - Declare your scenario directory path
 #scenario_folder = "C:/Users/Admin/Games/Age of Empires 2 DE/76561198148041091/resources/_common/scenario/"
 
@@ -89,7 +92,7 @@ list_description = ["Javelin Splashing duo-horse Chariot",
 
 TIME_WINDOW_PLAYER_CHOOSE_HERO = 120
 TIME_HERO_RESPAWN = 120
-NUM_HERO_ALLOWED = 2
+NUM_HERO_ALLOWED = 10
 
 instruction_trigger = source_trigger_manager.add_trigger(
                                 "display hero instruction", 
@@ -97,7 +100,7 @@ instruction_trigger = source_trigger_manager.add_trigger(
                                 looping=False)
 instruction_trigger.new_effect.display_instructions(object_list_unit_id=HeroInfo.GENGHIS_KHAN.ID,
                                                     source_player=0,
-                                                    display_time=TIME_WINDOW_PLAYER_CHOOSE_HERO,
+                                                    display_time=20,
                                                     message = "Welcome to Epic Warfare - The Heroic Stand! Feel free to select a hero from the Holy Commander Tent. Your first choice will be your main hero, who will respawn throughout the game. The second hero, however, has only one life for your attempt.")
 
 instruction_trigger.new_effect.display_timer(
@@ -124,7 +127,7 @@ tents_selected_object_ids = [317958, 317979, 322879, 319227, 328305, 328275, 328
 
 inst_dagnajan_hero = Hero(
     hero_id= Dagnajan_Elephant_ID,  # You'll need to provide the correct hero_id
-    projectile_unit=1798,
+    projectile_unit=469,
     max_range=5,
     min_range=1,
     attack_dispersion=1,
@@ -193,7 +196,7 @@ inst_frank_paladin_hero = Hero(
     projectile_unit=1780,
     max_range=1,
     min_range=0,
-    pierce_attack=12,
+    melee_attack=12,
     blast_width=1,
     blast_attack_level=2,
     pierce_armor=10,
@@ -217,7 +220,7 @@ inst_mounted_elephant_hero = Hero(
     projectile_unit=1168,
     max_range=2,
     min_range=1,
-    pierce_attack=12,
+    melee_attack=12,
     blast_width=1,
     blast_attack_level=2,
     pierce_armor=5,
@@ -241,11 +244,11 @@ boost_hero(source_trigger_manager, inst_mounted_elephant_hero, PlayerId.all()[1:
 inst_jean_bureau = Hero(
     hero_id=HeroInfo.JEAN_BUREAU.ID,  # You'll need to provide the correct hero_id
     max_range=15,  #
-    min_range=2,  # Not modified in the original function
+    min_range=5,  # Not modified in the original function
     total_missile=75,
     projectile_unit=658,
     accuracy_percent=35,
-    attack_dispersion=1,
+    attack_dispersion_multiply=2,
     #melee_armour=0,  # Not modified in the original function
     #pierce_armor=0,  # Not modified in the original function
     melee_attack=15,
@@ -259,7 +262,7 @@ inst_hero_ulrich = Hero(
     hero_id=HeroInfo.ULRICH_VON_JUNGINGEN.ID,  # You'll need to provide the correct hero_id
     melee_attack=25,
     movement_speed=2,
-    blast_width=3,
+    blast_width=1,
     melee_armour=25,
     pierce_armor=25,
     blast_attack_level=4,
@@ -268,6 +271,7 @@ inst_hero_ulrich = Hero(
     projectile_unit=676,
     accuracy_percent=30,
     combat_ability= 8 + 16,
+    attack_dispersion = 3,
 )
 
 inst_hero_darius = Hero(
@@ -276,7 +280,7 @@ inst_hero_darius = Hero(
     hero_id=Darius_ID,  # You'll need to provide the correct hero_id
     blast_width=1,
     blast_attack_level=4,
-    melee_attack=25,
+    melee_attack=40,
     total_missile=40,  # This covers both Max Total Missiles and Total Missiles
     projectile_unit=1780, 
     pierce_armor=25,
@@ -284,7 +288,7 @@ inst_hero_darius = Hero(
     movement_speed=2,
     combat_ability= 16 + 8,
     accuracy_percent = 20,
-    attack_dispersion=4,
+    attack_dispersion=1,
     attack_reload_set = 2,
 
 )
@@ -294,9 +298,8 @@ inst_hero_mounted_archer = Hero(
     hero_id=HeroInfo.KOTYAN_KHAN.ID,  # You'll need to provide the correct hero_id
     max_range=9,
     min_range = 3,
-    pierce_attack=30,
-    base_armor=15,
-    blast_width=1,
+    melee_attack=25,
+    blast_width=2,
     blast_attack_level=2,
     accuracy_percent=70,
     #attack_dispersion=1,
@@ -312,7 +315,7 @@ inst_hero_tsar_constantin = Hero(
     hero_id=HeroInfo.TSAR_KONSTANTIN.ID,  # You'll need to provide the correct hero_id
     projectile_unit=627,
     max_range=10,
-    pierce_attack=25,
+    melee_attack=25,
     blast_width=1,
     blast_attack_level=4,
     pierce_armor=13,
@@ -332,36 +335,22 @@ inst_hero_tsar_constantin = Hero(
 
 
 
-inst_robin_archer_hero = Hero(
-    hero_id=HeroInfo.ROBIN_HOOD.ID,  # You'll need to provide the correct hero_id
-    projectile_unit=511,
-    max_range=10,
-    pierce_attack=5,
-    melee_attack=5,
-    blast_width=1,
-    blast_attack_level=2 + 64,
-    pierce_armor=13,
-    melee_armour=5,
-    attack_reload_set=3,  
-    accuracy_percent=15,
-    total_missile = 80,
-    attack_dispersion=1,
-    combat_ability= 1 + 16 + 8,
-    #walking_graphic = 654,
-    movement_speed=1
 
-)
 
 
 wolf_id = 700
 sabo_man_id = 706
-summon_cooldown = 10
-summon_hp_drop_per_second = 5
+num_summon = 7
+summon_cooldown = 7
+summon_hp_drop_per_second = 10
+flame_id_spawned_after_explosion = 1334
+num_max_flame = num_summon * 2
 
 inst_tamar_summon_hero = Hero(
     hero_id= HeroInfo.GENGHIS_KHAN.ID,  # You'll need to provide the correct hero_id
     projectile_unit=676,
     secondary_projectile_unit=wolf_id,
+    line_of_sight = 7,
     max_range=7,
     attack_dispersion=5,
     accuracy_percent=100,
@@ -369,8 +358,8 @@ inst_tamar_summon_hero = Hero(
     melee_armour=10,
     melee_attack = 1,
     attack_reload_set=summon_cooldown,  
-    total_missile = 6,
-    combat_ability= 16,
+    total_missile = num_summon,
+    combat_ability= 8 + 16,
     #walking_graphic = 654,
     movement_speed=2,
     dead_unit_id = 942,
@@ -390,20 +379,55 @@ inst_tamar_summon_hero = Hero(
 )
 inst_summon_unit = Hero(
     hero_id= wolf_id,  # You'll need to provide the correct hero_id
-    search_radius = 10,
+    search_radius = 7,
     movement_speed = 1,
-    line_of_sight = 10,
+    line_of_sight = 7,
     hero_status = 64,
     dead_unit_id = sabo_man_id,
 )
 # not actually doing damage to friendly unit
 inst_sabo_man_unit = Hero(
     hero_id= sabo_man_id,  # You'll need to provide the correct hero_id
-    melee_attack = 15,
+    melee_attack = 50,
     blast_attack_level=2 + 64,
     health_point = 0,
     blast_width = 2,
+    blood_unit = 1334,
 )
+
+# remove flames regularly
+for player_num in range(1, 9):
+    # Create triggers for each player
+    detect_trigger = source_trigger_manager.add_trigger(
+        f"remove_flame_p{player_num}_trigger",
+        enabled=True,
+        looping=False
+    )
+    
+    remove_trigger = source_trigger_manager.add_trigger(
+        f"remove_flame_p{player_num}_cleanup",
+        enabled=False,
+        looping=False
+    )
+
+    # Set up detection conditions/effects
+    detect_trigger.new_condition.own_objects(
+        quantity=num_max_flame,
+        source_player=player_num,
+        object_list=flame_id_spawned_after_explosion
+    )
+    detect_trigger.new_effect.activate_trigger(remove_trigger.trigger_id)
+
+    # Set up removal effects
+    remove_trigger.new_effect.kill_object(
+        object_list_unit_id=flame_id_spawned_after_explosion,
+        source_player=player_num
+    )
+    remove_trigger.new_effect.activate_trigger(detect_trigger.trigger_id)
+
+
+
+#need trigger to remove flames for performance reason
 
 # add lifetime of summoned wolf
 global_wolf_minus_hp = source_trigger_manager.add_trigger("global_wolf_minus_hp",enabled=True,looping=True)
@@ -454,9 +478,8 @@ TO DO
 Themistocles_ID
 inst_themistocles_hero = Hero(
     hero_id= Themistocles_ID,  # You'll need to provide the correct hero_id
-    projectile_unit=469,
+    projectile_unit=1798,
     melee_attack=15,
-    pierce_attack=15,
     max_range=1,
     min_range=0,
     pierce_armor=20,
@@ -688,10 +711,16 @@ def create_equal_chance_system(trigger_manager, players, hero_ids, tents_list):
             )
             chance_triggers.append(trigger)
             delay_trigger.new_effect.activate_trigger(trigger.trigger_id)
-
+        import random
         #once one chance trigger activate disable other generated chance trigger
         for trigger in chance_triggers:
             other_triggers = [t for t in chance_triggers if t != trigger][NUM_HERO_ALLOWED - 1:]
+            num_to_remove = len(other_triggers) - (NUM_HERO_ALLOWED - 1)
+
+            #so that second selected hero not always chariot hero
+            if num_to_remove > 0:
+                other_triggers = random.sample(other_triggers, len(other_triggers) - num_to_remove)
+
             for other in other_triggers:
                 trigger.new_effect.deactivate_trigger(other.trigger_id)
 
