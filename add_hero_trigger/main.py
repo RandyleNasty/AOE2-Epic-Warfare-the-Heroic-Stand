@@ -99,11 +99,15 @@ list_description = ["Javelin Splashing duo-horse Chariot",
 TIME_WINDOW_PLAYER_CHOOSE_HERO = 120
 TIME_HERO_RESPAWN = 120
 NUM_HERO_ALLOWED = 1
-TIME_START_FROZEN = 20
+
+POLE_X = 0
+POLE_Y = 240
+TIME_START_FROZEN = 3600
 # Configuration
 FROZEN_PACE_DELAY = 2  # Milliseconds between each freezing wave
-FROZEN_LAND_SPREAD_MULTIPLIER = 70
-FROZEN_BATCH_SIZE = 1  # Number of distance groups per trigger batch
+FROZEN_BATCH_SIZE = 2  # Number of distance groups per trigger batch
+
+
 
 instruction_trigger = source_trigger_manager.add_trigger(
                                 "display hero instruction", 
@@ -861,7 +865,6 @@ clear_blockage_building.new_effect.kill_object(object_list_unit_id=invisible_sto
 #     x,y = black_tile
 #     turn_water_into_ice.new_effect.place_foundation(object_list_unit_id=intermedite_object_id,source_player=1,location_x=x,location_y=y)
 
-
 def process_tile_groups(tile_sets):
     """Process grouped tiles with batched distance groups"""
     # Combine and group tiles as before
@@ -869,7 +872,7 @@ def process_tile_groups(tile_sets):
     distance_map = {}
     
     for x, y, t in all_tiles:
-        d = int(math.sqrt(x**2 + (240 - y)**2))
+        d = (x - POLE_X)**2 + (POLE_Y - y)**2
         if d not in distance_map:
             distance_map[d] = {'water': [], 'non_water': [], 'other': []}
         bucket = 'water' if t == 'water' else 'non_water' if t == 'non_water' else 'other'
@@ -951,18 +954,65 @@ for gaia_unit in gaia_units:
         if gaia_unit.unit_const != OtherInfo.TREE_SNOW_PINE and  gaia_unit.unit_const != OtherInfo.TREE_OAK_AUTUMN_SNOW:
             non_winter_tree.append(gaia_unit)
 
-replace_tree_trigger = source_trigger_manager.add_trigger(
-        name=f"replace tree",
-        enabled=True,
-        looping=False
-    )
+def process_winter_trees():
+    """Process tree replacement with distance-based batching"""
+    # Configuration
+    TREE_REPLACE_OBJECTS = [
+        OtherInfo.TREE_SNOW_PINE.ID,
+        #OtherInfo.TREE_OAK_AUTUMN_SNOW.ID,
+        OtherInfo.TREE_DEAD.ID,
+        OtherInfo.TREE_I.ID
+    ]
 
-#choose randomly from OtherInfo.TREE_I.ID,  OtherInfo.TREE_DEAD.ID, and OtherInfo.TREE_OAK_AUTUMN_SNOW.ID, OtherInfo.TREE_SNOW_PINE.ID
+    # Group trees by distance
+    distance_groups = {}
+    for tree in non_winter_tree:
+        # Calculate squared distance from northern point
+        distance = ((tree.x - POLE_X)** 2) + (POLE_Y - tree.y) ** 2
+        # Initialize list if needed
+        if distance not in distance_groups:
+            distance_groups[distance] = []
+            
+        distance_groups[distance].append(tree)
 
-for tree_unit in non_winter_tree:
-    replace_tree_trigger.new_effect.replace_object(source_player=0, target_player=0,selected_object_ids = tree_unit.reference_id, object_list_unit_id_2 =  OtherInfo.TREE_SNOW_PINE.ID)
+    # Create batched triggers
+    sorted_distances = sorted(distance_groups.keys(), reverse=True)
+    distance_batches = [sorted_distances[i:i+FROZEN_BATCH_SIZE] 
+                      for i in range(0, len(sorted_distances), FROZEN_BATCH_SIZE)]
+
+    for batch_idx, batch_distances in enumerate(distance_batches):
+        trigger = source_trigger_manager.add_trigger(
+            name=f"winter_tree_batch_{batch_idx}",
+            enabled=True,
+            looping=False
+        )
+
+        # Timer condition with progressive delay
+        trigger.new_condition.timer(
+            timer=TIME_START_FROZEN + (FROZEN_PACE_DELAY * batch_idx)
+        )
+
+        # Add replacement effects
+        for distance in batch_distances:
+            for tree in distance_groups[distance]:
+                import random
+                trigger.new_effect.replace_object(
+                    source_player=0,
+                    target_player=0,
+                    selected_object_ids=tree.reference_id,
+                    object_list_unit_id_2=random.choice(TREE_REPLACE_OBJECTS)
+                )
+
+instruction_trigger = source_trigger_manager.add_trigger("display winter comming", enabled=True, looping=False)
+instruction_trigger.new_condition.timer(TIME_START_FROZEN)
+instruction_trigger.new_effect.display_instructions(object_list_unit_id=HeroInfo.GENGHIS_KHAN.ID,
+                                                    source_player=0,
+                                                    display_time=20,
+                                                    message = "Winter is Coming! Be careful of attack from the frozen river!")
 
 
+# Usage
+process_winter_trees()
 
 # Final step: write a modified scenario class to a new scenario file
 source_scenario.write_to_file(output_path)
