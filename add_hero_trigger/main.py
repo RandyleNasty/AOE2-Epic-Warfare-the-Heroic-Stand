@@ -10,6 +10,9 @@ from AoE2ScenarioParser.datasets.buildings import BuildingInfo
 from AoE2ScenarioParser.datasets.units import UnitInfo
 from AoE2ScenarioParser.datasets.heroes import HeroInfo
 
+from AoE2ScenarioParser.datasets.other import OtherInfo
+
+
 from AoE2ScenarioParser.datasets.players import PlayerId
 
 
@@ -98,9 +101,9 @@ TIME_HERO_RESPAWN = 120
 NUM_HERO_ALLOWED = 1
 TIME_START_FROZEN = 20
 # Configuration
-FROZEN_PACE_DELAY = 1  # Milliseconds between each freezing wave
-FROZEN_SPREAD_BATCH_SIZE = 5  # Tiles frozen per wave
+FROZEN_PACE_DELAY = 2  # Milliseconds between each freezing wave
 FROZEN_LAND_SPREAD_MULTIPLIER = 70
+FROZEN_BATCH_SIZE = 1  # Number of distance groups per trigger batch
 
 instruction_trigger = source_trigger_manager.add_trigger(
                                 "display hero instruction", 
@@ -859,106 +862,107 @@ clear_blockage_building.new_effect.kill_object(object_list_unit_id=invisible_sto
 #     turn_water_into_ice.new_effect.place_foundation(object_list_unit_id=intermedite_object_id,source_player=1,location_x=x,location_y=y)
 
 
-# 1. Group tiles by identical distances
-def group_tiles_by_distance(tiles):
-    distance_groups = {}
-    for tile in tiles:
-        x, y = tile
-        # Use squared distance to avoid floating point precision issues
-        distance = (x ** 2) + (200 - y) ** 2
-        
-        if distance not in distance_groups:
-            distance_groups[distance] = []
-        distance_groups[distance].append(tile)
+def process_tile_groups(tile_sets):
+    """Process grouped tiles with batched distance groups"""
+    # Combine and group tiles as before
+    all_tiles = [(x, y, t) for t, tiles in tile_sets.items() for x, y in tiles]
+    distance_map = {}
     
-    return distance_groups
+    for x, y, t in all_tiles:
+        d = int(math.sqrt(x**2 + (240 - y)**2))
+        if d not in distance_map:
+            distance_map[d] = {'water': [], 'non_water': [], 'other': []}
+        bucket = 'water' if t == 'water' else 'non_water' if t == 'non_water' else 'other'
+        distance_map[d][bucket].append((x, y))
 
-# 2. Process distance groups with sorted progression
-distance_groups = group_tiles_by_distance(targeted_terrains_detected)
-sorted_distances = sorted(distance_groups.keys(), reverse=True)
+    # Split sorted distances into batches
+    sorted_distances = sorted(distance_map.keys(), reverse=True)
+    distance_batches = [sorted_distances[i:i+FROZEN_BATCH_SIZE] 
+                      for i in range(0, len(sorted_distances), FROZEN_BATCH_SIZE)]
 
-# 3. Create triggers per distance group
-for idx, distance in enumerate(sorted_distances):
-    trigger = source_trigger_manager.add_trigger(
-        name=f"freeze_distance_group_{distance}",
-        enabled=True,
-        looping=False
-    )
-    
-    # Condition with incremental delay
-    trigger.new_condition.timer(
-        timer=TIME_START_FROZEN + (FROZEN_PACE_DELAY * idx)
-    )
-    
-    # Add all tiles at this distance
-    for x, y in distance_groups[distance]:
-        trigger.new_effect.place_foundation(
-            object_list_unit_id=intermedite_object_id,
-            source_player=USED_SOURCE_PLAYER,
-            location_x=x,
-            location_y=y
+    # Create triggers per distance batch
+    for batch_idx, batch_distances in enumerate(distance_batches):
+        trigger = source_trigger_manager.add_trigger(
+            name=f"freeze_batch_{batch_idx}",
+            enabled=True,
+            looping=False
         )
 
-#for water
-
-distance_groups = group_tiles_by_distance(all_water_terrain)
-sorted_distances = sorted(distance_groups.keys(), reverse=True)
-
-for idx, distance in enumerate(sorted_distances):
-    trigger = source_trigger_manager.add_trigger(
-        name=f"freeze_distance_group_{distance}",
-        enabled=True,
-        looping=False
-    )
-    
-    #Condition with incremental delay
-    trigger.new_condition.timer(
-        timer=TIME_START_FROZEN + (FROZEN_PACE_DELAY * idx)
-    )
-    
-    # Add all tiles at this distance
-    for x, y in distance_groups[distance]:
-        trigger.new_effect.place_foundation(
-            object_list_unit_id=intermedite_object_id,
-            source_player=USED_SOURCE_PLAYER,
-            location_x=x,
-            location_y=y
+        trigger.new_condition.timer(
+            timer=TIME_START_FROZEN + (FROZEN_PACE_DELAY * batch_idx)
         )
 
+        # Process all distances in current batch
+        for distance in batch_distances:
+            # Water tiles
+            for x, y in distance_map[distance]['water']:
+                trigger.new_effect.place_foundation(
+                    object_list_unit_id=intermedite_object_id,
+                    source_player=USED_SOURCE_PLAYER,
+                    location_x=x,
+                    location_y=y
+                )
+            
+            # Non-water tiles
+            for x, y in distance_map[distance]['non_water']:
+                trigger.new_effect.place_foundation(
+                    object_list_unit_id=tenta_id,
+                    source_player=USED_SOURCE_PLAYER,
+                    location_x=x,
+                    location_y=y
+                )
+            
+            # Other tiles
+            for x, y in distance_map[distance]['other']:
+                trigger.new_effect.place_foundation(
+                    object_list_unit_id=intermedite_object_id,
+                    source_player=USED_SOURCE_PLAYER,
+                    location_x=x,
+                    location_y=y
+                )
 
+# Usage
+tile_sets = {
+    'water': all_water_terrain,
+    'non_water': all_non_water_terrain,
+    'other': targeted_terrains_detected  # Add your third category if needed
+}
 
-
-distance_groups = group_tiles_by_distance(all_non_water_terrain)
-sorted_distances = sorted(distance_groups.keys(), reverse=True)
-
-
-# 3. Create triggers per distance group
-for idx, distance in enumerate(sorted_distances):
-    trigger = source_trigger_manager.add_trigger(
-        name=f"freeze_distance_group_{distance}",
-        enabled=True,
-        looping=False
-    )
-    
-    # Condition with incremental delay
-    trigger.new_condition.timer(
-        timer=TIME_START_FROZEN + (FROZEN_PACE_DELAY * idx)
-    )
-    
-    # Add all tiles at this distance
-    for x, y in distance_groups[distance]:
-        trigger.new_effect.place_foundation(
-            object_list_unit_id=tenta_id,
-            source_player=USED_SOURCE_PLAYER,
-            location_x=x,
-            location_y=y
-        )
-
+process_tile_groups(tile_sets)
 # #
 
-
+print(source_scenario.map_manager.map_height)
+print(source_scenario.map_manager.map_width)
 #					0: Unknown (2262) [P1, X103.0, Y39.0] (317958)
 # 317958 worked! but how the hell is this decoding working?
+
+
+
+
+gaia_units = source_scenario.unit_manager.get_player_units(PlayerId.GAIA)
+
+
+# Unit(player=0, x=43.5, y=141.5, z=3.0, reference_id=17330, unit_const=65, status=2, rotation=2.356194496154785, initial_animation_frame=2)
+
+non_winter_tree = []
+# get reference id
+for gaia_unit in gaia_units:
+    if gaia_unit.unit_const in [x.ID for x in OtherInfo.trees()]:
+        if gaia_unit.unit_const != OtherInfo.TREE_SNOW_PINE and  gaia_unit.unit_const != OtherInfo.TREE_OAK_AUTUMN_SNOW:
+            non_winter_tree.append(gaia_unit)
+
+replace_tree_trigger = source_trigger_manager.add_trigger(
+        name=f"replace tree",
+        enabled=True,
+        looping=False
+    )
+
+#choose randomly from OtherInfo.TREE_I.ID,  OtherInfo.TREE_DEAD.ID, and OtherInfo.TREE_OAK_AUTUMN_SNOW.ID, OtherInfo.TREE_SNOW_PINE.ID
+
+for tree_unit in non_winter_tree:
+    replace_tree_trigger.new_effect.replace_object(source_player=0, target_player=0,selected_object_ids = tree_unit.reference_id, object_list_unit_id_2 =  OtherInfo.TREE_SNOW_PINE.ID)
+
+
 
 # Final step: write a modified scenario class to a new scenario file
 source_scenario.write_to_file(output_path)
