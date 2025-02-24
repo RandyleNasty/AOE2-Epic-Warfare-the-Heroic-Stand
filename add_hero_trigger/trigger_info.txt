@@ -40,59 +40,7 @@ Triggers:
 			declare_victory [Index: 3, Display: 3]:
 				source_player: Player Eight (8)
 
-	'Attack' [Index: 2, Display: 2]:
-		enabled: False
-		looping: True
-		description_stid: 0
-		short_description_stid: 0
-		conditions:
-			timer [Index: 0, Display: 0]:
-				timer: 5
-				inverted: False (0)
-		effects:
-			attack_move [Index: 0, Display: 0]:
-				source_player: Player Five (5)
-				location_x: 78
-				location_y: 122
-				area_x1: 0
-				area_y1: 0
-				area_x2: 239
-				area_y2: 239
-				object_type: Military (4)
-			display_instructions [Index: 1, Display: 1]:
-				display_time: 2
-				instruction_panel_position: Top (0)
-				message: 'attack!!!
-				'
-			attack_move [Index: 2, Display: 2]:
-				source_player: Player Six (6)
-				location_x: 83
-				location_y: 120
-				area_x1: 0
-				area_y1: 0
-				area_x2: 239
-				area_y2: 239
-				object_type: Military (4)
-			attack_move [Index: 3, Display: 3]:
-				source_player: Player Seven (7)
-				location_x: 82
-				location_y: 120
-				area_x1: 0
-				area_y1: 0
-				area_x2: 239
-				area_y2: 239
-				object_type: Military (4)
-			attack_move [Index: 4, Display: 4]:
-				source_player: Player Eight (8)
-				location_x: 81
-				location_y: 120
-				area_x1: 0
-				area_y1: 0
-				area_x2: 239
-				area_y2: 239
-				object_type: Military (4)
-
-	'testfullmap' [Index: 3, Display: 3]:
+	'testfullmap' [Index: 2, Display: 2]:
 		enabled: False
 		looping: False
 		description_stid: 0
@@ -106,31 +54,7 @@ Triggers:
 				source_player: Player One (1)
 				technology: Spies And Treason (408)
 
-	'Cancel Attack' [Index: 4, Display: 4]:
-		enabled: False
-		looping: False
-		description_stid: 0
-		conditions:
-			timer [Index: 0, Display: 0]:
-				timer: 1500
-				inverted: False (0)
-		effects:
-			deactivate_trigger [Index: 0, Display: 0]:
-				trigger_id: "Attack" (2)
-
-	'Start Attack' [Index: 5, Display: 5]:
-		enabled: False
-		looping: False
-		description_stid: 0
-		conditions:
-			timer [Index: 0, Display: 0]:
-				timer: 1200
-				inverted: False (0)
-		effects:
-			activate_trigger [Index: 0, Display: 0]:
-				trigger_id: "Attack" (2)
-
-	'Bonus' [Index: 6, Display: 6]:
+	'Bonus' [Index: 3, Display: 3]:
 		enabled: False
 		looping: True
 		description_stid: 0
@@ -146,7 +70,7 @@ Triggers:
 				location_y: 128
 				item_id: 882
 			activate_trigger [Index: 1, Display: 1]:
-				trigger_id: "Cancel Bonus" (8)
+				trigger_id: "Cancel Bonus" (5)
 			create_object [Index: 2, Display: 2]:
 				object_list_unit_id: Elite Steppe Lancer (1372)
 				source_player: Player Five (5)
@@ -199,7 +123,7 @@ Triggers:
 				location_y: 127
 				item_id: 871
 
-	'East First Line Broken' [Index: 7, Display: 7]:
+	'East First Line Broken' [Index: 4, Display: 4]:
 		enabled: True
 		looping: False
 		description_stid: 0
@@ -246,7 +170,7 @@ Triggers:
 				inverted: False (0)
 		effects:
 			activate_trigger [Index: 0, Display: 0]:
-				trigger_id: "Bonus" (6)
+				trigger_id: "Bonus" (3)
 			display_instructions [Index: 1, Display: 1]:
 				object_list_unit_id: Khan (1275)
 				source_player: Player One (1)
@@ -259,7 +183,7 @@ Triggers:
 				source_player: Player Five (5)
 				sound_name: 'Play_e5l'
 			activate_trigger [Index: 3, Display: 3]:
-				trigger_id: "reactivate the east line broke..." (15)
+				trigger_id: "reactivate the east line broke..." (12)
 			display_instructions [Index: 4, Display: 4]:
 				source_player: Player One (1)
 				display_time: 10
@@ -267,7 +191,7 @@ Triggers:
 				play_sound: False (0)
 				message: 'The East Knights will be ready to assault in 10 mins'
 
-	'Cancel Bonus' [Index: 8, Display: 8]:
+	'Cancel Bonus' [Index: 5, Display: 5]:
 		enabled: False
 		looping: False
 		description_stid: 0
@@ -277,9 +201,9 @@ Triggers:
 				inverted: False (0)
 		effects:
 			deactivate_trigger [Index: 0, Display: 0]:
-				trigger_id: "Bonus" (6)
+				trigger_id: "Bonus" (3)
 
-	'West First Line Broken' [Index: 9, Display: 9]:
+	'West First Line Broken' [Index: 6, Display: 6]:
 		enabled: True
 		looping: False
 		description_stid: 0
@@ -336,14 +260,14 @@ Triggers:
 				message: 'The Knights are advancing to the East! Be Prepared!'
 				sound_name: 'Play_e5l'
 			activate_trigger [Index: 1, Display: 1]:
-				trigger_id: "West Bonus" (10)
+				trigger_id: "West Bonus" (7)
 			play_sound [Index: 2, Display: 2]:
 				source_player: Player Two (2)
 				sound_name: 'Play_w5z'
 			activate_trigger [Index: 3, Display: 3]:
-				trigger_id: "reactivate West Line Broken" (17)
+				trigger_id: "reactivate West Line Broken" (14)
 
-	'West Bonus' [Index: 10, Display: 10]:
+	'West Bonus' [Index: 7, Display: 7]:
 		enabled: False
 		looping: True
 		description_stid: 0
@@ -359,7 +283,7 @@ Triggers:
 				location_y: 113
 				item_id: 555
 			activate_trigger [Index: 1, Display: 1]:
-				trigger_id: "Cancel West Bonus" (11)
+				trigger_id: "Cancel West Bonus" (8)
 			create_object [Index: 2, Display: 2]:
 				object_list_unit_id: Elite Huskarl (555)
 				source_player: Player Two (2)
@@ -412,7 +336,7 @@ Triggers:
 				location_y: 114
 				item_id: 560
 
-	'Cancel West Bonus' [Index: 11, Display: 11]:
+	'Cancel West Bonus' [Index: 8, Display: 8]:
 		enabled: False
 		looping: False
 		description_stid: 0
@@ -422,9 +346,9 @@ Triggers:
 				inverted: False (0)
 		effects:
 			deactivate_trigger [Index: 0, Display: 0]:
-				trigger_id: "West Bonus" (10)
+				trigger_id: "West Bonus" (7)
 
-	'East Front Attacked' [Index: 12, Display: 12]:
+	'East Front Attacked' [Index: 9, Display: 9]:
 		enabled: True
 		looping: True
 		description_stid: 0
@@ -483,7 +407,7 @@ Triggers:
 				area_y2: 133
 				object_type: Military (4)
 
-	'West Front Attacked' [Index: 13, Display: 13]:
+	'West Front Attacked' [Index: 10, Display: 10]:
 		enabled: True
 		looping: True
 		description_stid: 0
@@ -541,7 +465,7 @@ Triggers:
 				area_y2: 115
 				object_type: Military (4)
 
-	'Front Wunder Destroyed' [Index: 14, Display: 14]:
+	'Front Wunder Destroyed' [Index: 11, Display: 11]:
 		enabled: True
 		looping: False
 		description_stid: 0
@@ -553,11 +477,11 @@ Triggers:
 				inverted: False (0)
 		effects:
 			deactivate_trigger [Index: 0, Display: 0]:
-				trigger_id: "East Front Attacked" (12)
+				trigger_id: "East Front Attacked" (9)
 			deactivate_trigger [Index: 1, Display: 1]:
-				trigger_id: "reactivate the east line broke..." (15)
+				trigger_id: "reactivate the east line broke..." (12)
 
-	'reactivate the east line broken' [Index: 15, Display: 15]:
+	'reactivate the east line broken' [Index: 12, Display: 12]:
 		enabled: False
 		looping: False
 		description_stid: 0
@@ -568,11 +492,11 @@ Triggers:
 				inverted: False (0)
 		effects:
 			activate_trigger [Index: 0, Display: 0]:
-				trigger_id: "East First Line Broken" (7)
+				trigger_id: "East First Line Broken" (4)
 			deactivate_trigger [Index: 1, Display: 1]:
-				trigger_id: "reactivate the east line broke..." (15)
+				trigger_id: "reactivate the east line broke..." (12)
 
-	'Shared Team View' [Index: 16, Display: 16]:
+	'Shared Team View' [Index: 13, Display: 13]:
 		enabled: True
 		looping: False
 		description_stid: 0
@@ -639,7 +563,7 @@ Triggers:
 				enabled: False (0)
 				item_id: 45
 
-	'reactivate West Line Broken' [Index: 17, Display: 17]:
+	'reactivate West Line Broken' [Index: 14, Display: 14]:
 		enabled: False
 		looping: False
 		description_stid: 0
@@ -650,11 +574,11 @@ Triggers:
 				inverted: False (0)
 		effects:
 			activate_trigger [Index: 0, Display: 0]:
-				trigger_id: "West First Line Broken" (9)
+				trigger_id: "West First Line Broken" (6)
 			deactivate_trigger [Index: 1, Display: 1]:
-				trigger_id: "reactivate West Line Broken" (17)
+				trigger_id: "reactivate West Line Broken" (14)
 
-	'West Wunder Destroyed' [Index: 18, Display: 18]:
+	'West Wunder Destroyed' [Index: 15, Display: 15]:
 		enabled: False
 		looping: False
 		description_stid: 0
@@ -666,11 +590,11 @@ Triggers:
 				inverted: False (0)
 		effects:
 			deactivate_trigger [Index: 0, Display: 0]:
-				trigger_id: "West Front Attacked" (13)
+				trigger_id: "West Front Attacked" (10)
 			deactivate_trigger [Index: 1, Display: 1]:
-				trigger_id: "reactivate West Line Broken" (17)
+				trigger_id: "reactivate West Line Broken" (14)
 
-	'Final East Push' [Index: 19, Display: 19]:
+	'Final East Push' [Index: 16, Display: 16]:
 		enabled: True
 		looping: False
 		description_stid: 0
@@ -728,7 +652,7 @@ Triggers:
 				include_changeable_weapon_objects: False (0)
 		effects:
 			activate_trigger [Index: 0, Display: 0]:
-				trigger_id: "Final East Bonus Spawn" (20)
+				trigger_id: "Final East Bonus Spawn" (17)
 			display_instructions [Index: 1, Display: 1]:
 				object_list_unit_id: Unknown (2326)
 				source_player: Player Eight (8)
@@ -737,7 +661,7 @@ Triggers:
 				play_sound: False (0)
 				message: 'The Last Knights are making final push to the West! 				'
 			activate_trigger [Index: 2, Display: 2]:
-				trigger_id: "Reactivate Final East Push" (22)
+				trigger_id: "Reactivate Final East Push" (19)
 			create_object [Index: 3, Display: 3]:
 				object_list_unit_id: Cannon Galleon (420)
 				source_player: Player Eight (8)
@@ -823,7 +747,7 @@ Triggers:
 				location_y: 207
 				item_id: 420
 
-	'Final East Bonus Spawn' [Index: 20, Display: 20]:
+	'Final East Bonus Spawn' [Index: 17, Display: 17]:
 		enabled: False
 		looping: True
 		description_stid: 0
@@ -840,7 +764,7 @@ Triggers:
 				location_y: 198
 				item_id: 882
 			activate_trigger [Index: 1, Display: 1]:
-				trigger_id: "Cancel Final East Bonus" (21)
+				trigger_id: "Cancel Final East Bonus" (18)
 			create_object [Index: 2, Display: 2]:
 				object_list_unit_id: Elite Steppe Lancer (1372)
 				source_player: Player Eight (8)
@@ -1115,7 +1039,7 @@ Triggers:
 				location_y: 52
 				item_id: 553
 
-	'Cancel Final East Bonus' [Index: 21, Display: 21]:
+	'Cancel Final East Bonus' [Index: 18, Display: 18]:
 		enabled: False
 		looping: False
 		description_stid: 0
@@ -1126,9 +1050,9 @@ Triggers:
 				inverted: False (0)
 		effects:
 			deactivate_trigger [Index: 0, Display: 0]:
-				trigger_id: "Final East Bonus Spawn" (20)
+				trigger_id: "Final East Bonus Spawn" (17)
 
-	'Reactivate Final East Push' [Index: 22, Display: 22]:
+	'Reactivate Final East Push' [Index: 19, Display: 19]:
 		enabled: False
 		looping: False
 		description_stid: 0
@@ -1139,11 +1063,11 @@ Triggers:
 				inverted: False (0)
 		effects:
 			activate_trigger [Index: 0, Display: 0]:
-				trigger_id: "Final East Push" (19)
+				trigger_id: "Final East Push" (16)
 			deactivate_trigger [Index: 1, Display: 1]:
-				trigger_id: "Reactivate Final East Push" (22)
+				trigger_id: "Reactivate Final East Push" (19)
 
-	'East Final Church Gone' [Index: 23, Display: 23]:
+	'East Final Church Gone' [Index: 20, Display: 20]:
 		enabled: True
 		looping: False
 		description_stid: 0
@@ -1155,11 +1079,11 @@ Triggers:
 				inverted: False (0)
 		effects:
 			deactivate_trigger [Index: 0, Display: 0]:
-				trigger_id: "Final East Push" (19)
+				trigger_id: "Final East Push" (16)
 			deactivate_trigger [Index: 1, Display: 1]:
-				trigger_id: "Reactivate Final East Push" (22)
+				trigger_id: "Reactivate Final East Push" (19)
 
-	'Limit Navy Player1' [Index: 24, Display: 24]:
+	'Limit Navy Player1' [Index: 21, Display: 21]:
 		enabled: True
 		looping: False
 		description: 'to limit the amount of navy units a player can have'
@@ -1268,9 +1192,9 @@ Triggers:
 				enabled: False (0)
 				item_id: 1750
 			activate_trigger [Index: 19, Display: 19]:
-				trigger_id: "Free Navy Player1" (25)
+				trigger_id: "Free Navy Player1" (22)
 
-	'Free Navy Player1' [Index: 25, Display: 25]:
+	'Free Navy Player1' [Index: 22, Display: 22]:
 		enabled: False
 		looping: False
 		description: 'to limit the amount of navy units a player can have'
@@ -1379,9 +1303,9 @@ Triggers:
 				enabled: True (1)
 				item_id: 1750
 			activate_trigger [Index: 19, Display: 19]:
-				trigger_id: "Limit Navy Player1" (24)
+				trigger_id: "Limit Navy Player1" (21)
 
-	'Limit Navy Player2' [Index: 26, Display: 26]:
+	'Limit Navy Player2' [Index: 23, Display: 23]:
 		enabled: True
 		looping: False
 		description: 'to limit the amount of navy units a player can have'
@@ -1490,9 +1414,9 @@ Triggers:
 				enabled: False (0)
 				item_id: 1750
 			activate_trigger [Index: 19, Display: 19]:
-				trigger_id: "Free Navy Player2" (27)
+				trigger_id: "Free Navy Player2" (24)
 
-	'Free Navy Player2' [Index: 27, Display: 27]:
+	'Free Navy Player2' [Index: 24, Display: 24]:
 		enabled: False
 		looping: False
 		description: 'to limit the amount of navy units a player can have'
@@ -1601,9 +1525,9 @@ Triggers:
 				enabled: True (1)
 				item_id: 1750
 			activate_trigger [Index: 19, Display: 19]:
-				trigger_id: "Limit Navy Player2" (26)
+				trigger_id: "Limit Navy Player2" (23)
 
-	'Limit Navy Player3' [Index: 28, Display: 28]:
+	'Limit Navy Player3' [Index: 25, Display: 25]:
 		enabled: True
 		looping: False
 		description: 'to limit the amount of navy units a player can have'
@@ -1712,9 +1636,9 @@ Triggers:
 				enabled: False (0)
 				item_id: 1750
 			activate_trigger [Index: 19, Display: 19]:
-				trigger_id: "Free Navy Player3" (34)
+				trigger_id: "Free Navy Player3" (31)
 
-	'Limit Navy Player4' [Index: 29, Display: 29]:
+	'Limit Navy Player4' [Index: 26, Display: 26]:
 		enabled: True
 		looping: False
 		description: 'to limit the amount of navy units a player can have'
@@ -1823,9 +1747,9 @@ Triggers:
 				enabled: False (0)
 				item_id: 1750
 			activate_trigger [Index: 19, Display: 19]:
-				trigger_id: "Free Navy Player4" (35)
+				trigger_id: "Free Navy Player4" (32)
 
-	'Limit Navy Player5' [Index: 30, Display: 30]:
+	'Limit Navy Player5' [Index: 27, Display: 27]:
 		enabled: True
 		looping: False
 		description: 'to limit the amount of navy units a player can have'
@@ -1934,9 +1858,9 @@ Triggers:
 				enabled: False (0)
 				item_id: 1750
 			activate_trigger [Index: 19, Display: 19]:
-				trigger_id: "Free Navy Player5" (36)
+				trigger_id: "Free Navy Player5" (33)
 
-	'Limit Navy Player6' [Index: 31, Display: 31]:
+	'Limit Navy Player6' [Index: 28, Display: 28]:
 		enabled: True
 		looping: False
 		description: 'to limit the amount of navy units a player can have'
@@ -2045,9 +1969,9 @@ Triggers:
 				enabled: False (0)
 				item_id: 1750
 			activate_trigger [Index: 19, Display: 19]:
-				trigger_id: "Free Navy Player6" (37)
+				trigger_id: "Free Navy Player6" (34)
 
-	'Limit Navy Player7' [Index: 32, Display: 32]:
+	'Limit Navy Player7' [Index: 29, Display: 29]:
 		enabled: True
 		looping: False
 		description: 'to limit the amount of navy units a player can have'
@@ -2156,9 +2080,9 @@ Triggers:
 				enabled: False (0)
 				item_id: 1750
 			activate_trigger [Index: 19, Display: 19]:
-				trigger_id: "Free Navy Player7" (38)
+				trigger_id: "Free Navy Player7" (35)
 
-	'Limit Navy Player8' [Index: 33, Display: 33]:
+	'Limit Navy Player8' [Index: 30, Display: 30]:
 		enabled: True
 		looping: False
 		description: 'to limit the amount of navy units a player can have'
@@ -2267,9 +2191,9 @@ Triggers:
 				enabled: False (0)
 				item_id: 1750
 			activate_trigger [Index: 19, Display: 19]:
-				trigger_id: "Free Navy Player8" (39)
+				trigger_id: "Free Navy Player8" (36)
 
-	'Free Navy Player3' [Index: 34, Display: 34]:
+	'Free Navy Player3' [Index: 31, Display: 31]:
 		enabled: False
 		looping: False
 		description: 'to limit the amount of navy units a player can have'
@@ -2378,9 +2302,9 @@ Triggers:
 				enabled: True (1)
 				item_id: 1750
 			activate_trigger [Index: 19, Display: 19]:
-				trigger_id: "Limit Navy Player3" (28)
+				trigger_id: "Limit Navy Player3" (25)
 
-	'Free Navy Player4' [Index: 35, Display: 35]:
+	'Free Navy Player4' [Index: 32, Display: 32]:
 		enabled: False
 		looping: False
 		description: 'to limit the amount of navy units a player can have'
@@ -2489,9 +2413,9 @@ Triggers:
 				enabled: True (1)
 				item_id: 1750
 			activate_trigger [Index: 19, Display: 19]:
-				trigger_id: "Limit Navy Player4" (29)
+				trigger_id: "Limit Navy Player4" (26)
 
-	'Free Navy Player5' [Index: 36, Display: 36]:
+	'Free Navy Player5' [Index: 33, Display: 33]:
 		enabled: False
 		looping: False
 		description: 'to limit the amount of navy units a player can have'
@@ -2600,9 +2524,9 @@ Triggers:
 				enabled: True (1)
 				item_id: 1750
 			activate_trigger [Index: 19, Display: 19]:
-				trigger_id: "Limit Navy Player5" (30)
+				trigger_id: "Limit Navy Player5" (27)
 
-	'Free Navy Player6' [Index: 37, Display: 37]:
+	'Free Navy Player6' [Index: 34, Display: 34]:
 		enabled: False
 		looping: False
 		description: 'to limit the amount of navy units a player can have'
@@ -2711,9 +2635,9 @@ Triggers:
 				enabled: True (1)
 				item_id: 1750
 			activate_trigger [Index: 19, Display: 19]:
-				trigger_id: "Free Navy Player6" (37)
+				trigger_id: "Free Navy Player6" (34)
 
-	'Free Navy Player7' [Index: 38, Display: 38]:
+	'Free Navy Player7' [Index: 35, Display: 35]:
 		enabled: False
 		looping: False
 		description: 'to limit the amount of navy units a player can have'
@@ -2822,9 +2746,9 @@ Triggers:
 				enabled: True (1)
 				item_id: 1750
 			activate_trigger [Index: 19, Display: 19]:
-				trigger_id: "Limit Navy Player7" (32)
+				trigger_id: "Limit Navy Player7" (29)
 
-	'Free Navy Player8' [Index: 39, Display: 39]:
+	'Free Navy Player8' [Index: 36, Display: 36]:
 		enabled: False
 		looping: False
 		description: 'to limit the amount of navy units a player can have'
@@ -2933,9 +2857,9 @@ Triggers:
 				enabled: True (1)
 				item_id: 1750
 			activate_trigger [Index: 19, Display: 19]:
-				trigger_id: "Limit Navy Player8" (33)
+				trigger_id: "Limit Navy Player8" (30)
 
-	'buff fire tower1' [Index: 40, Display: 40]:
+	'buff fire tower1' [Index: 37, Display: 37]:
 		enabled: True
 		looping: True
 		description_stid: 0
@@ -2953,7 +2877,7 @@ Triggers:
 				selected_object_ids: 1 unit:
 					0: Fire Tower (190) [P1, X125.5, Y78.5] (267785)
 
-	'buff fire tower2' [Index: 41, Display: 41]:
+	'buff fire tower2' [Index: 38, Display: 38]:
 		enabled: True
 		looping: True
 		description_stid: 0
@@ -2971,7 +2895,7 @@ Triggers:
 				selected_object_ids: 1 unit:
 					0: Fire Tower (190) [P3, X74.5, Y168.5] (267786)
 
-	'buff fire tower3' [Index: 42, Display: 42]:
+	'buff fire tower3' [Index: 39, Display: 39]:
 		enabled: True
 		looping: True
 		description_stid: 0
@@ -2989,7 +2913,7 @@ Triggers:
 				selected_object_ids: 1 unit:
 					0: Fire Tower (190) [P5, X144.5, Y78.5] (267787)
 
-	'buff fire tower4' [Index: 43, Display: 43]:
+	'buff fire tower4' [Index: 40, Display: 40]:
 		enabled: True
 		looping: True
 		description_stid: 0
@@ -3007,7 +2931,7 @@ Triggers:
 				selected_object_ids: 1 unit:
 					0: Fire Tower (190) [P7, X105.5, Y177.5] (255623)
 
-	'Side Bridge Reinforcement' [Index: 44, Display: 44]:
+	'Side Bridge Reinforcement' [Index: 41, Display: 41]:
 		enabled: True
 		looping: False
 		description_stid: 0
@@ -3065,7 +2989,7 @@ Triggers:
 				include_changeable_weapon_objects: False (0)
 		effects:
 			activate_trigger [Index: 0, Display: 0]:
-				trigger_id: "Side Bridge Spawn" (45)
+				trigger_id: "Side Bridge Spawn" (42)
 			display_instructions [Index: 1, Display: 1]:
 				object_list_unit_id: Unknown (2325)
 				source_player: Player Eight (8)
@@ -3170,7 +3094,7 @@ Triggers:
 				source_player: Player Six (6)
 				sound_name: 'Play_e5l'
 
-	'Side Bridge Spawn' [Index: 45, Display: 45]:
+	'Side Bridge Spawn' [Index: 42, Display: 42]:
 		enabled: False
 		looping: True
 		description_stid: 0
@@ -3187,7 +3111,7 @@ Triggers:
 				location_y: 43
 				item_id: 882
 			activate_trigger [Index: 1, Display: 1]:
-				trigger_id: "Side Bridge Cancel " (46)
+				trigger_id: "Side Bridge Cancel " (43)
 			create_object [Index: 2, Display: 2]:
 				object_list_unit_id: Elite Steppe Lancer (1372)
 				source_player: Player Six (6)
@@ -3294,7 +3218,7 @@ Triggers:
 				location_y: 43
 				item_id: 882
 
-	'Side Bridge Cancel ' [Index: 46, Display: 46]:
+	'Side Bridge Cancel ' [Index: 43, Display: 43]:
 		enabled: False
 		looping: False
 		description_stid: 0
@@ -3305,9 +3229,9 @@ Triggers:
 				inverted: False (0)
 		effects:
 			deactivate_trigger [Index: 0, Display: 0]:
-				trigger_id: "Side Bridge Spawn" (45)
+				trigger_id: "Side Bridge Spawn" (42)
 
-	'Create Upper Bridge' [Index: 47, Display: 47]:
+	'Create Upper Bridge' [Index: 44, Display: 44]:
 		enabled: True
 		looping: False
 		description_stid: 0
@@ -3373,7 +3297,7 @@ Triggers:
 				location_y: 10
 				scroll: True (1)
 
-	'Upper Bridge to Gaia' [Index: 48, Display: 48]:
+	'Upper Bridge to Gaia' [Index: 45, Display: 45]:
 		enabled: True
 		looping: False
 		description_stid: 0
@@ -3395,6 +3319,17 @@ Triggers:
 				item_id: 1218
 				operation: Subtract (3)
 				object_attributes: Armor (8)
+
+	'Tsdasd' [Index: 46, Display: 46]:
+		enabled: True
+		looping: False
+		description_stid: 0
+		short_description_stid: 0
+		effects:
+			place_foundation [Index: 0, Display: 0]:
+				source_player: Player One (1)
+				location_x: 118
+				location_y: 56
 
 Variables:
 	<<No Variables>>

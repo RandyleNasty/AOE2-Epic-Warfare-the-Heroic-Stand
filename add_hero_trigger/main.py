@@ -33,12 +33,15 @@ scenario_folder = "C:/Users/Randy/Games/Age of Empires 2 DE/76561198060805641/re
 
 #input_path = scenario_folder + "hero test.aoe2scenario"
 #output_path = scenario_folder + "hero test Parsed.aoe2scenario"
-input_path = scenario_folder + "Epic_Warfare Remastered v2_1.aoe2scenario"
+#input_path = scenario_folder + "Epic_Warfare Remastered v2_1.aoe2scenario"
+
+input_path = scenario_folder + "Epic_Warfare Remastered v2_3 test frozen river.aoe2scenario"
+
 
 #input_path = scenario_folder + "Epic_Warfare Remastered v2_0 Parsed.aoe2scenario"
 
-output_path = scenario_folder + "Epic_Warfare Remastered v2_1 Parsed.aoe2scenario"
-
+#output_path = scenario_folder + "Epic_Warfare Remastered v2_1 Parsed.aoe2scenario"
+output_path = scenario_folder + "Epic_Warfare Remastered v2_3 test frozen river Parsed.aoe2scenario"
 # declare scenario class
 
 source_scenario:AoE2DEScenario = AoE2DEScenario.from_file(input_path)
@@ -92,7 +95,12 @@ list_description = ["Javelin Splashing duo-horse Chariot",
 
 TIME_WINDOW_PLAYER_CHOOSE_HERO = 120
 TIME_HERO_RESPAWN = 120
-NUM_HERO_ALLOWED = 10
+NUM_HERO_ALLOWED = 1
+TIME_START_FROZEN = 20
+# Configuration
+FROZEN_PACE_DELAY = 1  # Milliseconds between each freezing wave
+FROZEN_SPREAD_BATCH_SIZE = 5  # Tiles frozen per wave
+FROZEN_LAND_SPREAD_MULTIPLIER = 70
 
 instruction_trigger = source_trigger_manager.add_trigger(
                                 "display hero instruction", 
@@ -132,9 +140,9 @@ inst_dagnajan_hero = Hero(
     min_range=1,
     attack_dispersion=1,
     accuracy_percent=30,
-    pierce_armor=15,
+    pierce_armor=10,
     melee_armour=8,
-    melee_attack = 15,
+    melee_attack = 17,
     attack_reload_set=2,  
     total_missile = 30,
     combat_ability= 8 + 16,
@@ -143,6 +151,7 @@ inst_dagnajan_hero = Hero(
     #projectile_vanish_mode = 1
     #unit_trait = 8,
     #trait_piece = 2151,
+    health_point = 500
 )
 boost_hero(source_trigger_manager, inst_dagnajan_hero, PlayerId.all()[1:])
 
@@ -208,7 +217,7 @@ inst_frank_paladin_hero = Hero(
     combat_ability= 16 + 8,
     #walking_graphic = 654,
     movement_speed=2,
-    dead_unit_id = 942,
+    #dead_unit_id = 942,
     health_point = 300,
 
 )
@@ -232,7 +241,7 @@ inst_mounted_elephant_hero = Hero(
     combat_ability= 16 + 8,
     #walking_graphic = 654,
     movement_speed=1,
-    dead_unit_id = 942,
+    #dead_unit_id = 942,
     health_point = 300,
 
 )
@@ -248,7 +257,8 @@ inst_jean_bureau = Hero(
     total_missile=75,
     projectile_unit=658,
     accuracy_percent=35,
-    attack_dispersion_multiply=2,
+    attack_dispersion = 1,
+    attack_dispersion_divide=2,
     #melee_armour=0,  # Not modified in the original function
     #pierce_armor=0,  # Not modified in the original function
     melee_attack=15,
@@ -261,7 +271,7 @@ inst_jean_bureau = Hero(
 inst_hero_ulrich = Hero(
     hero_id=HeroInfo.ULRICH_VON_JUNGINGEN.ID,  # You'll need to provide the correct hero_id
     melee_attack=25,
-    movement_speed=2,
+    #movement_speed=2,
     blast_width=1,
     melee_armour=25,
     pierce_armor=25,
@@ -279,12 +289,12 @@ inst_hero_darius = Hero(
     min_range = 2,
     hero_id=Darius_ID,  # You'll need to provide the correct hero_id
     blast_width=1,
-    blast_attack_level=4,
-    melee_attack=40,
+    blast_attack_level=2,
+    melee_attack=25,
     total_missile=40,  # This covers both Max Total Missiles and Total Missiles
     projectile_unit=1780, 
-    pierce_armor=25,
-    melee_armour=25,
+    pierce_armor=15,
+    melee_armour=8,
     movement_speed=2,
     combat_ability= 16 + 8,
     accuracy_percent = 20,
@@ -299,11 +309,11 @@ inst_hero_mounted_archer = Hero(
     max_range=9,
     min_range = 3,
     melee_attack=25,
-    blast_width=2,
-    blast_attack_level=2,
+    blast_width=1,
+    blast_attack_level=4,
     accuracy_percent=70,
     #attack_dispersion=1,
-    total_missile=3,
+    total_missile=4,
     pierce_armor=15,
     melee_armour=8,
     attack_reload_set=1,  # This will be divided, not added
@@ -323,7 +333,9 @@ inst_hero_tsar_constantin = Hero(
     attack_reload_divide=12,  # This will be divided, not added
     accuracy_percent=50,
     attack_dispersion=1,
-    combat_ability= 8,
+    #combat_ability= 8, # has bug that attack ground no projectile shown
+    projectile_vanish_mode = 1,
+    projectile_hit_mode = 1,
 )
 
 
@@ -344,7 +356,7 @@ num_summon = 7
 summon_cooldown = 7
 summon_hp_drop_per_second = 10
 flame_id_spawned_after_explosion = 1334
-num_max_flame = num_summon * 2
+num_max_flame = num_summon * 4
 
 inst_tamar_summon_hero = Hero(
     hero_id= HeroInfo.GENGHIS_KHAN.ID,  # You'll need to provide the correct hero_id
@@ -353,7 +365,7 @@ inst_tamar_summon_hero = Hero(
     line_of_sight = 7,
     max_range=7,
     attack_dispersion=5,
-    accuracy_percent=100,
+    accuracy_percent=20,
     pierce_armor=10,
     melee_armour=10,
     melee_attack = 1,
@@ -361,8 +373,8 @@ inst_tamar_summon_hero = Hero(
     total_missile = num_summon,
     combat_ability= 8 + 16,
     #walking_graphic = 654,
-    movement_speed=2,
-    dead_unit_id = 942,
+    #movement_speed=2,
+    #dead_unit_id = 942,
     attack_graphic = 12660,
     standing_graphic = 12663,
     #standing_graphic_2 = 12662,
@@ -389,10 +401,15 @@ inst_summon_unit = Hero(
 inst_sabo_man_unit = Hero(
     hero_id= sabo_man_id,  # You'll need to provide the correct hero_id
     melee_attack = 50,
-    blast_attack_level=2 + 64,
+    blast_attack_level=2,
     health_point = 0,
     blast_width = 2,
     blood_unit = 1334,
+    standing_graphic = 7253,
+    attack_graphic = 7251,
+    #dying_graphic = 7252,
+    walking_graphic = 7256,
+    #undead_graphic = 7252
 )
 
 # remove flames regularly
@@ -452,7 +469,12 @@ boost_hero(source_trigger_manager, inst_sabo_man_unit, PlayerId.all()[1:])
 #inst_projectile_vol_fire = Hero(hero_id = 511, standing_graphic = 1743)
 
 boost_hero(source_trigger_manager, inst_robin_archer_hero, PlayerId.all()[1:])
-inst_projectile_vol_fire = Hero(hero_id = 511, standing_graphic = 1743)
+# add fire effect to arrows
+
+
+
+
+
 boost_hero(source_trigger_manager, inst_projectile_vol_fire, PlayerId.all()[1:])
 
 
@@ -466,41 +488,48 @@ boost_hero(source_trigger_manager, inst_hero_tsar_constantin, PlayerId.all()[1:]
 #boost_hero(source_trigger_manager, inst_projectile_vol_fire, PlayerId.all()[1:])
 
 
-"""
-TO DO
-"""
-#boost_ulrich(source_trigger_manager, HeroInfo.FRANKISH_PALADIN.ID, PlayerId.all()[1:])
-#boost_ulrich(source_trigger_manager, HeroInfo.BAYINNAUNG.ID, PlayerId.all()[1:])
-
-
-
 
 Themistocles_ID
 inst_themistocles_hero = Hero(
     hero_id= Themistocles_ID,  # You'll need to provide the correct hero_id
-    projectile_unit=1798,
-    melee_attack=15,
+    #projectile_unit=1798,
+    secondary_projectile_unit = sabo_man_id,
+    projectile_unit=1595,
+    blast_attack_level=2,
+    melee_attack=20,
     max_range=1,
     min_range=0,
     pierce_armor=20,
     melee_armour=20,
     attack_reload_set=3,  
-    total_missile = 20,
+    total_missile = 30,
     combat_ability= 8 + 16,
-    attack_dispersion = 5,
-    accuracy_percent = 15,
+    attack_dispersion = 2,
+    accuracy_percent = 10,
     blast_width = 2,
     health_point=500,
     #walking_graphic = 654,
-    movement_speed=1,
+    movement_speed_divide=3,
+    movement_speed_multiply=2,
+    #projectile_smart_mode = 2,
     #dead_unit_id = 942,
     #projectile_vanish_mode = 1
     #unit_trait = 8,
     #trait_piece = 2151,
 )
 
+inst_projectile_unit_laser = Hero(
+    hero_id= 1595,  # You'll need to provide the correct hero_id
+    movement_speed_divide = 2,
+)
 
+boost_hero(source_trigger_manager, inst_projectile_unit_laser, PlayerId.all()[1:])
+# inst_summon_hawk_unit = Hero(
+#     hero_id= 96,  # You'll need to provide the correct hero_id
+#     dead_unit_id = sabo_man_id,
+# )
 
+# boost_hero(source_trigger_manager, inst_summon_hawk_unit, PlayerId.all()[1:])
 boost_hero(source_trigger_manager, inst_themistocles_hero, PlayerId.all()[1:])
 
 #put change object cost to last, not before modify attribute.
@@ -736,6 +765,196 @@ create_equal_chance_system(
 
 
 
+
+
+
+
+
+invisible_storage_id = 1081
+tent_id = 1197
+
+
+tentb_id = 1098
+
+
+intermedite_object_id = tentb_id
+ice_id = 728
+
+
+
+inst_intermedite_object_building = Hero(hero_id=intermedite_object_id, terrain_restriction_id = 0, foundation_terrain = TerrainId.BEACH_ICE, dead_unit_id = ice_id, health_point = 0, train_time=0, dying_graphic = 0, can_be_built_on = 1,
+                                        standing_graphic = 0,)
+boost_hero(source_trigger_manager, inst_intermedite_object_building, PlayerId.all()[1:])
+
+tenta_id = 1097
+inst_tenta_id_building = Hero(hero_id=tenta_id, terrain_restriction_id = 0, foundation_terrain = TerrainId.SNOW_FOUNDATION, dead_unit_id = ice_id, health_point = 0, train_time=0, dying_graphic = 0, can_be_built_on = 1,
+                                        standing_graphic = 0,)
+boost_hero(source_trigger_manager, inst_tenta_id_building, PlayerId.all()[1:])
+
+# inst_invisible_object = Hero(hero_id=invisible_storage_id, blockage_class=1, 
+#                              terrain_restriction_id = 0, 
+#                              #standing_graphic = 0, 
+#                              dying_graphic = 0, 
+#                              dead_unit_id = ice_id, 
+#                              can_be_built_on = 1)
+# boost_hero(source_trigger_manager, inst_invisible_object, PlayerId.all()[1:])
+
+
+# get all the terrains tiles (compiled in a list) in the map
+originalTerrains = source_scenario.map_manager.terrain
+
+targeted_terrains_detected = []
+
+for terrain in originalTerrains:
+    if terrain.terrain_id == TerrainId.BEACH_NON_NAVIGABLE_WET_ROCK:
+        #print("found black tile")
+        targeted_terrains_detected.append((terrain.x, terrain.y))
+
+all_water_terrain = []
+
+for terrain in originalTerrains:
+    if terrain.terrain_id in TerrainId.water_terrains() or terrain.terrain_id == TerrainId.BEACH_NON_NAVIGABLE_WET_ROCK:
+        #print("found black tile")
+        all_water_terrain.append((terrain.x, terrain.y))
+
+all_non_water_terrain = []
+for terrain in originalTerrains:
+    if terrain.terrain_id not in TerrainId.water_terrains() and terrain.terrain_id != TerrainId.BEACH_NON_NAVIGABLE_WET_ROCK:
+        all_non_water_terrain.append((terrain.x, terrain.y))
+
+
+print(len(all_non_water_terrain))
+
+USED_SOURCE_PLAYER = 8
+
+
+print(targeted_terrains_detected)
+print("targeted_terrains_detected")
+
+middle_bridge_piece_id = 1842
+inst_middle_bridge_piece_building = Hero(hero_id=invisible_storage_id, terrain_restriction_id = 0, foundation_terrain = TerrainId.WATER_MEDIUM, dead_unit_id = 0, health_point = 500, train_time=0, can_be_built_on = 1,
+                                        standing_graphic = 0, dying_graphic = 0)
+boost_hero(source_trigger_manager, inst_middle_bridge_piece_building, PlayerId.all()[1:])
+
+transform_first_to_water = source_trigger_manager.add_trigger("transform_first_to_water", enabled=True,looping=False)
+
+for black_tile in targeted_terrains_detected:
+    x,y = black_tile
+    transform_first_to_water.new_effect.place_foundation(object_list_unit_id=invisible_storage_id,source_player=USED_SOURCE_PLAYER,location_x=x,location_y=y)
+    #transform_first_to_water.new_effect.create_object(object_list_unit_id=invisible_storage_id, source_player=1, location_x=x, location_y=y)
+
+
+clear_blockage_building = source_trigger_manager.add_trigger("clear_blockage_building", enabled=True,looping=False)
+clear_blockage_building.new_condition.timer(timer=TIME_START_FROZEN - 1)
+clear_blockage_building.new_effect.kill_object(object_list_unit_id=invisible_storage_id, source_player=USED_SOURCE_PLAYER)
+
+#Start Freezes
+
+
+# turn_water_into_ice = source_trigger_manager.add_trigger("turn_water_into_ice", enabled=True,looping=False)
+# turn_water_into_ice.new_condition.timer(timer=TIME_START_FROZEN)
+
+# for black_tile in targeted_terrains_detected:
+#     x,y = black_tile
+#     turn_water_into_ice.new_effect.place_foundation(object_list_unit_id=intermedite_object_id,source_player=1,location_x=x,location_y=y)
+
+
+# 1. Group tiles by identical distances
+def group_tiles_by_distance(tiles):
+    distance_groups = {}
+    for tile in tiles:
+        x, y = tile
+        # Use squared distance to avoid floating point precision issues
+        distance = (x ** 2) + (200 - y) ** 2
+        
+        if distance not in distance_groups:
+            distance_groups[distance] = []
+        distance_groups[distance].append(tile)
+    
+    return distance_groups
+
+# 2. Process distance groups with sorted progression
+distance_groups = group_tiles_by_distance(targeted_terrains_detected)
+sorted_distances = sorted(distance_groups.keys(), reverse=True)
+
+# 3. Create triggers per distance group
+for idx, distance in enumerate(sorted_distances):
+    trigger = source_trigger_manager.add_trigger(
+        name=f"freeze_distance_group_{distance}",
+        enabled=True,
+        looping=False
+    )
+    
+    # Condition with incremental delay
+    trigger.new_condition.timer(
+        timer=TIME_START_FROZEN + (FROZEN_PACE_DELAY * idx)
+    )
+    
+    # Add all tiles at this distance
+    for x, y in distance_groups[distance]:
+        trigger.new_effect.place_foundation(
+            object_list_unit_id=intermedite_object_id,
+            source_player=USED_SOURCE_PLAYER,
+            location_x=x,
+            location_y=y
+        )
+
+#for water
+
+distance_groups = group_tiles_by_distance(all_water_terrain)
+sorted_distances = sorted(distance_groups.keys(), reverse=True)
+
+for idx, distance in enumerate(sorted_distances):
+    trigger = source_trigger_manager.add_trigger(
+        name=f"freeze_distance_group_{distance}",
+        enabled=True,
+        looping=False
+    )
+    
+    #Condition with incremental delay
+    trigger.new_condition.timer(
+        timer=TIME_START_FROZEN + (FROZEN_PACE_DELAY * idx)
+    )
+    
+    # Add all tiles at this distance
+    for x, y in distance_groups[distance]:
+        trigger.new_effect.place_foundation(
+            object_list_unit_id=intermedite_object_id,
+            source_player=USED_SOURCE_PLAYER,
+            location_x=x,
+            location_y=y
+        )
+
+
+
+
+distance_groups = group_tiles_by_distance(all_non_water_terrain)
+sorted_distances = sorted(distance_groups.keys(), reverse=True)
+
+
+# 3. Create triggers per distance group
+for idx, distance in enumerate(sorted_distances):
+    trigger = source_trigger_manager.add_trigger(
+        name=f"freeze_distance_group_{distance}",
+        enabled=True,
+        looping=False
+    )
+    
+    # Condition with incremental delay
+    trigger.new_condition.timer(
+        timer=TIME_START_FROZEN + (FROZEN_PACE_DELAY * idx)
+    )
+    
+    # Add all tiles at this distance
+    for x, y in distance_groups[distance]:
+        trigger.new_effect.place_foundation(
+            object_list_unit_id=tenta_id,
+            source_player=USED_SOURCE_PLAYER,
+            location_x=x,
+            location_y=y
+        )
+
+# #
 
 
 #					0: Unknown (2262) [P1, X103.0, Y39.0] (317958)

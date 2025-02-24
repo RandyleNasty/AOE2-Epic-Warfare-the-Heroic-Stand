@@ -43,10 +43,12 @@ def boost_hero(trigger_manager, hero, players_applied):
         'max_range': 12,
         'min_range': 20,
         'total_missile': [107, 102],
-        'projectile_unit': 16,
+
         'accuracy_percent': 11,
         'attack_dispersion': 64,
         'attack_dispersion_multiply':64,
+        'attack_dispersion_divide':64,
+
         'attack_reload_divide': 10,
         'attack_reload_set': 10,
         'melee_armour': (8, 4),
@@ -54,10 +56,16 @@ def boost_hero(trigger_manager, hero, players_applied):
         'melee_attack': (9, 4),
         'movement_speed': 5,
         'movement_speed_multiply': 5,
+        'movement_speed_divide':5,
         'health_point': 0,
         'blast_width': 22,
         'blast_attack_level': 44,
-        'projectile_arc': 69,
+
+        'train_time':101,
+
+        'can_be_built_on':33,
+
+
         'attack_graphic': 70,
         'standing_graphic': 71,
         'standing_graphic_2': 72,
@@ -65,12 +73,16 @@ def boost_hero(trigger_manager, hero, players_applied):
         'undead_graphic': 74,
         'walking_graphic': 75,
         'running_graphic': 76,
+
+
         'dead_unit_id': 57,
-        'projectile_arc': 69,
+        'blood_unit': 66,
+        'blockage_class': 79,
+
         'combat_ability': 63,
         'icon_id': 25,
-        'secondary_projectile_unit': 65,
-        'projectile_vanish_mode': 68,
+
+
         'unit_trait': 54,
         'trait_piece': 56,
         'search_radius': 23,
@@ -81,8 +93,19 @@ def boost_hero(trigger_manager, hero, players_applied):
         'charge_event': 61,
         'max_charge':59,
         'frame_delay':41,
+
+        'projectile_unit': 16,
         'projectile_smart_mode': 19,
-        'blood_unit': 66,
+        'projectile_vanish_mode': 68,
+        'projectile_arc': 69,
+        'projectile_hit_mode': 67,
+        'secondary_projectile_unit': 65,
+
+        #Terrain-related
+        'foundation_terrain': 34,
+        'terrain_restriction_id':53,
+
+
     }
 
 
@@ -126,6 +149,25 @@ def boost_hero(trigger_manager, hero, players_applied):
                         source_player=player_id,
                         object_list_unit_id=hero.hero_id
                     ) 
+                        
+                elif attr == "attack_dispersion_divide":
+                    trigger.new_effect.modify_attribute(
+                    quantity=value,
+                    object_attributes=obj_attr,
+                    operation=Operation.DIVIDE,
+                    source_player=player_id,
+                    object_list_unit_id=hero.hero_id
+                ) 
+                    
+                elif attr == "movement_speed_divide":
+                    trigger.new_effect.modify_attribute(
+                    quantity=value,
+                    object_attributes=obj_attr,
+                    operation=Operation.DIVIDE,
+                    source_player=player_id,
+                    object_list_unit_id=hero.hero_id
+                ) 
+                                       
                 elif attr == "attack_dispersion_multiply":
                     trigger.new_effect.modify_attribute(
                         quantity=value,
