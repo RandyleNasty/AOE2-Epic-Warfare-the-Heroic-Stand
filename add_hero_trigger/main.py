@@ -102,7 +102,7 @@ NUM_HERO_ALLOWED = 1
 
 POLE_X = 0
 POLE_Y = 240
-TIME_START_FROZEN = 3600
+TIME_START_FROZEN = 20
 # Configuration
 FROZEN_PACE_DELAY = 2  # Milliseconds between each freezing wave
 FROZEN_BATCH_SIZE = 2  # Number of distance groups per trigger batch
@@ -838,10 +838,19 @@ USED_SOURCE_PLAYER = 8
 print(targeted_terrains_detected)
 print("targeted_terrains_detected")
 
-middle_bridge_piece_id = 1842
-inst_middle_bridge_piece_building = Hero(hero_id=invisible_storage_id, terrain_restriction_id = 0, foundation_terrain = TerrainId.WATER_MEDIUM, dead_unit_id = 0, health_point = 500, train_time=0, can_be_built_on = 1,
-                                        standing_graphic = 0, dying_graphic = 0)
-boost_hero(source_trigger_manager, inst_middle_bridge_piece_building, PlayerId.all()[1:])
+
+
+
+"""
+This storage object is to change tile look first to water.
+
+"""
+
+inst_invisible_storage_building = Hero(hero_id=invisible_storage_id, terrain_restriction_id = 0, foundation_terrain = TerrainId.WATER_MEDIUM, dead_unit_id = 0, health_point = 500, train_time=0, can_be_built_on = 1,
+                                        standing_graphic = 0, 
+                                        dying_graphic = 0)
+boost_hero(source_trigger_manager, inst_invisible_storage_building, PlayerId.all()[1:])
+
 
 transform_first_to_water = source_trigger_manager.add_trigger("transform_first_to_water", enabled=True,looping=False)
 
@@ -850,10 +859,19 @@ for black_tile in targeted_terrains_detected:
     transform_first_to_water.new_effect.place_foundation(object_list_unit_id=invisible_storage_id,source_player=USED_SOURCE_PLAYER,location_x=x,location_y=y)
     #transform_first_to_water.new_effect.create_object(object_list_unit_id=invisible_storage_id, source_player=1, location_x=x, location_y=y)
 
+#change it to GAIA player
+transform_building_to_gaia = source_trigger_manager.add_trigger("transform_building_to_gaia", enabled=True,looping=False)
+transform_building_to_gaia.new_condition.timer(1)
 
-clear_blockage_building = source_trigger_manager.add_trigger("clear_blockage_building", enabled=True,looping=False)
-clear_blockage_building.new_condition.timer(timer=TIME_START_FROZEN - 1)
-clear_blockage_building.new_effect.kill_object(object_list_unit_id=invisible_storage_id, source_player=USED_SOURCE_PLAYER)
+"""this one does not work strange.."""
+transform_building_to_gaia.new_effect.change_ownership(object_list_unit_id=invisible_storage_id, source_player=USED_SOURCE_PLAYER, target_player=0)
+
+#clear_blockage_building = source_trigger_manager.add_trigger("clear_blockage_building", enabled=True,looping=False)
+#clear_blockage_building.new_condition.timer(timer=TIME_START_FROZEN - 1)
+#clear_blockage_building.new_effect.kill_object(object_list_unit_id=invisible_storage_id, source_player=USED_SOURCE_PLAYER)
+
+
+
 
 #Start Freezes
 
@@ -880,8 +898,8 @@ def process_tile_groups(tile_sets):
 
     # Split sorted distances into batches
     sorted_distances = sorted(distance_map.keys(), reverse=True)
-    distance_batches = [sorted_distances[i:i+FROZEN_BATCH_SIZE] 
-                      for i in range(0, len(sorted_distances), FROZEN_BATCH_SIZE)]
+    distance_batches = [sorted_distances[i:i+FROZEN_BATCH_SIZE * 3] 
+                      for i in range(0, len(sorted_distances), FROZEN_BATCH_SIZE * 3)]
 
     # Create triggers per distance batch
     for batch_idx, batch_distances in enumerate(distance_batches):
@@ -915,14 +933,16 @@ def process_tile_groups(tile_sets):
                     location_y=y
                 )
             
-            # Other tiles
+            # change 2nd.... to ice
             for x, y in distance_map[distance]['other']:
+                trigger.new_effect.kill_object(object_list_unit_id=invisible_storage_id, source_player=0,area_x1=x, area_x2=x, area_y1=y, area_y2=y)
                 trigger.new_effect.place_foundation(
                     object_list_unit_id=intermedite_object_id,
                     source_player=USED_SOURCE_PLAYER,
                     location_x=x,
                     location_y=y
                 )
+               
 
 # Usage
 tile_sets = {
