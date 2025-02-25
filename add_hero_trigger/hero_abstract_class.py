@@ -106,6 +106,9 @@ def boost_hero(trigger_manager, hero, players_applied):
         'terrain_restriction_id':53,
 
 
+        'unit_size_x': 3,
+        'unit_size_y': 4,
+
     }
 
 
