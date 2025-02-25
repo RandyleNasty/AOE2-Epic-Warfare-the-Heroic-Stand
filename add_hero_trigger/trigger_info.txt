@@ -3328,8 +3328,8 @@ Triggers:
 		effects:
 			place_foundation [Index: 0, Display: 0]:
 				source_player: Player One (1)
-				location_x: 118
-				location_y: 56
+				location_x: 153
+				location_y: 50
 
 Variables:
 	<<No Variables>>

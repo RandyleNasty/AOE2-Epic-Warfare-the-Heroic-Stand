@@ -41,12 +41,12 @@ BASIC RULES
 - place foundation does not work for gaia source player
 
 """
-START_POLE_X = 0
-START_POLE_Y = 240
+START_POLE_X = 240
+START_POLE_Y = 0
 
 END_POLE_X = 0
 END_POLE_Y = 240
-TIME_START_FROZEN = 20
+TIME_START_FROZEN = 4800
 # Configuration
 FROZEN_PACE_DELAY = 2 
 
@@ -64,8 +64,13 @@ OBJECT_USED_TO_BLOCK_CROSSING_FAKE_WATER_ID = 1101
 
 USED_SOURCE_PLAYER = 8
 
+
+UNFREEZE_POINT_RIVER_X =153
+UNFREEZE_POINT_RIVER_Y = 50
+
+
 # WINTER CHANGE SPEED CONTROL
-CLUSTER_SIZE = 50
+CLUSTER_SIZE = 30
 KILL_EARLY = 1
 
 TREE_REPLACE_OBJECTS = [
@@ -75,7 +80,7 @@ TREE_REPLACE_OBJECTS = [
             OtherInfo.TREE_I.ID
         ]
 
-SHALLOW_ID = [    4,59,54]
+SHALLOW_ID = [4,59,54]
 
 """
 IDEA of creating trigger for winter fading effect
@@ -96,8 +101,12 @@ if cluster is 3, then 1.
 
 
 
-def calculate_distance_to_pole(tile):
+def calculate_distance_to_end_pole(tile):
     return int(((tile.x - END_POLE_X)** 2) + (END_POLE_Y - tile.y) ** 2)
+def calculate_distance_to_start_pole(tile):
+    return int(((tile.x - START_POLE_X)** 2) + (START_POLE_Y - tile.y) ** 2)
+def calculate_unfreeze_point_distance_to_start_pole():
+    return int(((UNFREEZE_POINT_RIVER_X - START_POLE_X)** 2) + (START_POLE_Y - UNFREEZE_POINT_RIVER_Y) ** 2)
 
 
 def add_blockage_object_to_target_tiles_that_mimic_water(source_scenario:AoE2DEScenario):
@@ -124,19 +133,29 @@ def add_blockage_object_to_target_tiles_that_mimic_water(source_scenario:AoE2DES
     all_discovered_distance = set()
 
     for terrain in originalTerrains:
-        distance = calculate_distance_to_pole(terrain)
+        distance = calculate_distance_to_end_pole(terrain)
+        #BRIDGE
         if terrain.terrain_id == TERRAIN_USED_AS_ICEABLE_WATER_TILE_ID:
 
             all_discovered_distance.add(distance)
             dict_iceable_river.setdefault(distance, []).append(terrain)
 
+
+        #WATER
         elif terrain.terrain_id in TerrainId.water_terrains() or terrain.terrain_id in TerrainId.beach_terrains() or terrain.terrain_id in SHALLOW_ID:
             #print("found black tile")
 
+            #some just do not freeze,
+            #if terrain.terrain_id in TerrainId.water_terrains() or terrain.terrain_id in TerrainId.beach_terrains() and (calculate_distance_to_start_pole(terrain) > calculate_unfreeze_point_distance_to_start_pole()):
+            if (terrain.terrain_id in TerrainId.water_terrains() or terrain.terrain_id in TerrainId.beach_terrains()) and (calculate_distance_to_start_pole(terrain) > calculate_unfreeze_point_distance_to_start_pole()):
+
+                #print("skip this water terrain")
+                continue
+            #print("add this water terrain")
             all_discovered_distance.add(distance)
             dict_water_terrain.setdefault(distance, []).append(terrain)
 
-
+        #NON WATER
         elif terrain.terrain_id not in TerrainId.water_terrains() and terrain.terrain_id not in TerrainId.beach_terrains() and terrain.terrain_id not in SHALLOW_ID:
 
             all_discovered_distance.add(distance)
@@ -150,9 +169,9 @@ def add_blockage_object_to_target_tiles_that_mimic_water(source_scenario:AoE2DES
     # get reference id
     for gaia_unit in gaia_units:
         if gaia_unit.unit_const in [x.ID for x in OtherInfo.trees()]:
-            distance = calculate_distance_to_pole(gaia_unit)
+            distance = calculate_distance_to_end_pole(gaia_unit)
             if gaia_unit.unit_const != OtherInfo.TREE_SNOW_PINE and  gaia_unit.unit_const != OtherInfo.TREE_OAK_AUTUMN_SNOW:
-                all_discovered_distance.add(calculate_distance_to_pole(gaia_unit))
+                all_discovered_distance.add(calculate_distance_to_end_pole(gaia_unit))
                 dict_non_winter_tree.setdefault(distance, []).append(gaia_unit)
 
 
@@ -275,19 +294,19 @@ def add_blockage_object_to_target_tiles_that_mimic_water(source_scenario:AoE2DES
                     )
 
 
-            if prev_trigger is not None:
-                prev_trigger.new_effect.activate_trigger(trigger.trigger_id)
-            else:
-                trigger.new_condition.timer(TIME_START_FROZEN)
-            prev_trigger = trigger
+        if prev_trigger is not None:
+            prev_trigger.new_effect.activate_trigger(trigger.trigger_id)
+        else:
+            trigger.new_condition.timer(TIME_START_FROZEN)
+        prev_trigger = trigger
 
 
-            if prev_kill_trigger is not None:
-                prev_kill_trigger.new_effect.activate_trigger(kill_trigger.trigger_id)
-            else:
-                kill_trigger.new_condition.timer(TIME_START_FROZEN - KILL_EARLY)
+        if prev_kill_trigger is not None:
+            prev_kill_trigger.new_effect.activate_trigger(kill_trigger.trigger_id)
+        else:
+            kill_trigger.new_condition.timer(TIME_START_FROZEN - KILL_EARLY)
 
-            prev_kill_trigger = kill_trigger
+        prev_kill_trigger = kill_trigger
 
     instruction_trigger = source_trigger_manager.add_trigger("display winter comming", enabled=True, looping=False)
     instruction_trigger.new_condition.timer(TIME_START_FROZEN)

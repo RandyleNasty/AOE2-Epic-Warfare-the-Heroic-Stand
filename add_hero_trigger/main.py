@@ -59,6 +59,7 @@ source_trigger_manager = source_scenario.trigger_manager
 
 content = source_trigger_manager.get_content_as_string()
 
+print("print to trigger_info")
 # Save to a text file
 with open("trigger_info.txt", "w", encoding="utf-8") as file:
     file.write(content)
@@ -499,13 +500,13 @@ inst_themistocles_hero = Hero(
     secondary_projectile_unit = sabo_man_id,
     projectile_unit=1595,
     blast_attack_level=2,
-    melee_attack=20,
+    melee_attack=25,
     max_range=1,
     min_range=0,
     pierce_armor=20,
     melee_armour=20,
     attack_reload_set=3,  
-    total_missile = 30,
+    total_missile = 8,
     combat_ability= 8 + 16,
     attack_dispersion = 2,
     accuracy_percent = 10,
