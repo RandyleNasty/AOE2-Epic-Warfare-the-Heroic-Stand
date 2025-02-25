@@ -24,6 +24,7 @@ from util_add_tent_spawn_ability import *
 from hero_abstract_class import *
 
 from robin_archer import *
+from itertools import chain
 
 
 """
@@ -39,8 +40,11 @@ BASIC RULES
 - place foundation does not work for gaia source player
 
 """
-POLE_X = 0
-POLE_Y = 240
+START_POLE_X = 0
+START_POLE_Y = 240
+
+END_POLE_X = 0
+END_POLE_Y = 240
 TIME_START_FROZEN = 20
 # Configuration
 FROZEN_PACE_DELAY = 2  # Milliseconds between each freezing wave
@@ -58,9 +62,40 @@ OBJECT_USED_TO_GENERATE_SNOW_TERRAIN_ID = 1097
 
 OBJECT_USED_TO_BLOCK_CROSSING_FAKE_WATER_ID = 1101
 
+USED_SOURCE_PLAYER = 8
+
+# WINTER CHANGE SPEED CONTROL
+CLUSTER_SIZE = 15
+
+
+TREE_REPLACE_OBJECTS = [
+            OtherInfo.TREE_SNOW_PINE.ID,
+            #OtherInfo.TREE_OAK_AUTUMN_SNOW.ID,
+            OtherInfo.TREE_DEAD.ID,
+            OtherInfo.TREE_I.ID
+        ]
+
+"""
+IDEA of creating trigger for winter fading effect
+
+START_POLE ------------xxx----------------xxxxx-------------xxxxxxxxxxxxxxxxxxxxxxx--------------------END_POLE
+           ------------trigger1------------trigger2---------trigger3trigger4trigger5 ------------------
+
+trigger1 activates trigger2, trigger2 activates trigger3 and so forth.
+but condition timer of trigger2...n. depends on the interval between each trigger on this diagram
+
+the cluster parameter would be density parameter that decides how many trigger we create.
+e.g. if cluster is 1, then the first xxx in the line would create 3 triggers.
+if cluster is 2, then 2,
+if cluster is 3, then 1.
+
+
+"""
 
 
 
+def calculate_distance_to_pole(tile):
+    return int(((tile.x - END_POLE_X)** 2) + (END_POLE_Y - tile.y) ** 2)
 
 
 def add_blockage_object_to_target_tiles_that_mimic_water(source_scenario:AoE2DEScenario):
@@ -70,23 +105,267 @@ def add_blockage_object_to_target_tiles_that_mimic_water(source_scenario:AoE2DES
     originalTerrains = source_scenario.map_manager.terrain
 
 
+
+    prepare_object_for_changing_terrain(source_trigger_manager)
+
+
+
+
     """identify which tiles are to be replaced with water-looking tile"""
 
-    targeted_terrains_detected = []
+
+    dict_iceable_river = dict()
+    dict_water_terrain = dict()
+    dict_all_non_water_terrain = dict()
+
+
+    all_discovered_distance = set()
 
     for terrain in originalTerrains:
+        distance = calculate_distance_to_pole(terrain)
         if terrain.terrain_id == TERRAIN_USED_AS_ICEABLE_WATER_TILE_ID:
+
+            all_discovered_distance.add(distance)
+            dict_iceable_river.setdefault(distance, []).append(terrain)
+
+        elif terrain.terrain_id in TerrainId.water_terrains() and terrain.terrain_id != TERRAIN_USED_AS_ICEABLE_WATER_TILE_ID:
             #print("found black tile")
-            targeted_terrains_detected.append((terrain.x, terrain.y))
 
-    all_water_terrain = []
+            all_discovered_distance.add(distance)
+            dict_water_terrain.setdefault(distance, []).append(terrain)
+
+
+        elif terrain.terrain_id not in TerrainId.water_terrains() and terrain.terrain_id != TERRAIN_USED_AS_ICEABLE_WATER_TILE_ID:
+
+            all_discovered_distance.add(distance)
+            dict_all_non_water_terrain.setdefault(distance, []).append(terrain)
+
+    gaia_units = source_scenario.unit_manager.get_player_units(PlayerId.GAIA)
+
+    dict_non_winter_tree = dict()
+
+    #non_winter_tree = []
+    # get reference id
+    for gaia_unit in gaia_units:
+        if gaia_unit.unit_const in [x.ID for x in OtherInfo.trees()]:
+            if gaia_unit.unit_const != OtherInfo.TREE_SNOW_PINE and  gaia_unit.unit_const != OtherInfo.TREE_OAK_AUTUMN_SNOW:
+                all_discovered_distance.add(calculate_distance_to_pole(gaia_unit))
+                dict_non_winter_tree.setdefault(distance, []).append(gaia_unit)
+
+
+    """
+    build dictionary
+    
+    """
+
+
+    """
+    cluster
+    example cluster members
+    [337, 338]
+    [335, 336]
+    [333, 334]
+    [331, 332]
+    [329, 330]
+    [327, 328]
+    [325, 326]
+    [323, 324]
+    [321, 322]
+    [319, 320]
+    [317, 318]
+    [315, 316]
+    """
 
 
 
-    #print(len(all_non_water_terrain))
+    sorted_distances = sorted(all_discovered_distance)
+    # first get maximum in the all_discovered_distance.
+    max_distance = max(all_discovered_distance)
 
-    USED_SOURCE_PLAYER = 8
 
+    prev_trigger = None
+
+    # the based on cluster size, we use a for
+    for cluster_idx, supposed_cluster in  enumerate(range(max_distance, 0, -CLUSTER_SIZE)):
+        #check if this cluster is there but checking if this cluster contains discovered... distance
+        cluster_members = set(
+            d for d in sorted_distances 
+            if supposed_cluster - CLUSTER_SIZE < d <= supposed_cluster
+        )
+        common_values = all_discovered_distance & cluster_members
+        # Check if there are any common values
+        if not common_values:
+            continue
+
+        #now 
+        trigger = source_trigger_manager.add_trigger(
+                name=f"freeze_cluster_{cluster_idx}",
+                enabled=True,
+                looping=False
+            )
+        for distance in cluster_members:
+            terrain_list = dict_iceable_river.get(distance)
+            if terrain_list is not None:
+                for terrain in terrain_list:
+                    trigger.new_effect.kill_object(object_list_unit_id=OBJECT_USED_TO_BLOCK_CROSSING_FAKE_WATER_ID, 
+                                                   source_player=0,
+                                                   area_x1=terrain.x, area_x2=terrain.x, area_y1=terrain.y, area_y2=terrain.y)
+                    trigger.new_effect.place_foundation(
+                        object_list_unit_id=OBJECT_TO_CREATE_ICE_FOR_WATER_TERRAIN_ID,
+                        source_player=USED_SOURCE_PLAYER,
+                        location_x=terrain.x,
+                        location_y=terrain.y
+                    )
+
+
+            terrain_list = dict_water_terrain.get(distance)
+            if terrain_list is not None:
+                for terrain in terrain_list:
+                    trigger.new_effect.place_foundation(
+                        object_list_unit_id=OBJECT_TO_CREATE_ICE_FOR_WATER_TERRAIN_ID,
+                        source_player=USED_SOURCE_PLAYER,
+                        location_x=terrain.x,
+                        location_y=terrain.y
+                    )
+
+            terrain_list = dict_all_non_water_terrain.get(distance)
+            if terrain_list is not None:
+                for terrain in terrain_list:    
+                    trigger.new_effect.place_foundation(
+                    object_list_unit_id=OBJECT_USED_TO_GENERATE_SNOW_TERRAIN_ID,
+                    source_player=USED_SOURCE_PLAYER,
+                    location_x=terrain.x,
+                    location_y=terrain.y
+                )
+            # change object
+            tree_list = dict_non_winter_tree.get(distance)
+            if tree_list is not None:
+                for tree in tree_list:    
+                    import random
+                    trigger.new_effect.replace_object(
+                        source_player=0,
+                        target_player=0,
+                        selected_object_ids=tree.reference_id,
+                        object_list_unit_id_2=random.choice(TREE_REPLACE_OBJECTS)
+                    )
+
+
+
+
+
+
+    merged_terrain_list = list(chain(*dict_iceable_river.values()))
+
+
+    transform_first_to_water = source_trigger_manager.add_trigger("transform_first_to_water", enabled=True,looping=False)
+
+    for terrain in merged_terrain_list:
+        
+        transform_first_to_water.new_effect.place_foundation(object_list_unit_id=invisible_storage_with_water_foundation_id,source_player=USED_SOURCE_PLAYER,location_x=terrain.x,location_y=terrain.y)
+        #transform_first_to_water.new_effect.create_object(object_list_unit_id=invisible_storage_id, source_player=1, location_x=x, location_y=y)
+
+    
+    """
+    turns out we cannot use change ownership or replace objects to process the building generated by "place foundation"
+    """
+
+
+    transform_building_to_gaia = source_trigger_manager.add_trigger("transform_building_to_gaia", enabled=True,looping=False)
+    transform_building_to_gaia.new_condition.timer(5)
+
+    for terrain in merged_terrain_list:
+        #transform_first_to_water.new_effect.place_foundation(object_list_unit_id=invisible_storage_with_water_foundation_id,source_player=USED_SOURCE_PLAYER,location_x=x,location_y=y)
+        transform_building_to_gaia.new_effect.create_object(object_list_unit_id=OBJECT_USED_TO_BLOCK_CROSSING_FAKE_WATER_ID, source_player=USED_SOURCE_PLAYER, location_x= terrain.x, location_y=terrain.y)
+
+    transform_building_to_gaia.new_effect.change_ownership(object_list_unit_id=OBJECT_USED_TO_BLOCK_CROSSING_FAKE_WATER_ID, source_player=USED_SOURCE_PLAYER, target_player=0)
+
+    """
+    this one does not work strange..
+    both did not work. to change the used player to gaia ownership
+    """
+    #transform_building_to_gaia.new_effect.change_ownership(object_list_unit_id=invisible_storage_with_water_foundation_id, source_player=USED_SOURCE_PLAYER, target_player=0)
+    # transform_building_to_gaia.new_effect.replace_object(object_list_unit_id=invisible_storage_with_water_foundation_id, 
+    #                                                      area_x1=0, area_x2=239, area_y1=0, area_y2=239, 
+    #                                                      source_player=USED_SOURCE_PLAYER, 
+    #                                                      target_player=0, 
+    #                                                      object_list_unit_id_2=invisible_storage_with_water_foundation_id)
+
+
+
+
+    #clear_blockage_building = source_trigger_manager.add_trigger("clear_blockage_building", enabled=True,looping=False)
+    #clear_blockage_building.new_condition.timer(timer=TIME_START_FROZEN - 1)
+    #clear_blockage_building.new_effect.kill_object(object_list_unit_id=OBJECT_USED_TO_BLOCK_CROSSING_FAKE_WATER_ID, source_player=0)
+
+
+
+
+    # def process_winter_trees():
+    #     """Process tree replacement with distance-based batching"""
+    #     # Configuration
+    #     TREE_REPLACE_OBJECTS = [
+    #         OtherInfo.TREE_SNOW_PINE.ID,
+    #         #OtherInfo.TREE_OAK_AUTUMN_SNOW.ID,
+    #         OtherInfo.TREE_DEAD.ID,
+    #         OtherInfo.TREE_I.ID
+    #     ]
+
+    #     # Group trees by distance
+    #     distance_groups = {}
+    #     for tree in non_winter_tree:
+    #         # Calculate squared distance from northern point
+    #         distance = ((tree.x - END_POLE_X)** 2) + (END_POLE_Y - tree.y) ** 2
+    #         # Initialize list if needed
+    #         if distance not in distance_groups:
+    #             distance_groups[distance] = []
+                
+    #         distance_groups[distance].append(tree)
+
+    #     # Create batched triggers
+    #     sorted_distances = sorted(distance_groups.keys(), reverse=True)
+    #     distance_batches = [sorted_distances[i:i+FROZEN_BATCH_SIZE] 
+    #                     for i in range(0, len(sorted_distances), FROZEN_BATCH_SIZE)]
+
+    #     for batch_idx, batch_distances in enumerate(distance_batches):
+    #         trigger = source_trigger_manager.add_trigger(
+    #             name=f"winter_tree_batch_{batch_idx}",
+    #             enabled=True,
+    #             looping=False
+    #         )
+
+    #         # Timer condition with progressive delay
+    #         trigger.new_condition.timer(
+    #             timer=TIME_START_FROZEN + (FROZEN_PACE_DELAY * batch_idx)
+    #         )
+
+    #         # Add replacement effects
+    #         for distance in batch_distances:
+    #             for tree in distance_groups[distance]:
+    #                 import random
+    #                 trigger.new_effect.replace_object(
+    #                     source_player=0,
+    #                     target_player=0,
+    #                     selected_object_ids=tree.reference_id,
+    #                     object_list_unit_id_2=random.choice(TREE_REPLACE_OBJECTS)
+    #                 )
+
+    # instruction_trigger = source_trigger_manager.add_trigger("display winter comming", enabled=True, looping=False)
+    # instruction_trigger.new_condition.timer(TIME_START_FROZEN)
+    # instruction_trigger.new_effect.display_instructions(object_list_unit_id=HeroInfo.GENGHIS_KHAN.ID,
+    #                                                     source_player=0,
+    #                                                     display_time=20,
+    #                                                     message = "Winter is Coming! Be careful of attack from the frozen river!")
+
+
+    # # Usage
+    # process_winter_trees()
+
+
+
+
+def prepare_object_for_changing_terrain(source_trigger_manager):
+
+    
 
 
     inst_intermedite_object_building = Hero(hero_id=OBJECT_TO_CREATE_ICE_FOR_WATER_TERRAIN_ID, 
@@ -139,7 +418,6 @@ def add_blockage_object_to_target_tiles_that_mimic_water(source_scenario:AoE2DES
 
     boost_hero(source_trigger_manager, inst_try_object, PlayerId.all()[1:])
 
-    
 
     """
     This storage object is to change tile look first to water.
@@ -161,227 +439,3 @@ def add_blockage_object_to_target_tiles_that_mimic_water(source_scenario:AoE2DES
                                                         )
 
     boost_hero(source_trigger_manager, inst_invisible_storage_with_water_foundation, PlayerId.all()[1:])
-
-
-    transform_first_to_water = source_trigger_manager.add_trigger("transform_first_to_water", enabled=True,looping=False)
-
-    for black_tile in targeted_terrains_detected:
-        x,y = black_tile
-        transform_first_to_water.new_effect.place_foundation(object_list_unit_id=invisible_storage_with_water_foundation_id,source_player=USED_SOURCE_PLAYER,location_x=x,location_y=y)
-        #transform_first_to_water.new_effect.create_object(object_list_unit_id=invisible_storage_id, source_player=1, location_x=x, location_y=y)
-
-    
-    """
-    turns out we cannot use change ownership or replace objects to process the building generated by "place foundation"
-    """
-
-
-    transform_building_to_gaia = source_trigger_manager.add_trigger("transform_building_to_gaia", enabled=True,looping=False)
-    transform_building_to_gaia.new_condition.timer(5)
-
-    for black_tile in targeted_terrains_detected:
-        x,y = black_tile
-        #transform_first_to_water.new_effect.place_foundation(object_list_unit_id=invisible_storage_with_water_foundation_id,source_player=USED_SOURCE_PLAYER,location_x=x,location_y=y)
-        transform_building_to_gaia.new_effect.create_object(object_list_unit_id=OBJECT_USED_TO_BLOCK_CROSSING_FAKE_WATER_ID, source_player=USED_SOURCE_PLAYER, location_x= x, location_y=y)
-
-    transform_building_to_gaia.new_effect.change_ownership(object_list_unit_id=OBJECT_USED_TO_BLOCK_CROSSING_FAKE_WATER_ID, source_player=USED_SOURCE_PLAYER, target_player=0)
-
-    """
-    this one does not work strange..
-    both did not work. to change the used player to gaia ownership
-    """
-    #transform_building_to_gaia.new_effect.change_ownership(object_list_unit_id=invisible_storage_with_water_foundation_id, source_player=USED_SOURCE_PLAYER, target_player=0)
-    # transform_building_to_gaia.new_effect.replace_object(object_list_unit_id=invisible_storage_with_water_foundation_id, 
-    #                                                      area_x1=0, area_x2=239, area_y1=0, area_y2=239, 
-    #                                                      source_player=USED_SOURCE_PLAYER, 
-    #                                                      target_player=0, 
-    #                                                      object_list_unit_id_2=invisible_storage_with_water_foundation_id)
-
-
-
-
-    #clear_blockage_building = source_trigger_manager.add_trigger("clear_blockage_building", enabled=True,looping=False)
-    #clear_blockage_building.new_condition.timer(timer=TIME_START_FROZEN - 1)
-    #clear_blockage_building.new_effect.kill_object(object_list_unit_id=OBJECT_USED_TO_BLOCK_CROSSING_FAKE_WATER_ID, source_player=0)
-
-
-
-
-
-
-
-
-
-
-    for terrain in originalTerrains:
-        if terrain.terrain_id in TerrainId.water_terrains() and terrain.terrain_id != TERRAIN_USED_AS_ICEABLE_WATER_TILE_ID:
-            #print("found black tile")
-            all_water_terrain.append((terrain.x, terrain.y))
-
-    all_non_water_terrain = []
-    for terrain in originalTerrains:
-        if terrain.terrain_id not in TerrainId.water_terrains() and terrain.terrain_id != TERRAIN_USED_AS_ICEABLE_WATER_TILE_ID:
-            all_non_water_terrain.append((terrain.x, terrain.y))
-
-
-
-    #Start Freezes
-
-
-    # turn_water_into_ice = source_trigger_manager.add_trigger("turn_water_into_ice", enabled=True,looping=False)
-    # turn_water_into_ice.new_condition.timer(timer=TIME_START_FROZEN)
-
-    # for black_tile in targeted_terrains_detected:
-    #     x,y = black_tile
-    #     turn_water_into_ice.new_effect.place_foundation(object_list_unit_id=intermedite_object_id,source_player=1,location_x=x,location_y=y)
-
-    def process_tile_groups(tile_sets):
-        """Process grouped tiles with batched distance groups"""
-        # Combine and group tiles as before
-        all_tiles = [(x, y, t) for t, tiles in tile_sets.items() for x, y in tiles]
-        distance_map = {}
-        
-        for x, y, t in all_tiles:
-            d = (x - POLE_X)**2 + (POLE_Y - y)**2
-            if d not in distance_map:
-                distance_map[d] = {'water': [], 'non_water': [], 'other': []}
-            bucket = 'water' if t == 'water' else 'non_water' if t == 'non_water' else 'other'
-            distance_map[d][bucket].append((x, y))
-
-        # Split sorted distances into batches
-        sorted_distances = sorted(distance_map.keys(), reverse=True)
-        distance_batches = [sorted_distances[i:i+FROZEN_BATCH_SIZE * 3] 
-                        for i in range(0, len(sorted_distances), FROZEN_BATCH_SIZE * 3)]
-
-        # Create triggers per distance batch
-        for batch_idx, batch_distances in enumerate(distance_batches):
-            trigger = source_trigger_manager.add_trigger(
-                name=f"freeze_batch_{batch_idx}",
-                enabled=True,
-                looping=False
-            )
-
-            trigger.new_condition.timer(
-                timer=TIME_START_FROZEN + (FROZEN_PACE_DELAY * batch_idx)
-            )
-
-            # Process all distances in current batch
-            for distance in batch_distances:
-                # Water tiles
-                for x, y in distance_map[distance]['water']:
-                    trigger.new_effect.place_foundation(
-                        object_list_unit_id=OBJECT_TO_CREATE_ICE_FOR_WATER_TERRAIN_ID,
-                        source_player=USED_SOURCE_PLAYER,
-                        location_x=x,
-                        location_y=y
-                    )
-                
-                # Non-water tiles
-                for x, y in distance_map[distance]['non_water']:
-                    trigger.new_effect.place_foundation(
-                        object_list_unit_id=OBJECT_USED_TO_GENERATE_SNOW_TERRAIN_ID,
-                        source_player=USED_SOURCE_PLAYER,
-                        location_x=x,
-                        location_y=y
-                    )
-                
-                # change 2nd.... to ice
-                for x, y in distance_map[distance]['other']:
-                    trigger.new_effect.kill_object(object_list_unit_id=OBJECT_USED_TO_BLOCK_CROSSING_FAKE_WATER_ID, source_player=0,area_x1=x, area_x2=x, area_y1=y, area_y2=y)
-                    trigger.new_effect.place_foundation(
-                        object_list_unit_id=OBJECT_TO_CREATE_ICE_FOR_WATER_TERRAIN_ID,
-                        source_player=USED_SOURCE_PLAYER,
-                        location_x=x,
-                        location_y=y
-                    )
-                
-
-    # Usage
-    tile_sets = {
-        'water': all_water_terrain,
-        'non_water': all_non_water_terrain,
-        'other': targeted_terrains_detected  # Add your third category if needed
-    }
-
-    process_tile_groups(tile_sets)
-    # #
-
-    print(source_scenario.map_manager.map_height)
-    print(source_scenario.map_manager.map_width)
-    #					0: Unknown (2262) [P1, X103.0, Y39.0] (317958)
-    # 317958 worked! but how the hell is this decoding working?
-
-
-
-
-    gaia_units = source_scenario.unit_manager.get_player_units(PlayerId.GAIA)
-
-
-    # Unit(player=0, x=43.5, y=141.5, z=3.0, reference_id=17330, unit_const=65, status=2, rotation=2.356194496154785, initial_animation_frame=2)
-
-    non_winter_tree = []
-    # get reference id
-    for gaia_unit in gaia_units:
-        if gaia_unit.unit_const in [x.ID for x in OtherInfo.trees()]:
-            if gaia_unit.unit_const != OtherInfo.TREE_SNOW_PINE and  gaia_unit.unit_const != OtherInfo.TREE_OAK_AUTUMN_SNOW:
-                non_winter_tree.append(gaia_unit)
-
-    def process_winter_trees():
-        """Process tree replacement with distance-based batching"""
-        # Configuration
-        TREE_REPLACE_OBJECTS = [
-            OtherInfo.TREE_SNOW_PINE.ID,
-            #OtherInfo.TREE_OAK_AUTUMN_SNOW.ID,
-            OtherInfo.TREE_DEAD.ID,
-            OtherInfo.TREE_I.ID
-        ]
-
-        # Group trees by distance
-        distance_groups = {}
-        for tree in non_winter_tree:
-            # Calculate squared distance from northern point
-            distance = ((tree.x - POLE_X)** 2) + (POLE_Y - tree.y) ** 2
-            # Initialize list if needed
-            if distance not in distance_groups:
-                distance_groups[distance] = []
-                
-            distance_groups[distance].append(tree)
-
-        # Create batched triggers
-        sorted_distances = sorted(distance_groups.keys(), reverse=True)
-        distance_batches = [sorted_distances[i:i+FROZEN_BATCH_SIZE] 
-                        for i in range(0, len(sorted_distances), FROZEN_BATCH_SIZE)]
-
-        for batch_idx, batch_distances in enumerate(distance_batches):
-            trigger = source_trigger_manager.add_trigger(
-                name=f"winter_tree_batch_{batch_idx}",
-                enabled=True,
-                looping=False
-            )
-
-            # Timer condition with progressive delay
-            trigger.new_condition.timer(
-                timer=TIME_START_FROZEN + (FROZEN_PACE_DELAY * batch_idx)
-            )
-
-            # Add replacement effects
-            for distance in batch_distances:
-                for tree in distance_groups[distance]:
-                    import random
-                    trigger.new_effect.replace_object(
-                        source_player=0,
-                        target_player=0,
-                        selected_object_ids=tree.reference_id,
-                        object_list_unit_id_2=random.choice(TREE_REPLACE_OBJECTS)
-                    )
-
-    instruction_trigger = source_trigger_manager.add_trigger("display winter comming", enabled=True, looping=False)
-    instruction_trigger.new_condition.timer(TIME_START_FROZEN)
-    instruction_trigger.new_effect.display_instructions(object_list_unit_id=HeroInfo.GENGHIS_KHAN.ID,
-                                                        source_player=0,
-                                                        display_time=20,
-                                                        message = "Winter is Coming! Be careful of attack from the frozen river!")
-
-
-    # Usage
-    process_winter_trees()
