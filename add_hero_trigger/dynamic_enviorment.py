@@ -31,6 +31,13 @@ Dynamic Change Enviorment Specification
 1. change specific dedicated tiles at the start to unpassable water tile by using invisible object (blocks) that has water foundation
 2. after certain wait, the map changes from north to south to winter. trees convert to dead one. water becomes ice (passable). land terrains becomes snow foundation.
 
+
+Fading changes, trigger should be clustered against their distance to the set POLE
+
+BASIC RULES
+- kill building and build new cannot happen in same clock
+- place foundation does not work for gaia source player
+
 """
 POLE_X = 0
 POLE_Y = 240
@@ -39,11 +46,7 @@ TIME_START_FROZEN = 20
 FROZEN_PACE_DELAY = 2  # Milliseconds between each freezing wave
 FROZEN_BATCH_SIZE = 2  # Number of distance groups per trigger batch
 
-
-
-
 invisible_storage_with_water_foundation_id = 1081
-
 tentb_id = 1098
 
 
@@ -52,9 +55,13 @@ OBJECT_TO_CREATE_ICE_FOR_WATER_TERRAIN_ID = tentb_id
 TERRAIN_USED_AS_ICEABLE_WATER_TILE_ID = TerrainId.BEACH_NON_NAVIGABLE_WET_ROCK
 
 OBJECT_USED_TO_GENERATE_SNOW_TERRAIN_ID = 1097
-#tenta_id = 1097
 
 OBJECT_USED_TO_BLOCK_CROSSING_FAKE_WATER_ID = 1101
+
+
+
+
+
 
 def add_blockage_object_to_target_tiles_that_mimic_water(source_scenario:AoE2DEScenario):
 
@@ -80,8 +87,6 @@ def add_blockage_object_to_target_tiles_that_mimic_water(source_scenario:AoE2DES
 
     USED_SOURCE_PLAYER = 8
 
-
-    print(targeted_terrains_detected)
 
 
     inst_intermedite_object_building = Hero(hero_id=OBJECT_TO_CREATE_ICE_FOR_WATER_TERRAIN_ID, 
@@ -172,7 +177,7 @@ def add_blockage_object_to_target_tiles_that_mimic_water(source_scenario:AoE2DES
 
 
     transform_building_to_gaia = source_trigger_manager.add_trigger("transform_building_to_gaia", enabled=True,looping=False)
-    transform_building_to_gaia.new_condition.timer(1)
+    transform_building_to_gaia.new_condition.timer(5)
 
     for black_tile in targeted_terrains_detected:
         x,y = black_tile
@@ -195,9 +200,9 @@ def add_blockage_object_to_target_tiles_that_mimic_water(source_scenario:AoE2DES
 
 
 
-    clear_blockage_building = source_trigger_manager.add_trigger("clear_blockage_building", enabled=True,looping=False)
-    clear_blockage_building.new_condition.timer(timer=TIME_START_FROZEN - 1)
-    clear_blockage_building.new_effect.kill_object(object_list_unit_id=OBJECT_USED_TO_BLOCK_CROSSING_FAKE_WATER_ID, source_player=0)
+    #clear_blockage_building = source_trigger_manager.add_trigger("clear_blockage_building", enabled=True,looping=False)
+    #clear_blockage_building.new_condition.timer(timer=TIME_START_FROZEN - 1)
+    #clear_blockage_building.new_effect.kill_object(object_list_unit_id=OBJECT_USED_TO_BLOCK_CROSSING_FAKE_WATER_ID, source_player=0)
 
 
 
@@ -282,7 +287,7 @@ def add_blockage_object_to_target_tiles_that_mimic_water(source_scenario:AoE2DES
                 
                 # change 2nd.... to ice
                 for x, y in distance_map[distance]['other']:
-                    trigger.new_effect.kill_object(object_list_unit_id=invisible_storage_with_water_foundation_id, source_player=0,area_x1=x, area_x2=x, area_y1=y, area_y2=y)
+                    trigger.new_effect.kill_object(object_list_unit_id=OBJECT_USED_TO_BLOCK_CROSSING_FAKE_WATER_ID, source_player=0,area_x1=x, area_x2=x, area_y1=y, area_y2=y)
                     trigger.new_effect.place_foundation(
                         object_list_unit_id=OBJECT_TO_CREATE_ICE_FOR_WATER_TERRAIN_ID,
                         source_player=USED_SOURCE_PLAYER,
