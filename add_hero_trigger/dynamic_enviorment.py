@@ -47,8 +47,7 @@ END_POLE_X = 0
 END_POLE_Y = 240
 TIME_START_FROZEN = 20
 # Configuration
-FROZEN_PACE_DELAY = 2  # Milliseconds between each freezing wave
-FROZEN_BATCH_SIZE = 2  # Number of distance groups per trigger batch
+FROZEN_PACE_DELAY = 2 
 
 invisible_storage_with_water_foundation_id = 1081
 tentb_id = 1098
@@ -65,7 +64,7 @@ OBJECT_USED_TO_BLOCK_CROSSING_FAKE_WATER_ID = 1101
 USED_SOURCE_PLAYER = 8
 
 # WINTER CHANGE SPEED CONTROL
-CLUSTER_SIZE = 15
+CLUSTER_SIZE = 50
 
 
 TREE_REPLACE_OBJECTS = [
@@ -74,6 +73,8 @@ TREE_REPLACE_OBJECTS = [
             OtherInfo.TREE_DEAD.ID,
             OtherInfo.TREE_I.ID
         ]
+
+SHALLOW_ID = [    4,59,54]
 
 """
 IDEA of creating trigger for winter fading effect
@@ -128,14 +129,14 @@ def add_blockage_object_to_target_tiles_that_mimic_water(source_scenario:AoE2DES
             all_discovered_distance.add(distance)
             dict_iceable_river.setdefault(distance, []).append(terrain)
 
-        elif terrain.terrain_id in TerrainId.water_terrains() and terrain.terrain_id != TERRAIN_USED_AS_ICEABLE_WATER_TILE_ID:
+        elif terrain.terrain_id in TerrainId.water_terrains() or terrain.terrain_id in TerrainId.beach_terrains() or terrain.terrain_id in SHALLOW_ID:
             #print("found black tile")
 
             all_discovered_distance.add(distance)
             dict_water_terrain.setdefault(distance, []).append(terrain)
 
 
-        elif terrain.terrain_id not in TerrainId.water_terrains() and terrain.terrain_id != TERRAIN_USED_AS_ICEABLE_WATER_TILE_ID:
+        elif terrain.terrain_id not in TerrainId.water_terrains() and terrain.terrain_id not in TerrainId.beach_terrains() and terrain.terrain_id not in SHALLOW_ID:
 
             all_discovered_distance.add(distance)
             dict_all_non_water_terrain.setdefault(distance, []).append(terrain)
@@ -148,6 +149,7 @@ def add_blockage_object_to_target_tiles_that_mimic_water(source_scenario:AoE2DES
     # get reference id
     for gaia_unit in gaia_units:
         if gaia_unit.unit_const in [x.ID for x in OtherInfo.trees()]:
+            distance = calculate_distance_to_pole(gaia_unit)
             if gaia_unit.unit_const != OtherInfo.TREE_SNOW_PINE and  gaia_unit.unit_const != OtherInfo.TREE_OAK_AUTUMN_SNOW:
                 all_discovered_distance.add(calculate_distance_to_pole(gaia_unit))
                 dict_non_winter_tree.setdefault(distance, []).append(gaia_unit)
@@ -200,9 +202,11 @@ def add_blockage_object_to_target_tiles_that_mimic_water(source_scenario:AoE2DES
         #now 
         trigger = source_trigger_manager.add_trigger(
                 name=f"freeze_cluster_{cluster_idx}",
-                enabled=True,
+                enabled= cluster_idx==0,
                 looping=False
             )
+        trigger.new_condition.timer(FROZEN_PACE_DELAY)
+
         for distance in cluster_members:
             terrain_list = dict_iceable_river.get(distance)
             if terrain_list is not None:
@@ -250,8 +254,19 @@ def add_blockage_object_to_target_tiles_that_mimic_water(source_scenario:AoE2DES
                     )
 
 
+            if prev_trigger is not None:
+                prev_trigger.new_effect.activate_trigger(trigger.trigger_id)
+            else:
+                trigger.new_condition.timer(TIME_START_FROZEN)
+            prev_trigger = trigger
 
 
+    instruction_trigger = source_trigger_manager.add_trigger("display winter comming", enabled=True, looping=False)
+    instruction_trigger.new_condition.timer(TIME_START_FROZEN)
+    instruction_trigger.new_effect.display_instructions(object_list_unit_id=HeroInfo.GENGHIS_KHAN.ID,
+                                                        source_player=0,
+                                                        display_time=20,
+                                                        message = "Winter is Coming! Be careful of attack from the frozen river!")
 
 
     merged_terrain_list = list(chain(*dict_iceable_river.values()))
@@ -300,65 +315,6 @@ def add_blockage_object_to_target_tiles_that_mimic_water(source_scenario:AoE2DES
 
 
 
-    # def process_winter_trees():
-    #     """Process tree replacement with distance-based batching"""
-    #     # Configuration
-    #     TREE_REPLACE_OBJECTS = [
-    #         OtherInfo.TREE_SNOW_PINE.ID,
-    #         #OtherInfo.TREE_OAK_AUTUMN_SNOW.ID,
-    #         OtherInfo.TREE_DEAD.ID,
-    #         OtherInfo.TREE_I.ID
-    #     ]
-
-    #     # Group trees by distance
-    #     distance_groups = {}
-    #     for tree in non_winter_tree:
-    #         # Calculate squared distance from northern point
-    #         distance = ((tree.x - END_POLE_X)** 2) + (END_POLE_Y - tree.y) ** 2
-    #         # Initialize list if needed
-    #         if distance not in distance_groups:
-    #             distance_groups[distance] = []
-                
-    #         distance_groups[distance].append(tree)
-
-    #     # Create batched triggers
-    #     sorted_distances = sorted(distance_groups.keys(), reverse=True)
-    #     distance_batches = [sorted_distances[i:i+FROZEN_BATCH_SIZE] 
-    #                     for i in range(0, len(sorted_distances), FROZEN_BATCH_SIZE)]
-
-    #     for batch_idx, batch_distances in enumerate(distance_batches):
-    #         trigger = source_trigger_manager.add_trigger(
-    #             name=f"winter_tree_batch_{batch_idx}",
-    #             enabled=True,
-    #             looping=False
-    #         )
-
-    #         # Timer condition with progressive delay
-    #         trigger.new_condition.timer(
-    #             timer=TIME_START_FROZEN + (FROZEN_PACE_DELAY * batch_idx)
-    #         )
-
-    #         # Add replacement effects
-    #         for distance in batch_distances:
-    #             for tree in distance_groups[distance]:
-    #                 import random
-    #                 trigger.new_effect.replace_object(
-    #                     source_player=0,
-    #                     target_player=0,
-    #                     selected_object_ids=tree.reference_id,
-    #                     object_list_unit_id_2=random.choice(TREE_REPLACE_OBJECTS)
-    #                 )
-
-    # instruction_trigger = source_trigger_manager.add_trigger("display winter comming", enabled=True, looping=False)
-    # instruction_trigger.new_condition.timer(TIME_START_FROZEN)
-    # instruction_trigger.new_effect.display_instructions(object_list_unit_id=HeroInfo.GENGHIS_KHAN.ID,
-    #                                                     source_player=0,
-    #                                                     display_time=20,
-    #                                                     message = "Winter is Coming! Be careful of attack from the frozen river!")
-
-
-    # # Usage
-    # process_winter_trees()
 
 
 
@@ -378,7 +334,7 @@ def prepare_object_for_changing_terrain(source_trigger_manager):
                                             standing_graphic = 0,
                                             dead_unit_id = 0,
                                             unit_size_x = 1,
-                                            unit_size_y = 1,
+                                           unit_size_y = 1,
                                             )
     boost_hero(source_trigger_manager, inst_intermedite_object_building, PlayerId.all()[1:])
 
@@ -394,7 +350,7 @@ def prepare_object_for_changing_terrain(source_trigger_manager):
                                   can_be_built_on = 1,
                                   standing_graphic = 0,
                                   dead_unit_id = 0,
-                                    unit_size_x = 1,
+                                   unit_size_x = 1,
                                 unit_size_y = 1,
                                   )
     boost_hero(source_trigger_manager, inst_tenta_id_building, PlayerId.all()[1:])
