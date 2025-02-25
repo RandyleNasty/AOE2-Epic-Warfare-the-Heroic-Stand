@@ -1,4 +1,5 @@
 
+from os import kill
 from AoE2ScenarioParser.scenarios.aoe2_de_scenario import AoE2DEScenario
 from AoE2ScenarioParser.datasets.trigger_lists import *
 
@@ -65,7 +66,7 @@ USED_SOURCE_PLAYER = 8
 
 # WINTER CHANGE SPEED CONTROL
 CLUSTER_SIZE = 50
-
+KILL_EARLY = 1
 
 TREE_REPLACE_OBJECTS = [
             OtherInfo.TREE_SNOW_PINE.ID,
@@ -186,7 +187,7 @@ def add_blockage_object_to_target_tiles_that_mimic_water(source_scenario:AoE2DES
 
 
     prev_trigger = None
-
+    prev_kill_trigger = None
     # the based on cluster size, we use a for
     for cluster_idx, supposed_cluster in  enumerate(range(max_distance, 0, -CLUSTER_SIZE)):
         #check if this cluster is there but checking if this cluster contains discovered... distance
@@ -206,6 +207,26 @@ def add_blockage_object_to_target_tiles_that_mimic_water(source_scenario:AoE2DES
                 looping=False
             )
         trigger.new_condition.timer(FROZEN_PACE_DELAY)
+
+
+
+        """special treatment to kill object, has to happen one second early before place foundation"""
+        kill_trigger = source_trigger_manager.add_trigger(
+                name=f"kill_cluster_{cluster_idx}",
+                enabled= cluster_idx==0,
+                looping=False
+            )
+        kill_trigger.new_condition.timer(FROZEN_PACE_DELAY)
+
+
+        for distance in cluster_members:
+            terrain_list = dict_iceable_river.get(distance)
+            if terrain_list is not None:
+                for terrain in terrain_list:
+                    kill_trigger.new_effect.kill_object(object_list_unit_id=OBJECT_USED_TO_BLOCK_CROSSING_FAKE_WATER_ID, 
+                                                   source_player=0,
+                                                   area_x1=terrain.x, area_x2=terrain.x, area_y1=terrain.y, area_y2=terrain.y)
+                    
 
         for distance in cluster_members:
             terrain_list = dict_iceable_river.get(distance)
@@ -260,6 +281,13 @@ def add_blockage_object_to_target_tiles_that_mimic_water(source_scenario:AoE2DES
                 trigger.new_condition.timer(TIME_START_FROZEN)
             prev_trigger = trigger
 
+
+            if prev_kill_trigger is not None:
+                prev_kill_trigger.new_effect.activate_trigger(kill_trigger.trigger_id)
+            else:
+                kill_trigger.new_condition.timer(TIME_START_FROZEN - KILL_EARLY)
+
+            prev_kill_trigger = kill_trigger
 
     instruction_trigger = source_trigger_manager.add_trigger("display winter comming", enabled=True, looping=False)
     instruction_trigger.new_condition.timer(TIME_START_FROZEN)
