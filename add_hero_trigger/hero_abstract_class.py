@@ -44,6 +44,7 @@ def boost_hero(trigger_manager, hero, players_applied):
         'min_range': 20,
         'total_missile': [107, 102],
 
+        'selection_effect':80,
         'accuracy_percent': 11,
         'attack_dispersion': 64,
         'attack_dispersion_multiply':64,
@@ -65,6 +66,7 @@ def boost_hero(trigger_manager, hero, players_applied):
 
         'can_be_built_on':33,
 
+        'population': 110,
 
         'attack_graphic': 70,
         'standing_graphic': 71,
@@ -73,7 +75,7 @@ def boost_hero(trigger_manager, hero, players_applied):
         'undead_graphic': 74,
         'walking_graphic': 75,
         'running_graphic': 76,
-
+        'occlusion_mode': 29,
 
         'dead_unit_id': 57,
         'blood_unit': 66,

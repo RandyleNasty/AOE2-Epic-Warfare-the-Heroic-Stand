@@ -779,21 +779,58 @@ CENTER SACRED SPA CONTROL TRANSFER MECHANISM
 https://www.bilibili.com/video/BV1oM43enEhw?spm_id_from=333.788.recommend_more_video.8&vd_source=b55afea14026a74cb6f67fd8241ebb69
 
 """
-
+MONK_HERO_ID = 177
 PAGAN_SHRINE_ID = 1712
+### GIVE SPECIAL ABILITY TO CENTER SPA
+CENTER_MONK_HERO_ID = 1822
+#movement speed = 0 make unit cannot heal
+inst_spa_monk = Hero(
+    hero_id= CENTER_MONK_HERO_ID,  # You'll need to provide the correct hero_id
+    max_range=12,
+    #accuracy_percent=0,
+    #combat_ability= 16,
+    attack_graphic = 1516,
+    standing_graphic = 1518,
+    standing_graphic_2 = 1518,
+    walking_graphic = 1519,
+    population = 0,
+    selection_effect = 2,
+    search_radius = 12,
+    line_of_sight = 12,
+    occlusion_mode = 0,
+    #movement_speed=0,
+
+)
+boost_hero(source_trigger_manager, inst_spa_monk, PlayerId.all())
+
+inst_shrine = Hero(hero_id = PAGAN_SHRINE_ID, combat_ability = 32, hero_status = 64)
+
+boost_hero(source_trigger_manager, inst_shrine, PlayerId.all())
+
+
+
+
+DISABLE_SELECTION_X1 = 116
+DISABLE_SELECTION_X2 = 120
+DISABLE_SELECTION_Y1 = 121
+DISABLE_SELECTION_Y2 = 125
+
 
 initialize_trigger = source_trigger_manager.add_trigger("initialization", enabled=True, looping=False)
 initialize_trigger.new_effect.disable_object_deletion(source_player=0, area_x1=114, area_x2=122, area_y1=120, area_y2=127)
-initialize_trigger.new_effect.disable_object_selection(source_player=0, area_x1=114, area_x2=122, area_y1=120, area_y2=127)
+
+initialize_trigger.new_effect.disable_object_selection(source_player=0, area_x1=116, area_x2=120, area_y1=121, area_y2=125)
+
 initialize_trigger.new_effect.change_object_hp(source_player=0, area_x1=114, area_x2=122, area_y1=120, area_y2=127, quantity=0, operation=Operation.SET)
 initialize_trigger.new_effect.change_object_hp(source_player=0, area_x1=114, area_x2=122, area_y1=120, area_y2=127, quantity=0, operation=Operation.SET)
 
 
 
-BUILDING_AREA_X1 = 114
-BUILDING_AREA_X2 = 122
-BUILDING_AREA_Y1 = 120  
-BUILDING_AREA_Y2 = 127
+BUILDING_AREA_X1 = 113
+BUILDING_AREA_X2 = 123
+BUILDING_AREA_Y1 = 118  
+BUILDING_AREA_Y2 = 128
+
 
 
 # gaia_units = source_scenario.unit_manager.get_player_units(PlayerId.GAIA)
@@ -826,7 +863,10 @@ give_it_to_gaia_trigger = source_trigger_manager.add_trigger("give_it_to_gaia_tr
 for player in PlayerId.all()[1:]:
     # detect if solder left only left these converted gaia unit...
     # instead we use military unit
-    give_it_to_gaia_trigger.new_condition.objects_in_area(quantity=0, 
+    if player != 1:
+        give_it_to_gaia_trigger.new_condition.and_()
+
+    give_it_to_gaia_trigger.new_condition.objects_in_area(quantity=1, inverted=True,
                                                             area_x1 = UNIT_DETECT_AREA_X1,
                                                             area_x2 = UNIT_DETECT_AREA_X2,
                                                             area_y1 = UNIT_DETECT_AREA_Y1,
@@ -834,12 +874,19 @@ for player in PlayerId.all()[1:]:
                                                             source_player=player, 
                                                             object_state=ObjectState.ALIVE, 
                                                             object_type=ObjectType.MILITARY)
-    give_it_to_gaia_trigger.new_effect.change_ownership(source_player=player, target_player=0, area_x1=114, area_x2=122, area_y1=120, area_y2=127)
+    
+
+    give_it_to_gaia_trigger.new_effect.change_ownership(source_player=player, target_player=0, 
+                                                        area_x1=BUILDING_AREA_X1, 
+                                                        area_x2=BUILDING_AREA_X2,
+                                                        area_y1=BUILDING_AREA_Y1, 
+                                                        area_y2=BUILDING_AREA_Y2)
 
 for trigger in list_give_it_to_player_triggers:
     give_it_to_gaia_trigger.new_effect.activate_trigger(trigger.trigger_id)
+    
 
-
+#give_it_to_gaia_trigger.new_effect.display_instructions(source_player=0, message="give_it_to_gaia_trigger")
 
 
 for index, trigger in enumerate(list_give_it_to_player_triggers):
@@ -851,6 +898,8 @@ for index, trigger in enumerate(list_give_it_to_player_triggers):
                                         source_player=index+1, 
                                         object_state=ObjectState.ALIVE,
                                         object_type=ObjectType.MILITARY)
+    trigger.new_condition.and_()
+
     #detect gaia unit
     trigger.new_condition.objects_in_area(
                                         quantity=NUM_CONVERTABLE_OBECT, 
@@ -867,6 +916,8 @@ for index, trigger in enumerate(list_give_it_to_player_triggers):
                                         area_y1=BUILDING_AREA_Y1, 
                                         area_y2=BUILDING_AREA_Y2,)
     trigger.new_effect.activate_trigger(give_it_to_gaia_trigger.trigger_id)
+
+
 
 
 # Final step: write a modified scenario class to a new scenario file
