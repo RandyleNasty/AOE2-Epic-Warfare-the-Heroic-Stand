@@ -749,6 +749,7 @@ def create_equal_chance_system(trigger_manager, players, hero_ids, tents_list):
         import random
         #once one chance trigger activate disable other generated chance trigger
         for trigger in chance_triggers:
+            #get other chance trigger except for itself
             other_triggers = [t for t in chance_triggers if t != trigger][NUM_HERO_ALLOWED - 1:]
             num_to_remove = len(other_triggers) - (NUM_HERO_ALLOWED - 1)
 
@@ -794,11 +795,12 @@ inst_spa_monk = Hero(
     standing_graphic_2 = 1518,
     walking_graphic = 1519,
     population = 0,
-    selection_effect = 2,
+    #selection_effect = 2,
     search_radius = 12,
     line_of_sight = 12,
     occlusion_mode = 0,
-    #movement_speed=0,
+    movement_speed_divide = 4,
+    movement_speed=0,
 
 )
 boost_hero(source_trigger_manager, inst_spa_monk, PlayerId.all())
@@ -808,28 +810,27 @@ inst_shrine = Hero(hero_id = PAGAN_SHRINE_ID, combat_ability = 32, hero_status =
 boost_hero(source_trigger_manager, inst_shrine, PlayerId.all())
 
 
-
-
-DISABLE_SELECTION_X1 = 116
-DISABLE_SELECTION_X2 = 120
-DISABLE_SELECTION_Y1 = 121
-DISABLE_SELECTION_Y2 = 125
-
-
-initialize_trigger = source_trigger_manager.add_trigger("initialization", enabled=True, looping=False)
-initialize_trigger.new_effect.disable_object_deletion(source_player=0, area_x1=114, area_x2=122, area_y1=120, area_y2=127)
-
-initialize_trigger.new_effect.disable_object_selection(source_player=0, area_x1=116, area_x2=120, area_y1=121, area_y2=125)
-
-initialize_trigger.new_effect.change_object_hp(source_player=0, area_x1=114, area_x2=122, area_y1=120, area_y2=127, quantity=0, operation=Operation.SET)
-initialize_trigger.new_effect.change_object_hp(source_player=0, area_x1=114, area_x2=122, area_y1=120, area_y2=127, quantity=0, operation=Operation.SET)
-
-
+UNIT_DETECT_AREA_X1 = 108
+UNIT_DETECT_AREA_X2 = 127
+UNIT_DETECT_AREA_Y1 = 113
+UNIT_DETECT_AREA_Y2 = 133
 
 BUILDING_AREA_X1 = 113
 BUILDING_AREA_X2 = 123
 BUILDING_AREA_Y1 = 118  
 BUILDING_AREA_Y2 = 128
+
+
+
+initialize_trigger = source_trigger_manager.add_trigger("initialization", enabled=True, looping=False)
+initialize_trigger.new_effect.disable_object_deletion(source_player=0, area_x1=BUILDING_AREA_X1, area_x2=BUILDING_AREA_X2, area_y1=BUILDING_AREA_Y1, area_y2=BUILDING_AREA_Y2)
+
+initialize_trigger.new_effect.disable_object_selection(source_player=0, area_x1=BUILDING_AREA_X1, area_x2=BUILDING_AREA_X2, area_y1=BUILDING_AREA_Y1, area_y2=BUILDING_AREA_Y2)
+
+initialize_trigger.new_effect.change_object_hp(source_player=0, area_x1=BUILDING_AREA_X1, area_x2=BUILDING_AREA_X2, area_y1=BUILDING_AREA_Y1, area_y2=BUILDING_AREA_Y2, quantity=0, operation=Operation.SET)
+initialize_trigger.new_effect.change_object_hp(source_player=0, area_x1=BUILDING_AREA_X1, area_x2=BUILDING_AREA_X2, area_y1=BUILDING_AREA_Y1, area_y2=BUILDING_AREA_Y2, quantity=0, operation=Operation.SET)
+
+
 
 
 
@@ -846,10 +847,7 @@ NUM_CONVERTABLE_OBECT = 5
 
 
 
-UNIT_DETECT_AREA_X1 = 108
-UNIT_DETECT_AREA_X2 = 127
-UNIT_DETECT_AREA_Y1 = 113
-UNIT_DETECT_AREA_Y2 = 133
+
 
 list_give_it_to_player_triggers = []
 for player in PlayerId.all()[1:]:
@@ -890,6 +888,7 @@ for trigger in list_give_it_to_player_triggers:
 
 
 for index, trigger in enumerate(list_give_it_to_player_triggers):
+    trigger.new_condition.timer(1)
     trigger.new_condition.objects_in_area(quantity=1, 
                                         area_x1 = UNIT_DETECT_AREA_X1,
                                         area_x2 = UNIT_DETECT_AREA_X2,
