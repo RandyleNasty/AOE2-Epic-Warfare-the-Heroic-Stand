@@ -3321,7 +3321,7 @@ Triggers:
 				object_attributes: Armor (8)
 
 	'unfreeze point' [Index: 46, Display: 46]:
-		enabled: True
+		enabled: False
 		looping: False
 		description_stid: 0
 		short_description_stid: 0
@@ -3332,7 +3332,7 @@ Triggers:
 				location_y: 50
 
 	'center_sacred' [Index: 47, Display: 47]:
-		enabled: True
+		enabled: False
 		looping: False
 		description_stid: 0
 		short_description_stid: 0
@@ -3341,6 +3341,44 @@ Triggers:
 				source_player: Player Gaia (0)
 				location_x: 118
 				location_y: 123
+
+	'center_building_area' [Index: 48, Display: 48]:
+		enabled: False
+		looping: False
+		description_stid: 0
+		short_description_stid: 0
+		effects:
+			disable_object_selection [Index: 0, Display: 0]:
+				source_player: Player One (1)
+				area_x1: 114
+				area_y1: 120
+				area_x2: 122
+				area_y2: 127
+
+	'center' [Index: 49, Display: 49]:
+		enabled: False
+		looping: False
+		description_stid: 0
+		short_description_stid: 0
+		conditions:
+			objects_in_area [Index: 0, Display: 0]:
+				quantity: 0
+				source_player: Player One (1)
+				area_x1: 107
+				area_y1: 113
+				area_x2: 130
+				area_y2: 134
+				object_type: Military (4)
+				inverted: False (0)
+				object_state: Alive (2)
+				include_changeable_weapon_objects: False (0)
+		effects:
+			disable_object_selection [Index: 0, Display: 0]:
+				source_player: Player One (1)
+				area_x1: 108
+				area_y1: 113
+				area_x2: 127
+				area_y2: 133
 
 Variables:
 	<<No Variables>>

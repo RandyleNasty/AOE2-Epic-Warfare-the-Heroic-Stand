@@ -27,7 +27,7 @@ from hero_abstract_class import *
 from robin_archer import *
 from itertools import chain
 
-
+from center_sacred_parameters import *
 """
 Dynamic Change Enviorment Specification
 1. change specific dedicated tiles at the start to unpassable water tile by using invisible object (blocks) that has water foundation
@@ -70,7 +70,7 @@ UNFREEZE_POINT_RIVER_Y = 50
 
 
 # WINTER CHANGE SPEED CONTROL
-CLUSTER_SIZE = 30
+CLUSTER_SIZE = 500
 KILL_EARLY = 1
 
 TREE_REPLACE_OBJECTS = [
@@ -99,9 +99,7 @@ if cluster is 3, then 1.
 
 """
 
-CENTER_SACRED_X = 118
-CENTER_SACRED_Y = 123
-CENTER_WINTER_NO_CHANGE_DISTANCE = 10
+
 
 def calculate_distance_to_end_pole(tile):
     return int(((tile.x - END_POLE_X)** 2) + (END_POLE_Y - tile.y) ** 2)
@@ -372,6 +370,9 @@ def add_blockage_object_to_target_tiles_that_mimic_water(source_scenario:AoE2DES
     #clear_blockage_building.new_condition.timer(timer=TIME_START_FROZEN - 1)
     #clear_blockage_building.new_effect.kill_object(object_list_unit_id=OBJECT_USED_TO_BLOCK_CROSSING_FAKE_WATER_ID, source_player=0)
 
+    """
+    add take turns 
+    """
 
 
 

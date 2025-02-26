@@ -29,6 +29,8 @@ from robin_archer import *
 
 from dynamic_enviorment import *
 
+from center_sacred_parameters import *
+
 # File & Folder setup - Declare your scenario directory path
 #scenario_folder = "C:/Users/Admin/Games/Age of Empires 2 DE/76561198148041091/resources/_common/scenario/"
 
@@ -768,6 +770,104 @@ create_equal_chance_system(
 )
 
 add_blockage_object_to_target_tiles_that_mimic_water(source_scenario)
+
+
+
+"""
+CENTER SACRED SPA CONTROL TRANSFER MECHANISM
+
+https://www.bilibili.com/video/BV1oM43enEhw?spm_id_from=333.788.recommend_more_video.8&vd_source=b55afea14026a74cb6f67fd8241ebb69
+
+"""
+
+PAGAN_SHRINE_ID = 1712
+
+initialize_trigger = source_trigger_manager.add_trigger("initialization", enabled=True, looping=False)
+initialize_trigger.new_effect.disable_object_deletion(source_player=0, area_x1=114, area_x2=122, area_y1=120, area_y2=127)
+initialize_trigger.new_effect.disable_object_selection(source_player=0, area_x1=114, area_x2=122, area_y1=120, area_y2=127)
+initialize_trigger.new_effect.change_object_hp(source_player=0, area_x1=114, area_x2=122, area_y1=120, area_y2=127, quantity=0, operation=Operation.SET)
+initialize_trigger.new_effect.change_object_hp(source_player=0, area_x1=114, area_x2=122, area_y1=120, area_y2=127, quantity=0, operation=Operation.SET)
+
+
+
+BUILDING_AREA_X1 = 114
+BUILDING_AREA_X2 = 122
+BUILDING_AREA_Y1 = 120  
+BUILDING_AREA_Y2 = 127
+
+
+# gaia_units = source_scenario.unit_manager.get_player_units(PlayerId.GAIA)
+# num_gaia_unit = 0
+# for gaia_unit in gaia_units:
+#     gaia_unit_x, gaia_unit_y = gaia_unit.x, gaia_unit.y  # Fix the variable name
+
+#     if BUILDING_AREA_X1 <= gaia_unit_x <= BUILDING_AREA_X2 and BUILDING_AREA_Y1 <= gaia_unit_y <= BUILDING_AREA_Y2:
+#         #print(f"Gaia unit at ({gaia_unit_x}, {gaia_unit_y}) is in the building area.")
+#         num_gaia_unit = num_gaia_unit + 1
+
+NUM_CONVERTABLE_OBECT = 5
+
+
+
+UNIT_DETECT_AREA_X1 = 108
+UNIT_DETECT_AREA_X2 = 127
+UNIT_DETECT_AREA_Y1 = 113
+UNIT_DETECT_AREA_Y2 = 133
+
+list_give_it_to_player_triggers = []
+for player in PlayerId.all()[1:]:
+    trigger = source_trigger_manager.add_trigger(f"p{player}_give", enabled=False, looping=False)
+    list_give_it_to_player_triggers.append(trigger)
+
+
+# Construct Give to Gaia
+give_it_to_gaia_trigger = source_trigger_manager.add_trigger("give_it_to_gaia_trigger", enabled=True, looping=False)
+
+for player in PlayerId.all()[1:]:
+    # detect if solder left only left these converted gaia unit...
+    # instead we use military unit
+    give_it_to_gaia_trigger.new_condition.objects_in_area(quantity=0, 
+                                                            area_x1 = UNIT_DETECT_AREA_X1,
+                                                            area_x2 = UNIT_DETECT_AREA_X2,
+                                                            area_y1 = UNIT_DETECT_AREA_Y1,
+                                                            area_y2 =UNIT_DETECT_AREA_Y2,
+                                                            source_player=player, 
+                                                            object_state=ObjectState.ALIVE, 
+                                                            object_type=ObjectType.MILITARY)
+    give_it_to_gaia_trigger.new_effect.change_ownership(source_player=player, target_player=0, area_x1=114, area_x2=122, area_y1=120, area_y2=127)
+
+for trigger in list_give_it_to_player_triggers:
+    give_it_to_gaia_trigger.new_effect.activate_trigger(trigger.trigger_id)
+
+
+
+
+for index, trigger in enumerate(list_give_it_to_player_triggers):
+    trigger.new_condition.objects_in_area(quantity=1, 
+                                        area_x1 = UNIT_DETECT_AREA_X1,
+                                        area_x2 = UNIT_DETECT_AREA_X2,
+                                        area_y1 = UNIT_DETECT_AREA_Y1,
+                                        area_y2 = UNIT_DETECT_AREA_Y2,
+                                        source_player=index+1, 
+                                        object_state=ObjectState.ALIVE,
+                                        object_type=ObjectType.MILITARY)
+    #detect gaia unit
+    trigger.new_condition.objects_in_area(
+                                        quantity=NUM_CONVERTABLE_OBECT, 
+                                        area_x1=BUILDING_AREA_X1, 
+                                        area_x2=BUILDING_AREA_X2, 
+                                        area_y1=BUILDING_AREA_Y1, 
+                                        area_y2=BUILDING_AREA_Y2,
+                                        source_player=0, 
+                                        object_state=ObjectState.ALIVE,
+                                        object_type=ObjectType.BUILDING)
+    trigger.new_effect.change_ownership(source_player = 0, target_player = index + 1,
+                                        area_x1=BUILDING_AREA_X1, 
+                                        area_x2=BUILDING_AREA_X2, 
+                                        area_y1=BUILDING_AREA_Y1, 
+                                        area_y2=BUILDING_AREA_Y2,)
+    trigger.new_effect.activate_trigger(give_it_to_gaia_trigger.trigger_id)
+
 
 # Final step: write a modified scenario class to a new scenario file
 source_scenario.write_to_file(output_path)
