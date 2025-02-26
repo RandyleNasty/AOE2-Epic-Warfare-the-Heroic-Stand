@@ -145,11 +145,11 @@ inst_dagnajan_hero = Hero(
     max_range=5,
     min_range=1,
     attack_dispersion=1,
-    accuracy_percent=30,
+    accuracy_percent=25,
     pierce_armor=15,
     melee_armour=14,
-    melee_attack = 17,
-    attack_reload_set=2,  
+    melee_attack = 30,
+    attack_reload_set=3,  
     total_missile = 30,
     combat_ability= 8 + 16,
     #walking_graphic = 654,
@@ -313,16 +313,16 @@ inst_hero_darius = Hero(
 inst_hero_mounted_archer = Hero(
     hero_id=HeroInfo.KOTYAN_KHAN.ID,  # You'll need to provide the correct hero_id
     max_range=9,
-    min_range = 3,
-    melee_attack=25,
+    min_range = 1,
+    melee_attack=30,
     blast_width=1,
     blast_attack_level=4,
     accuracy_percent=70,
     #attack_dispersion=1,
-    total_missile=4,
+    total_missile=5,
     pierce_armor=15,
     melee_armour=8,
-    attack_reload_set=1,  # This will be divided, not added
+    attack_reload_set=2, 
     projectile_unit = 1595,
     combat_ability= 16 + 8,
 )
@@ -406,11 +406,13 @@ inst_summon_unit = Hero(
 # not actually doing damage to friendly unit
 inst_sabo_man_unit = Hero(
     hero_id= sabo_man_id,  # You'll need to provide the correct hero_id
-    melee_attack = 50,
+    melee_attack = 40,
+    melee_attack_for_building = 10,
+    melee_attack_for_wall_and_gate = 10,
     blast_attack_level=2,
     health_point = 0,
     blast_width = 2,
-    blood_unit = 1334,
+    blood_unit = flame_id_spawned_after_explosion,
     standing_graphic = 7253,
     attack_graphic = 7251,
     #dying_graphic = 7252,
@@ -754,8 +756,8 @@ def create_equal_chance_system(trigger_manager, players, hero_ids, tents_list):
             num_to_remove = len(other_triggers) - (NUM_HERO_ALLOWED - 1)
 
             #so that second selected hero not always chariot hero
-            if num_to_remove > 0:
-                other_triggers = random.sample(other_triggers, len(other_triggers) - num_to_remove)
+            #if num_to_remove > 0:
+                #other_triggers = random.sample(other_triggers, len(other_triggers) - num_to_remove)
 
             for other in other_triggers:
                 trigger.new_effect.deactivate_trigger(other.trigger_id)
@@ -791,15 +793,15 @@ inst_spa_monk = Hero(
     #accuracy_percent=0,
     #combat_ability= 16,
     attack_graphic = 1516,
-    standing_graphic = 1518,
-    standing_graphic_2 = 1518,
+    standing_graphic = 0,
+    standing_graphic_2 = 0,
     walking_graphic = 1519,
     population = 0,
     #selection_effect = 2,
     search_radius = 12,
     line_of_sight = 12,
     occlusion_mode = 0,
-    movement_speed_divide = 4,
+    #movement_speed_divide = 4,
     movement_speed=0,
 
 )
@@ -810,42 +812,37 @@ inst_shrine = Hero(hero_id = PAGAN_SHRINE_ID, combat_ability = 32, hero_status =
 boost_hero(source_trigger_manager, inst_shrine, PlayerId.all())
 
 
-UNIT_DETECT_AREA_X1 = 108
-UNIT_DETECT_AREA_X2 = 127
+
+				# area_x1: 107
+				# area_y1: 113
+				# area_x2: 130
+				# area_y2: 134
+
+
+UNIT_DETECT_AREA_X1 = 107
+UNIT_DETECT_AREA_X2 = 130
 UNIT_DETECT_AREA_Y1 = 113
-UNIT_DETECT_AREA_Y2 = 133
+UNIT_DETECT_AREA_Y2 = 134
 
 BUILDING_AREA_X1 = 113
 BUILDING_AREA_X2 = 123
 BUILDING_AREA_Y1 = 118  
 BUILDING_AREA_Y2 = 128
 
-
+INITIAL_OWNER = 1
 
 initialize_trigger = source_trigger_manager.add_trigger("initialization", enabled=True, looping=False)
-initialize_trigger.new_effect.disable_object_deletion(source_player=0, area_x1=BUILDING_AREA_X1, area_x2=BUILDING_AREA_X2, area_y1=BUILDING_AREA_Y1, area_y2=BUILDING_AREA_Y2)
+initialize_trigger.new_effect.disable_object_deletion(source_player=INITIAL_OWNER, area_x1=BUILDING_AREA_X1, area_x2=BUILDING_AREA_X2, area_y1=BUILDING_AREA_Y1, area_y2=BUILDING_AREA_Y2)
 
-initialize_trigger.new_effect.disable_object_selection(source_player=0, area_x1=BUILDING_AREA_X1, area_x2=BUILDING_AREA_X2, area_y1=BUILDING_AREA_Y1, area_y2=BUILDING_AREA_Y2)
+initialize_trigger.new_effect.disable_object_selection(source_player=INITIAL_OWNER, area_x1=BUILDING_AREA_X1, area_x2=BUILDING_AREA_X2, area_y1=BUILDING_AREA_Y1, area_y2=BUILDING_AREA_Y2)
 
-initialize_trigger.new_effect.change_object_hp(source_player=0, area_x1=BUILDING_AREA_X1, area_x2=BUILDING_AREA_X2, area_y1=BUILDING_AREA_Y1, area_y2=BUILDING_AREA_Y2, quantity=0, operation=Operation.SET)
-initialize_trigger.new_effect.change_object_hp(source_player=0, area_x1=BUILDING_AREA_X1, area_x2=BUILDING_AREA_X2, area_y1=BUILDING_AREA_Y1, area_y2=BUILDING_AREA_Y2, quantity=0, operation=Operation.SET)
-
-
+initialize_trigger.new_effect.change_object_hp(source_player=INITIAL_OWNER, area_x1=BUILDING_AREA_X1, area_x2=BUILDING_AREA_X2, area_y1=BUILDING_AREA_Y1, area_y2=BUILDING_AREA_Y2, quantity=0, operation=Operation.SET)
+initialize_trigger.new_effect.change_object_hp(source_player=INITIAL_OWNER, area_x1=BUILDING_AREA_X1, area_x2=BUILDING_AREA_X2, area_y1=BUILDING_AREA_Y1, area_y2=BUILDING_AREA_Y2, quantity=0, operation=Operation.SET)
 
 
 
-# gaia_units = source_scenario.unit_manager.get_player_units(PlayerId.GAIA)
-# num_gaia_unit = 0
-# for gaia_unit in gaia_units:
-#     gaia_unit_x, gaia_unit_y = gaia_unit.x, gaia_unit.y  # Fix the variable name
-
-#     if BUILDING_AREA_X1 <= gaia_unit_x <= BUILDING_AREA_X2 and BUILDING_AREA_Y1 <= gaia_unit_y <= BUILDING_AREA_Y2:
-#         #print(f"Gaia unit at ({gaia_unit_x}, {gaia_unit_y}) is in the building area.")
-#         num_gaia_unit = num_gaia_unit + 1
 
 NUM_CONVERTABLE_OBECT = 5
-
-
 
 
 
@@ -853,36 +850,34 @@ list_give_it_to_player_triggers = []
 for player in PlayerId.all()[1:]:
     trigger = source_trigger_manager.add_trigger(f"p{player}_give", enabled=False, looping=False)
     list_give_it_to_player_triggers.append(trigger)
-
-
 # Construct Give to Gaia
-give_it_to_gaia_trigger = source_trigger_manager.add_trigger("give_it_to_gaia_trigger", enabled=True, looping=False)
 
-for player in PlayerId.all()[1:]:
-    # detect if solder left only left these converted gaia unit...
-    # instead we use military unit
-    if player != 1:
-        give_it_to_gaia_trigger.new_condition.and_()
 
-    give_it_to_gaia_trigger.new_condition.objects_in_area(quantity=1, inverted=True,
-                                                            area_x1 = UNIT_DETECT_AREA_X1,
-                                                            area_x2 = UNIT_DETECT_AREA_X2,
-                                                            area_y1 = UNIT_DETECT_AREA_Y1,
-                                                            area_y2 =UNIT_DETECT_AREA_Y2,
-                                                            source_player=player, 
-                                                            object_state=ObjectState.ALIVE, 
-                                                            object_type=ObjectType.MILITARY)
-    
+list_gaia_give_triggers = []
+for index, player in enumerate(PlayerId.all()[1:]):
+    trigger = source_trigger_manager.add_trigger(f"p{player}_gaia_give", enabled=True, looping=False)
+    list_gaia_give_triggers.append(trigger)
+    trigger.new_condition.timer(1)
+    trigger.new_condition.objects_in_area(quantity=1, inverted=True,
+                                        area_x1 = UNIT_DETECT_AREA_X1,
+                                        area_x2 = UNIT_DETECT_AREA_X2,
+                                        area_y1 = UNIT_DETECT_AREA_Y1,
+                                        area_y2 =UNIT_DETECT_AREA_Y2,
+                                        source_player=player, 
+                                        object_state=ObjectState.ALIVE, 
+                                        object_type=ObjectType.MILITARY)    
+    trigger.new_effect.change_ownership(source_player=player, 
+                                        target_player=0, 
+                                        area_x1=BUILDING_AREA_X1, 
+                                        area_x2=BUILDING_AREA_X2,
+                                        area_y1=BUILDING_AREA_Y1, 
+                                        area_y2=BUILDING_AREA_Y2,
+                                        #object_type=ObjectType.BUILDING
+                                        )
+    trigger.new_effect.activate_trigger(list_give_it_to_player_triggers[index].trigger_id)
 
-    give_it_to_gaia_trigger.new_effect.change_ownership(source_player=player, target_player=0, 
-                                                        area_x1=BUILDING_AREA_X1, 
-                                                        area_x2=BUILDING_AREA_X2,
-                                                        area_y1=BUILDING_AREA_Y1, 
-                                                        area_y2=BUILDING_AREA_Y2)
 
-for trigger in list_give_it_to_player_triggers:
-    give_it_to_gaia_trigger.new_effect.activate_trigger(trigger.trigger_id)
-    
+
 
 #give_it_to_gaia_trigger.new_effect.display_instructions(source_player=0, message="give_it_to_gaia_trigger")
 
@@ -908,13 +903,16 @@ for index, trigger in enumerate(list_give_it_to_player_triggers):
                                         area_y2=BUILDING_AREA_Y2,
                                         source_player=0, 
                                         object_state=ObjectState.ALIVE,
-                                        object_type=ObjectType.BUILDING)
+                                        object_type=ObjectType.BUILDING
+                                        )
     trigger.new_effect.change_ownership(source_player = 0, target_player = index + 1,
                                         area_x1=BUILDING_AREA_X1, 
                                         area_x2=BUILDING_AREA_X2, 
                                         area_y1=BUILDING_AREA_Y1, 
-                                        area_y2=BUILDING_AREA_Y2,)
-    trigger.new_effect.activate_trigger(give_it_to_gaia_trigger.trigger_id)
+                                        area_y2=BUILDING_AREA_Y2,
+                                        #object_type=ObjectType.BUILDING
+                                        )
+    trigger.new_effect.activate_trigger(list_gaia_give_triggers[index].trigger_id)
 
 
 

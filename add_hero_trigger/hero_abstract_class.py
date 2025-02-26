@@ -55,6 +55,9 @@ def boost_hero(trigger_manager, hero, players_applied):
         'melee_armour': (8, 4),
         'pierce_armor': (8, 3),
         'melee_attack': (9, 4),
+        'melee_attack_for_building':(9, 11),
+        'melee_attack_for_wall_and_gate':(9, 13),
+
         'movement_speed': 5,
         'movement_speed_multiply': 5,
         'movement_speed_divide':5,

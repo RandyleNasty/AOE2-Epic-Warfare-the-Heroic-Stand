@@ -344,13 +344,26 @@ def add_blockage_object_to_target_tiles_that_mimic_water(source_scenario:AoE2DES
 
 
     transform_building_to_gaia = source_trigger_manager.add_trigger("transform_building_to_gaia", enabled=True,looping=False)
-    transform_building_to_gaia.new_condition.timer(5)
+    transform_building_to_gaia.new_condition.timer(3)
 
     for terrain in merged_terrain_list:
         #transform_first_to_water.new_effect.place_foundation(object_list_unit_id=invisible_storage_with_water_foundation_id,source_player=USED_SOURCE_PLAYER,location_x=x,location_y=y)
         transform_building_to_gaia.new_effect.create_object(object_list_unit_id=OBJECT_USED_TO_BLOCK_CROSSING_FAKE_WATER_ID, source_player=USED_SOURCE_PLAYER, location_x= terrain.x, location_y=terrain.y)
 
+
+    transform_building_to_gaia.new_effect.disable_object_deletion(source_player=USED_SOURCE_PLAYER)
+
+    transform_building_to_gaia.new_effect.disable_object_selection(source_player=USED_SOURCE_PLAYER)
+
+    transform_building_to_gaia.new_effect.change_object_hp(source_player=USED_SOURCE_PLAYER, quantity=0, operation=Operation.SET)
+    transform_building_to_gaia.new_effect.change_object_hp(source_player=USED_SOURCE_PLAYER, quantity=0, operation=Operation.SET)
+
+
+
     transform_building_to_gaia.new_effect.change_ownership(object_list_unit_id=OBJECT_USED_TO_BLOCK_CROSSING_FAKE_WATER_ID, source_player=USED_SOURCE_PLAYER, target_player=0)
+
+
+
 
     """
     this one does not work strange..

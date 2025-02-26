@@ -3375,10 +3375,10 @@ Triggers:
 		effects:
 			disable_object_selection [Index: 0, Display: 0]:
 				source_player: Player One (1)
-				area_x1: 108
-				area_y1: 113
-				area_x2: 127
-				area_y2: 133
+				area_x1: 111
+				area_y1: 116
+				area_x2: 125
+				area_y2: 130
 
 Variables:
 	<<No Variables>>
