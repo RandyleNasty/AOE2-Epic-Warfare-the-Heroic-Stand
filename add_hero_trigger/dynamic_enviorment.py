@@ -46,7 +46,7 @@ START_POLE_Y = 0
 
 END_POLE_X = 0
 END_POLE_Y = 240
-TIME_START_FROZEN = 4800
+TIME_START_FROZEN = 20
 # Configuration
 FROZEN_PACE_DELAY = 2 
 
@@ -99,7 +99,9 @@ if cluster is 3, then 1.
 
 """
 
-
+CENTER_SACRED_X = 118
+CENTER_SACRED_Y = 123
+CENTER_WINTER_NO_CHANGE_DISTANCE = 10
 
 def calculate_distance_to_end_pole(tile):
     return int(((tile.x - END_POLE_X)** 2) + (END_POLE_Y - tile.y) ** 2)
@@ -108,6 +110,8 @@ def calculate_distance_to_start_pole(tile):
 def calculate_unfreeze_point_distance_to_start_pole():
     return int(((UNFREEZE_POINT_RIVER_X - START_POLE_X)** 2) + (START_POLE_Y - UNFREEZE_POINT_RIVER_Y) ** 2)
 
+def calculate_euclean_distance_to_center_sacred(tile):
+    return int(math.sqrt(((CENTER_SACRED_X - tile.x)** 2) + (CENTER_SACRED_Y - tile.y) ** 2))
 
 def add_blockage_object_to_target_tiles_that_mimic_water(source_scenario:AoE2DEScenario):
 
@@ -134,6 +138,11 @@ def add_blockage_object_to_target_tiles_that_mimic_water(source_scenario:AoE2DES
 
     for terrain in originalTerrains:
         distance = calculate_distance_to_end_pole(terrain)
+
+        # DO NO TOUCH terrain near sacred center
+        if calculate_euclean_distance_to_center_sacred(terrain) < CENTER_WINTER_NO_CHANGE_DISTANCE:
+            continue 
+
         #BRIDGE
         if terrain.terrain_id == TERRAIN_USED_AS_ICEABLE_WATER_TILE_ID:
 
@@ -168,6 +177,10 @@ def add_blockage_object_to_target_tiles_that_mimic_water(source_scenario:AoE2DES
     #non_winter_tree = []
     # get reference id
     for gaia_unit in gaia_units:
+        # DO NO TOUCH terrain near sacred center
+        if calculate_euclean_distance_to_center_sacred(gaia_unit) < CENTER_WINTER_NO_CHANGE_DISTANCE:
+            continue 
+
         if gaia_unit.unit_const in [x.ID for x in OtherInfo.trees()]:
             distance = calculate_distance_to_end_pole(gaia_unit)
             if gaia_unit.unit_const != OtherInfo.TREE_SNOW_PINE and  gaia_unit.unit_const != OtherInfo.TREE_OAK_AUTUMN_SNOW:

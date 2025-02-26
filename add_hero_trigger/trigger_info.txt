@@ -595,7 +595,7 @@ Triggers:
 				trigger_id: "reactivate West Line Broken" (14)
 
 	'Final East Push' [Index: 16, Display: 16]:
-		enabled: True
+		enabled: False
 		looping: False
 		description_stid: 0
 		short_description_stid: 0
@@ -3320,7 +3320,7 @@ Triggers:
 				operation: Subtract (3)
 				object_attributes: Armor (8)
 
-	'Tsdasd' [Index: 46, Display: 46]:
+	'unfreeze point' [Index: 46, Display: 46]:
 		enabled: True
 		looping: False
 		description_stid: 0
@@ -3330,6 +3330,17 @@ Triggers:
 				source_player: Player One (1)
 				location_x: 153
 				location_y: 50
+
+	'center_sacred' [Index: 47, Display: 47]:
+		enabled: True
+		looping: False
+		description_stid: 0
+		short_description_stid: 0
+		effects:
+			place_foundation [Index: 0, Display: 0]:
+				source_player: Player Gaia (0)
+				location_x: 118
+				location_y: 123
 
 Variables:
 	<<No Variables>>
