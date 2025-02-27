@@ -48,7 +48,15 @@ input_path = scenario_folder + "Epic_Warfare Remastered v2_3 test frozen river.a
 #input_path = scenario_folder + "Epic_Warfare Remastered v2_0 Parsed.aoe2scenario"
 
 #output_path = scenario_folder + "Epic_Warfare Remastered v2_1 Parsed.aoe2scenario"
-output_path = scenario_folder + "Epic_Warfare Remastered v2_3 test frozen river Parsed.aoe2scenario"
+
+#C:\Users\Randy\Games\Age of Empires 2 DE\76561198060805641\mods\subscribed\327533_Epic Warfare the Heroic Stand Remasterd 2_0\resources\_common\scenario
+
+
+#output_path = scenario_folder + "Epic_Warfare Remastered v2_3 test frozen river Parsed.aoe2scenario"
+#output_path = scenario_folder + "Epic Warfare the Heroic Stand Remasterd 2_0.aoe2scenario"
+output_path = "C:/Users/Randy/Games/Age of Empires 2 DE/76561198060805641/mods/subscribed/327533_Epic Warfare the Heroic Stand Remasterd 2_0/resources/_common/scenario/Epic Warfare the Heroic Stand Remasterd 2_0.aoe2scenario"
+
+
 # declare scenario class
 
 source_scenario:AoE2DEScenario = AoE2DEScenario.from_file(input_path)
@@ -213,7 +221,7 @@ inst_exploding_elephant = Hero(
     dead_unit_id = LAST_EXPLODING_ELEPHANT_ID,
     blood_unit = LAST_EXPLODING_ELEPHANT_ID,
     search_radius = 10,
-    movement_speed = 2,
+    #movement_speed = 2,
     line_of_sight = 10,
 )
 
@@ -241,7 +249,7 @@ inst_last_exploding_elephant = Hero(
     walking_graphic = 2864,
 
     search_radius = 10,
-    movement_speed = 2,
+    #movement_speed = 2,
     line_of_sight = 10,
 )
 
@@ -434,7 +442,7 @@ inst_hero_mounted_archer = Hero(
     min_range = 1,
     line_of_sight = 9,
     search_radius = 9,
-    melee_attack=30,
+    melee_attack=25,
     blast_width=1,
     blast_attack_level=4,
     accuracy_percent=70,
@@ -965,6 +973,12 @@ for player in PlayerId.all():  # Players 1 to 8
     )
 
     initialize_trigger.new_effect.disable_object_selection(
+        source_player=player,
+        area_x1=BUILDING_AREA_X1, area_x2=BUILDING_AREA_X2,
+        area_y1=BUILDING_AREA_Y1, area_y2=BUILDING_AREA_Y2
+    )
+
+    initialize_trigger.new_effect.disable_unit_targeting(
         source_player=player,
         area_x1=BUILDING_AREA_X1, area_x2=BUILDING_AREA_X2,
         area_y1=BUILDING_AREA_Y1, area_y2=BUILDING_AREA_Y2

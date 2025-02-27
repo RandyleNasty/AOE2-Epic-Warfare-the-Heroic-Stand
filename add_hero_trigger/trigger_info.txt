@@ -595,7 +595,7 @@ Triggers:
 				trigger_id: "reactivate West Line Broken" (14)
 
 	'Final East Push' [Index: 16, Display: 16]:
-		enabled: True
+		enabled: False
 		looping: False
 		description_stid: 0
 		short_description_stid: 0

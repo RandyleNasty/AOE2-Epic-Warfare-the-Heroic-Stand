@@ -47,6 +47,7 @@ START_POLE_Y = 0
 END_POLE_X = 0
 END_POLE_Y = 240
 TIME_START_FROZEN = 5000
+#TIME_START_FROZEN = 20
 # Configuration
 FROZEN_PACE_DELAY = 2 
 
@@ -351,12 +352,14 @@ def add_blockage_object_to_target_tiles_that_mimic_water(source_scenario:AoE2DES
         transform_building_to_gaia.new_effect.create_object(object_list_unit_id=OBJECT_USED_TO_BLOCK_CROSSING_FAKE_WATER_ID, source_player=USED_SOURCE_PLAYER, location_x= terrain.x, location_y=terrain.y)
 
 
-    transform_building_to_gaia.new_effect.disable_object_deletion(source_player=USED_SOURCE_PLAYER)
+    # MAKE blocking objects unattackable.
+    transform_building_to_gaia.new_effect.disable_object_deletion(source_player=USED_SOURCE_PLAYER, object_list_unit_id=OBJECT_USED_TO_BLOCK_CROSSING_FAKE_WATER_ID)
 
-    transform_building_to_gaia.new_effect.disable_object_selection(source_player=USED_SOURCE_PLAYER)
+    transform_building_to_gaia.new_effect.disable_object_selection(source_player=USED_SOURCE_PLAYER, object_list_unit_id=OBJECT_USED_TO_BLOCK_CROSSING_FAKE_WATER_ID)
+    transform_building_to_gaia.new_effect.disable_unit_targeting(source_player=USED_SOURCE_PLAYER, object_list_unit_id=OBJECT_USED_TO_BLOCK_CROSSING_FAKE_WATER_ID)
 
-    transform_building_to_gaia.new_effect.change_object_hp(source_player=USED_SOURCE_PLAYER, quantity=0, operation=Operation.SET)
-    transform_building_to_gaia.new_effect.change_object_hp(source_player=USED_SOURCE_PLAYER, quantity=0, operation=Operation.SET)
+    transform_building_to_gaia.new_effect.change_object_hp(source_player=USED_SOURCE_PLAYER, quantity=0, operation=Operation.SET, object_list_unit_id=OBJECT_USED_TO_BLOCK_CROSSING_FAKE_WATER_ID)
+    transform_building_to_gaia.new_effect.change_object_hp(source_player=USED_SOURCE_PLAYER, quantity=0, operation=Operation.SET, object_list_unit_id=OBJECT_USED_TO_BLOCK_CROSSING_FAKE_WATER_ID)
 
 
 
@@ -457,7 +460,7 @@ def prepare_object_for_changing_terrain(source_trigger_manager):
 
     inst_invisible_storage_with_water_foundation = Hero(hero_id=invisible_storage_with_water_foundation_id, 
                                                         terrain_restriction_id = 0, 
-                                                        foundation_terrain = TerrainId.WATER_MEDIUM, 
+                                                        foundation_terrain = TerrainId.WATER_SHALLOW, 
                                                         dead_unit_id = 0, 
                                                         health_point = 0, 
                                                         train_time=0, 
