@@ -123,7 +123,7 @@ instruction_trigger = source_trigger_manager.add_trigger(
 instruction_trigger.new_effect.display_instructions(object_list_unit_id=HeroInfo.GENGHIS_KHAN.ID,
                                                     source_player=0,
                                                     display_time=20,
-                                                    message = "Welcome to Epic Warfare - The Heroic Stand! Feel free to select a hero from the Holy Commander Tent. Your first choice will be your main hero, who will respawn throughout the game. The second hero, however, has only one life for your attempt.")
+                                                    message = "Welcome to Epic Warfare - The Heroic Stand! Feel free to select a hero from the Holy Commander Tent. Your choice will be your main hero, who will respawn throughout the game.")
 
 instruction_trigger.new_effect.display_timer(
     display_time=2,
@@ -171,15 +171,22 @@ have a low attack, high health elephant,
 which when dead, spawns a heavily boost second type elephant that fires explosive while summon exploding man.
 
 """
+
+LAST_EXPLODING_ELEPHANT_ID = 1162
+NUM_TOTAL_MISSILE = 45
+
 inst_weak_elephant = Hero(hero_id=HERO_FAKE_AS_EXPLODING_ELEPHANT_ID, 
                           dead_unit_id = HeroInfo.BAYINNAUNG.ID,
                           blood_unit = HeroInfo.BAYINNAUNG.ID,
-                          health_point = 300,
-                          #dying_graphic = 4414
+                          health_point = 500,
+                          melee_attack=1,
+                          dying_graphic = 0,
+                          search_radius = 7,
+                          line_of_sight = 7,
                           )
 
 # forbidden auto delete
-disable_selection_trigger = source_trigger_manager.add_trigger("asd",enabled=True, looping=False)
+disable_selection_trigger = source_trigger_manager.add_trigger("disable_selection_trigger",enabled=True, looping=False)
 for player in PlayerId.all()[1:]:
     disable_selection_trigger.new_effect.disable_object_deletion(object_list_unit_id=HERO_FAKE_AS_EXPLODING_ELEPHANT_ID, source_player=player)
 
@@ -188,28 +195,67 @@ inst_exploding_elephant = Hero(
     hero_id=HeroInfo.BAYINNAUNG.ID,  # You'll need to provide the correct hero_id
     secondary_projectile_unit = sabo_man_id,
     projectile_unit=1595,
-    blast_attack_level=0,
-    blast_width = 3,
-    melee_attack=200,
-    max_range=3,
-    min_range=0,
-    total_missile = 100,
+    blast_attack_level=2,
+    blast_width = 5,
+    melee_attack=150,
+    max_range=2,
+    min_range=1,
+    total_missile = NUM_TOTAL_MISSILE,
     combat_ability= 8 + 16,
     attack_dispersion = 10,
-    accuracy_percent = 10,
+    accuracy_percent = 20,
 
     health_point=500,
     standing_graphic = 2863,
     dying_graphic = 2860,
     walking_graphic = 2864,
-    #movement_speed_divide=3,
-    #movement_speed_multiply=2,
-    #projectile_smart_mode = 3,
-    ##projectile_vanish_mode = 1,
+
+    dead_unit_id = LAST_EXPLODING_ELEPHANT_ID,
+    blood_unit = LAST_EXPLODING_ELEPHANT_ID,
+    search_radius = 10,
+    movement_speed = 2,
+    line_of_sight = 10,
 )
 
 boost_hero(source_trigger_manager, inst_exploding_elephant, PlayerId.all()[1:])
 
+
+
+inst_last_exploding_elephant = Hero(
+    hero_id=LAST_EXPLODING_ELEPHANT_ID,  # You'll need to provide the correct hero_id
+    secondary_projectile_unit = sabo_man_id,
+    projectile_unit=1595,
+    blast_attack_level=2,
+    blast_width = 5,
+    melee_attack=150,
+    max_range=2,
+    min_range=1,
+    total_missile = NUM_TOTAL_MISSILE,
+    combat_ability= 8 + 16,
+    attack_dispersion = 10,
+    accuracy_percent = 20,
+
+    health_point=500,
+    standing_graphic = 2863,
+    dying_graphic = 2860,
+    walking_graphic = 2864,
+
+    search_radius = 10,
+    movement_speed = 2,
+    line_of_sight = 10,
+)
+
+boost_hero(source_trigger_manager, inst_last_exploding_elephant, PlayerId.all()[1:])
+
+# add lifetime of summoned wolf
+global_elephant_attack_stance_change = source_trigger_manager.add_trigger("global_elephant_attack_stance_change",enabled=True,looping=True)
+for player in range(1, 9):  # Loop from player 1 to 9
+    global_elephant_attack_stance_change.new_effect.change_object_stance(
+        object_list_unit_id=LAST_EXPLODING_ELEPHANT_ID, source_player=player, attack_stance=0
+    )
+    global_elephant_attack_stance_change.new_effect.change_object_stance(
+        object_list_unit_id=HeroInfo.BAYINNAUNG.ID, source_player=player, attack_stance=0
+    )
 
 
 
@@ -226,10 +272,10 @@ boost_hero(source_trigger_manager, inst_exploding_elephant, PlayerId.all()[1:])
 inst_dagnajan_hero = Hero(
     hero_id= Dagnajan_Elephant_ID,  # You'll need to provide the correct hero_id
     projectile_unit=469,
-    max_range=2,
+    max_range=5,
     min_range=1,
     attack_dispersion=1,
-    accuracy_percent=25,
+    accuracy_percent=50,
     pierce_armor=15,
     melee_armour=14,
     melee_attack = 30,
@@ -241,7 +287,9 @@ inst_dagnajan_hero = Hero(
     #projectile_vanish_mode = 1
     #unit_trait = 8,
     #trait_piece = 2151,
-    health_point = 500
+    health_point = 500,
+    line_of_sight = 7,
+    search_radius = 7,
 )
 boost_hero(source_trigger_manager, inst_dagnajan_hero, PlayerId.all()[1:])
 
@@ -255,6 +303,8 @@ inst_god_swing_packed_hero = Hero(
     hero_id=HeroInfo.GODS_OWN_SLING_PACKED.ID,  # You'll need to provide the correct hero_id
     projectile_unit=469,
     max_range=14,
+    line_of_sight = 15,
+    search_radius = 15,
     min_range=13,
     blast_width=1,
     blast_attack_level=2, 
@@ -263,7 +313,6 @@ inst_god_swing_packed_hero = Hero(
     attack_dispersion=1,
     movement_speed=1,
     health_point = 300,
-    line_of_sight = 15,
 )
 boost_hero(source_trigger_manager, inst_god_swing_packed_hero, PlayerId.all()[1:])
 
@@ -280,7 +329,9 @@ inst_god_swing_hero = Hero(
     attack_dispersion=1,
     health_point = 300,
     line_of_sight = 15,
+    search_radius = 15,
     combat_ability= 16 + 8,
+        
 )
 
 boost_hero(source_trigger_manager, inst_god_swing_hero, PlayerId.all()[1:])
@@ -321,6 +372,8 @@ boost_hero(source_trigger_manager, inst_frank_paladin_hero, PlayerId.all()[1:])
 inst_jean_bureau = Hero(
     hero_id=HeroInfo.JEAN_BUREAU.ID,  # You'll need to provide the correct hero_id
     max_range=15,  #
+    #line_of_sight = 15,
+    #search_radius = 15，
     min_range=5,  # Not modified in the original function
     total_missile=75,
     projectile_unit=658,
@@ -334,6 +387,7 @@ inst_jean_bureau = Hero(
     health_point=150,
     blast_width=1,
     blast_attack_level=2
+
 )
             
 inst_hero_ulrich = Hero(
@@ -355,14 +409,16 @@ inst_hero_ulrich = Hero(
 inst_hero_darius = Hero(
     max_range=4,
     min_range = 0,
+    line_of_sight = 4,
+    search_radius = 4,
     hero_id=Darius_ID,  # You'll need to provide the correct hero_id
     blast_width=1,
     blast_attack_level=2,
     melee_attack=25,
     total_missile=40,  # This covers both Max Total Missiles and Total Missiles
     projectile_unit=1780, 
-    pierce_armor=15,
-    melee_armour=8,
+    pierce_armor=15 ,
+    melee_armour=15,
     movement_speed=2,
     combat_ability= 16 + 8,
     accuracy_percent = 20,
@@ -376,6 +432,8 @@ inst_hero_mounted_archer = Hero(
     hero_id=HeroInfo.KOTYAN_KHAN.ID,  # You'll need to provide the correct hero_id
     max_range=9,
     min_range = 1,
+    line_of_sight = 9,
+    search_radius = 9,
     melee_attack=30,
     blast_width=1,
     blast_attack_level=4,
@@ -393,6 +451,8 @@ inst_hero_tsar_constantin = Hero(
     hero_id=HeroInfo.TSAR_KONSTANTIN.ID,  # You'll need to provide the correct hero_id
     projectile_unit=627,
     max_range=10,
+    line_of_sight = 10,
+    search_radius = 10,
     melee_attack=25,
     blast_width=1,
     blast_attack_level=4,
@@ -421,17 +481,19 @@ inst_hero_tsar_constantin = Hero(
 wolf_id = 700
 
 num_summon = 7
-summon_cooldown = 7
-summon_hp_drop_per_second = 5
+summon_cooldown = 8
+summon_hp_drop_per_second = 9
 flame_id_spawned_after_explosion = 1334
 num_max_flame = num_summon * 4
 
 inst_tamar_summon_hero = Hero(
     hero_id= HeroInfo.GENGHIS_KHAN.ID,  # You'll need to provide the correct hero_id
+    blast_defense_level = 1,
     projectile_unit=676,
     secondary_projectile_unit=wolf_id,
-    line_of_sight = 7,
-    max_range=7,
+    max_range=10,
+    line_of_sight = 10,
+    search_radius = 10,
     attack_dispersion=5,
     accuracy_percent=20,
     pierce_armor=10,
@@ -469,7 +531,7 @@ inst_summon_unit = Hero(
 inst_sabo_man_unit = Hero(
     hero_id= sabo_man_id,  # You'll need to provide the correct hero_id
     melee_attack = 40,
-    melee_attack_for_building = 10,
+    melee_attack_for_building = 15,
     melee_attack_for_wall_and_gate = 10,
     blast_attack_level=2,
     health_point = 0,
@@ -916,7 +978,7 @@ initialize_trigger.new_effect.change_object_hp(source_player=INITIAL_OWNER, area
 
 NUM_CONVERTABLE_OBECT = 5
 
-
+NUM_CONVERABLE_MILITARY_OBJECT = 3
 
 list_give_it_to_player_triggers = []
 for player in PlayerId.all()[1:]:
@@ -930,7 +992,7 @@ for index, player in enumerate(PlayerId.all()[1:]):
     trigger = source_trigger_manager.add_trigger(f"p{player}_gaia_give", enabled=True, looping=False)
     list_gaia_give_triggers.append(trigger)
     trigger.new_condition.timer(1)
-    trigger.new_condition.objects_in_area(quantity=1, inverted=True,
+    trigger.new_condition.objects_in_area(quantity=NUM_CONVERABLE_MILITARY_OBJECT, inverted=True,
                                         area_x1 = UNIT_DETECT_AREA_X1,
                                         area_x2 = UNIT_DETECT_AREA_X2,
                                         area_y1 = UNIT_DETECT_AREA_Y1,
