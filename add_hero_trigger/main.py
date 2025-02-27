@@ -911,6 +911,8 @@ CENTER SACRED SPA CONTROL TRANSFER MECHANISM
 
 https://www.bilibili.com/video/BV1oM43enEhw?spm_id_from=333.788.recommend_more_video.8&vd_source=b55afea14026a74cb6f67fd8241ebb69
 
+MAKING MOVEMENT SPEED = 0, would disable Monk healing ability
+
 """
 MONK_HERO_ID = 177
 PAGAN_SHRINE_ID = 1712
@@ -932,7 +934,7 @@ inst_spa_monk = Hero(
     line_of_sight = 12,
     occlusion_mode = 0,
     #movement_speed_divide = 4,
-    movement_speed=0,
+    #movement_speed=0,
 
 )
 boost_hero(source_trigger_manager, inst_spa_monk, PlayerId.all())
@@ -965,27 +967,43 @@ initialize_trigger = source_trigger_manager.add_trigger("initialization", enable
 #initialize_trigger.new_effect.disable_object_selection(source_player=INITIAL_OWNER, area_x1=BUILDING_AREA_X1, area_x2=BUILDING_AREA_X2, area_y1=BUILDING_AREA_Y1, area_y2=BUILDING_AREA_Y2)
 
 
-for player in PlayerId.all():  # Players 1 to 8
-    initialize_trigger.new_effect.disable_object_deletion(
-        source_player=player,
-        area_x1=BUILDING_AREA_X1, area_x2=BUILDING_AREA_X2,
-        area_y1=BUILDING_AREA_Y1, area_y2=BUILDING_AREA_Y2
-    )
+# for player in PlayerId.all():  # Players 1 to 8
+initialize_trigger.new_effect.disable_object_deletion(
+    source_player=INITIAL_OWNER,
+    area_x1=BUILDING_AREA_X1, area_x2=BUILDING_AREA_X2,
+    area_y1=BUILDING_AREA_Y1, area_y2=BUILDING_AREA_Y2
+)
 
-    initialize_trigger.new_effect.disable_object_selection(
-        source_player=player,
-        area_x1=BUILDING_AREA_X1, area_x2=BUILDING_AREA_X2,
-        area_y1=BUILDING_AREA_Y1, area_y2=BUILDING_AREA_Y2
-    )
+initialize_trigger.new_effect.disable_object_selection(
+    source_player=INITIAL_OWNER,
+    area_x1=BUILDING_AREA_X1, area_x2=BUILDING_AREA_X2,
+    area_y1=BUILDING_AREA_Y1, area_y2=BUILDING_AREA_Y2
+)
 
-    initialize_trigger.new_effect.disable_unit_targeting(
-        source_player=player,
-        area_x1=BUILDING_AREA_X1, area_x2=BUILDING_AREA_X2,
-        area_y1=BUILDING_AREA_Y1, area_y2=BUILDING_AREA_Y2
-    )
+
+initialize_trigger.new_effect.disable_unit_targeting(
+         source_player=INITIAL_OWNER,
+         area_x1=BUILDING_AREA_X1, area_x2=BUILDING_AREA_X2,
+         area_y1=BUILDING_AREA_Y1, area_y2=BUILDING_AREA_Y2
+)
 
 initialize_trigger.new_effect.change_object_hp(source_player=INITIAL_OWNER, area_x1=BUILDING_AREA_X1, area_x2=BUILDING_AREA_X2, area_y1=BUILDING_AREA_Y1, area_y2=BUILDING_AREA_Y2, quantity=0, operation=Operation.SET)
 initialize_trigger.new_effect.change_object_hp(source_player=INITIAL_OWNER, area_x1=BUILDING_AREA_X1, area_x2=BUILDING_AREA_X2, area_y1=BUILDING_AREA_Y1, area_y2=BUILDING_AREA_Y2, quantity=0, operation=Operation.SET)
+
+
+
+# # triggers that keep monk stance as stand ground stance
+# list_looping_trigger_that_continue_assert_stand_ground = []
+
+# for player in PlayerId.all()[1:]:
+#     trigger = source_trigger_manager.add_trigger("f{player} monk stand ground", 
+#                                                  enabled=False, 
+#                                                  looping=True)
+#     trigger.new_effect.change_object_stance(source_player=player,area_x1=BUILDING_AREA_X1, area_x2=BUILDING_AREA_X2,area_y1=BUILDING_AREA_Y1, area_y2=BUILDING_AREA_Y2, attack_stance=AttackStance.STAND_GROUND)
+#     list_looping_trigger_that_continue_assert_stand_ground.append(trigger)
+
+
+
 
 
 
@@ -1000,7 +1018,7 @@ for player in PlayerId.all()[1:]:
     list_give_it_to_player_triggers.append(trigger)
 # Construct Give to Gaia
 
-
+#FROM PLAYER GIVE BACK TO GAIA
 list_gaia_give_triggers = []
 for index, player in enumerate(PlayerId.all()[1:]):
     trigger = source_trigger_manager.add_trigger(f"p{player}_gaia_give", enabled=True, looping=False)
@@ -1022,13 +1040,13 @@ for index, player in enumerate(PlayerId.all()[1:]):
                                         area_y2=BUILDING_AREA_Y2,
                                         #object_type=ObjectType.BUILDING
                                         )
+    # trigger.new_effect.deactivate_trigger(list_looping_trigger_that_continue_assert_stand_ground[index].trigger_id)
     trigger.new_effect.activate_trigger(list_give_it_to_player_triggers[index].trigger_id)
 
 
 
 
-#give_it_to_gaia_trigger.new_effect.display_instructions(source_player=0, message="give_it_to_gaia_trigger")
-
+# FROM GAIA TO PLAYER
 
 for index, trigger in enumerate(list_give_it_to_player_triggers):
     trigger.new_condition.timer(1)
@@ -1060,7 +1078,19 @@ for index, trigger in enumerate(list_give_it_to_player_triggers):
                                         area_y2=BUILDING_AREA_Y2,
                                         #object_type=ObjectType.BUILDING
                                         )
+    
+    trigger.new_effect.change_object_stance(source_player=index + 1,
+                                 area_x1=BUILDING_AREA_X1, 
+                                 area_x2=BUILDING_AREA_X2,
+                                 area_y1=BUILDING_AREA_Y1, 
+                                 area_y2=BUILDING_AREA_Y2, 
+                                 attack_stance=AttackStance.STAND_GROUND)
+    
+
+
+    # trigger.new_effect.activate_trigger(list_looping_trigger_that_continue_assert_stand_ground[index].trigger_id)
     trigger.new_effect.activate_trigger(list_gaia_give_triggers[index].trigger_id)
+
 
 
 
