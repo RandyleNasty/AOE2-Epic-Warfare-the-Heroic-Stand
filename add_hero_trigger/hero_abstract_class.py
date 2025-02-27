@@ -64,6 +64,7 @@ def boost_hero(trigger_manager, hero, players_applied):
         'health_point': 0,
         'blast_width': 22,
         'blast_attack_level': 44,
+        'blast_defense_level': 45,
 
         'train_time':101,
 

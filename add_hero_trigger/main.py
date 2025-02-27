@@ -70,6 +70,13 @@ Themistocles_ID = 2315
 Darius_ID = 2347
 Jean_De_Lorrain_ID = 644  
 Dagnajan_Elephant_ID = 1106
+
+sabo_man_id = 706
+hero_test_id = 1072
+
+HERO_FAKE_AS_EXPLODING_ELEPHANT_ID = 1071
+
+
 #HeroInfo.ROBIN_HOOD.ID
 list_hero_ids = [Darius_ID, 
                  HeroInfo.ROBIN_HOOD.ID,
@@ -80,8 +87,8 @@ list_hero_ids = [Darius_ID,
                  HeroInfo.TSAR_KONSTANTIN.ID,
                  Dagnajan_Elephant_ID,
                  HeroInfo.GENGHIS_KHAN.ID,
-                 HeroInfo.GODS_OWN_SLING_PACKED.ID
-
+                 HeroInfo.GODS_OWN_SLING_PACKED.ID,
+                 HERO_FAKE_AS_EXPLODING_ELEPHANT_ID
                  ]
 
 
@@ -97,6 +104,7 @@ list_description = ["Javelin Splashing duo-horse Chariot",
                     "Flaming Thunder War Elephant", 
                     "Knight of the Exploding Wolf Summon",
                     "God Swing",
+                    "Self-Exploding Elephant that destroies everything"
                     ]
 
 
@@ -138,11 +146,87 @@ tents_selected_object_ids = [317958, 317979, 322879, 319227, 328305, 328275, 328
     # dying_graphic = 1787,
     # walking_graphic = 1789,
 
+inst_projectile_unit_laser = Hero(
+    hero_id= 1595,  # You'll need to provide the correct hero_id
+    movement_speed_divide = 2,
+    blast_attack_level = 2,
+    blast_width = 2,
+    standing_graphic = 3403,
+)
+
+boost_hero(source_trigger_manager, inst_projectile_unit_laser, PlayerId.all()[1:])
+
+
+# fire arrows 787
+"""
+Ranged Unit to enable Friendly Fire
+With Projectile Range > 1, blast width > 0. 
+
+"""
+
+"""
+EXPLODING ELEPHANT 
+implementation idea:
+have a low attack, high health elephant,
+which when dead, spawns a heavily boost second type elephant that fires explosive while summon exploding man.
+
+"""
+inst_weak_elephant = Hero(hero_id=HERO_FAKE_AS_EXPLODING_ELEPHANT_ID, 
+                          dead_unit_id = HeroInfo.BAYINNAUNG.ID,
+                          blood_unit = HeroInfo.BAYINNAUNG.ID,
+                          health_point = 300,
+                          #dying_graphic = 4414
+                          )
+
+# forbidden auto delete
+disable_selection_trigger = source_trigger_manager.add_trigger("asd",enabled=True, looping=False)
+for player in PlayerId.all()[1:]:
+    disable_selection_trigger.new_effect.disable_object_deletion(object_list_unit_id=HERO_FAKE_AS_EXPLODING_ELEPHANT_ID, source_player=player)
+
+boost_hero(source_trigger_manager, inst_weak_elephant, PlayerId.all()[1:])
+inst_exploding_elephant = Hero(
+    hero_id=HeroInfo.BAYINNAUNG.ID,  # You'll need to provide the correct hero_id
+    secondary_projectile_unit = sabo_man_id,
+    projectile_unit=1595,
+    blast_attack_level=0,
+    blast_width = 3,
+    melee_attack=200,
+    max_range=3,
+    min_range=0,
+    total_missile = 100,
+    combat_ability= 8 + 16,
+    attack_dispersion = 10,
+    accuracy_percent = 10,
+
+    health_point=500,
+    standing_graphic = 2863,
+    dying_graphic = 2860,
+    walking_graphic = 2864,
+    #movement_speed_divide=3,
+    #movement_speed_multiply=2,
+    #projectile_smart_mode = 3,
+    ##projectile_vanish_mode = 1,
+)
+
+boost_hero(source_trigger_manager, inst_exploding_elephant, PlayerId.all()[1:])
+
+
+
+
+# for player in PlayerId.all()[1:]:
+#     trigger_that_kills_exploding_elephant = source_trigger_manager.add_trigger("trigger_that_kills_exploding_elephant", enabled=True, looping=True)
+#     trigger_that_kills_exploding_elephant.new_condition.own_objects(quantity=5, object_list=1595, source_player=player)
+#     trigger_that_kills_exploding_elephant.new_effect.kill_object(object_list_unit_id=HeroInfo.BAYINNAUNG.ID, source_player=player)
+
+
+
+
+
 
 inst_dagnajan_hero = Hero(
     hero_id= Dagnajan_Elephant_ID,  # You'll need to provide the correct hero_id
     projectile_unit=469,
-    max_range=5,
+    max_range=2,
     min_range=1,
     attack_dispersion=1,
     accuracy_percent=25,
@@ -174,7 +258,7 @@ inst_god_swing_packed_hero = Hero(
     min_range=13,
     blast_width=1,
     blast_attack_level=2, 
-    accuracy_percent=15,
+    accuracy_percent=45,
     total_missile = 30,
     attack_dispersion=1,
     movement_speed=1,
@@ -191,7 +275,7 @@ inst_god_swing_hero = Hero(
     min_range=4,
     blast_width=1,
     blast_attack_level=2, 
-    accuracy_percent=15,
+    accuracy_percent=45,
     total_missile = 30,
     attack_dispersion=1,
     health_point = 300,
@@ -230,29 +314,7 @@ inst_frank_paladin_hero = Hero(
 
 boost_hero(source_trigger_manager, inst_frank_paladin_hero, PlayerId.all()[1:])
 
-inst_mounted_elephant_hero = Hero(
-    hero_id=HeroInfo.BAYINNAUNG.ID,  # You'll need to provide the correct hero_id
-    projectile_unit=1168,
-    max_range=2,
-    min_range=1,
-    melee_attack=12,
-    blast_width=1,
-    blast_attack_level=2,
-    pierce_armor=5,
-    melee_armour=5,
-    attack_reload_set=2,  
-    accuracy_percent=15,
-    total_missile = 30,
-    attack_dispersion=1,
-    combat_ability= 16 + 8,
-    #walking_graphic = 654,
-    movement_speed=1,
-    #dead_unit_id = 942,
-    health_point = 300,
 
-)
-
-boost_hero(source_trigger_manager, inst_mounted_elephant_hero, PlayerId.all()[1:])
 
 
 # Instantiate Jean Bureau
@@ -292,7 +354,7 @@ inst_hero_ulrich = Hero(
 
 inst_hero_darius = Hero(
     max_range=4,
-    min_range = 2,
+    min_range = 0,
     hero_id=Darius_ID,  # You'll need to provide the correct hero_id
     blast_width=1,
     blast_attack_level=2,
@@ -357,10 +419,10 @@ inst_hero_tsar_constantin = Hero(
 
 
 wolf_id = 700
-sabo_man_id = 706
+
 num_summon = 7
 summon_cooldown = 7
-summon_hp_drop_per_second = 10
+summon_hp_drop_per_second = 5
 flame_id_spawned_after_explosion = 1334
 num_max_flame = num_summon * 4
 
@@ -411,6 +473,8 @@ inst_sabo_man_unit = Hero(
     melee_attack_for_wall_and_gate = 10,
     blast_attack_level=2,
     health_point = 0,
+    max_range=2,
+    min_range=0,
     blast_width = 2,
     blood_unit = flame_id_spawned_after_explosion,
     standing_graphic = 7253,
@@ -503,35 +567,31 @@ inst_themistocles_hero = Hero(
     #projectile_unit=1798,
     secondary_projectile_unit = sabo_man_id,
     projectile_unit=1595,
-    blast_attack_level=2,
+    blast_attack_level=2 + 64 + 128,
+    blast_defense_level = 1,
     melee_attack=25,
-    max_range=1,
+    max_range=2,
     min_range=0,
     pierce_armor=20,
     melee_armour=20,
     attack_reload_set=3,  
     total_missile = 8,
     combat_ability= 8 + 16,
-    attack_dispersion = 1,
-    accuracy_percent = 10,
-    blast_width = 2,
+    #attack_dispersion = 1,
+    #accuracy_percent = 10,
+    blast_width = 4,
     health_point=500,
-    #walking_graphic = 654,
     movement_speed_divide=3,
     movement_speed_multiply=2,
-    #projectile_smart_mode = 2,
+    #walking_graphic = 654,
+    projectile_smart_mode = 2,
     #dead_unit_id = 942,
-    #projectile_vanish_mode = 1
+    projectile_vanish_mode = 0
     #unit_trait = 8,
     #trait_piece = 2151,
 )
 
-inst_projectile_unit_laser = Hero(
-    hero_id= 1595,  # You'll need to provide the correct hero_id
-    movement_speed_divide = 2,
-)
 
-boost_hero(source_trigger_manager, inst_projectile_unit_laser, PlayerId.all()[1:])
 # inst_summon_hawk_unit = Hero(
 #     hero_id= 96,  # You'll need to provide the correct hero_id
 #     dead_unit_id = sabo_man_id,
@@ -812,17 +872,15 @@ inst_shrine = Hero(hero_id = PAGAN_SHRINE_ID, combat_ability = 32, hero_status =
 boost_hero(source_trigger_manager, inst_shrine, PlayerId.all())
 
 
+#area_x1: 111
+#area_y1: 117
+#area_x2: 125
+#area_y2: 130
 
-				# area_x1: 107
-				# area_y1: 113
-				# area_x2: 130
-				# area_y2: 134
-
-
-UNIT_DETECT_AREA_X1 = 107
-UNIT_DETECT_AREA_X2 = 130
-UNIT_DETECT_AREA_Y1 = 113
-UNIT_DETECT_AREA_Y2 = 134
+UNIT_DETECT_AREA_X1 = 111
+UNIT_DETECT_AREA_X2 = 125
+UNIT_DETECT_AREA_Y1 = 117
+UNIT_DETECT_AREA_Y2 = 130
 
 BUILDING_AREA_X1 = 113
 BUILDING_AREA_X2 = 123
@@ -832,9 +890,23 @@ BUILDING_AREA_Y2 = 128
 INITIAL_OWNER = 1
 
 initialize_trigger = source_trigger_manager.add_trigger("initialization", enabled=True, looping=False)
-initialize_trigger.new_effect.disable_object_deletion(source_player=INITIAL_OWNER, area_x1=BUILDING_AREA_X1, area_x2=BUILDING_AREA_X2, area_y1=BUILDING_AREA_Y1, area_y2=BUILDING_AREA_Y2)
+#initialize_trigger.new_effect.disable_object_deletion(source_player=INITIAL_OWNER, area_x1=BUILDING_AREA_X1, area_x2=BUILDING_AREA_X2, area_y1=BUILDING_AREA_Y1, area_y2=BUILDING_AREA_Y2)
 
-initialize_trigger.new_effect.disable_object_selection(source_player=INITIAL_OWNER, area_x1=BUILDING_AREA_X1, area_x2=BUILDING_AREA_X2, area_y1=BUILDING_AREA_Y1, area_y2=BUILDING_AREA_Y2)
+#initialize_trigger.new_effect.disable_object_selection(source_player=INITIAL_OWNER, area_x1=BUILDING_AREA_X1, area_x2=BUILDING_AREA_X2, area_y1=BUILDING_AREA_Y1, area_y2=BUILDING_AREA_Y2)
+
+
+for player in PlayerId.all():  # Players 1 to 8
+    initialize_trigger.new_effect.disable_object_deletion(
+        source_player=player,
+        area_x1=BUILDING_AREA_X1, area_x2=BUILDING_AREA_X2,
+        area_y1=BUILDING_AREA_Y1, area_y2=BUILDING_AREA_Y2
+    )
+
+    initialize_trigger.new_effect.disable_object_selection(
+        source_player=player,
+        area_x1=BUILDING_AREA_X1, area_x2=BUILDING_AREA_X2,
+        area_y1=BUILDING_AREA_Y1, area_y2=BUILDING_AREA_Y2
+    )
 
 initialize_trigger.new_effect.change_object_hp(source_player=INITIAL_OWNER, area_x1=BUILDING_AREA_X1, area_x2=BUILDING_AREA_X2, area_y1=BUILDING_AREA_Y1, area_y2=BUILDING_AREA_Y2, quantity=0, operation=Operation.SET)
 initialize_trigger.new_effect.change_object_hp(source_player=INITIAL_OWNER, area_x1=BUILDING_AREA_X1, area_x2=BUILDING_AREA_X2, area_y1=BUILDING_AREA_Y1, area_y2=BUILDING_AREA_Y2, quantity=0, operation=Operation.SET)
