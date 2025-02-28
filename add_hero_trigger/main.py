@@ -1,6 +1,7 @@
 
 
 
+import glob
 from AoE2ScenarioParser.scenarios.aoe2_de_scenario import AoE2DEScenario
 from AoE2ScenarioParser.datasets.trigger_lists import *
 
@@ -54,7 +55,7 @@ input_path = scenario_folder + "Epic_Warfare Remastered v2_3 test frozen river.a
 
 #output_path = scenario_folder + "Epic_Warfare Remastered v2_3 test frozen river Parsed.aoe2scenario"
 #output_path = scenario_folder + "Epic Warfare the Heroic Stand Remasterd 2_0.aoe2scenario"
-output_path = "C:/Users/Randy/Games/Age of Empires 2 DE/76561198060805641/mods/subscribed/327533_Epic Warfare the Heroic Stand Remasterd 2_0/resources/_common/scenario/Epic Warfare the Heroic Stand Remasterd 2_0.aoe2scenario"
+output_path = "C:/Users/Randy/Games/Age of Empires 2 DE/76561198060805641/mods/local/Epic Warfare the Heroic Stand Remasterd 2_0/resources/_common/scenario/Epic Warfare the Heroic Stand Remasterd 2_0.aoe2scenario"
 
 
 # declare scenario class
@@ -84,7 +85,7 @@ hero_test_id = 1072
 
 HERO_FAKE_AS_EXPLODING_ELEPHANT_ID = 1071
 
-
+HERO_POLEMARCH_ID = 2162
 #HeroInfo.ROBIN_HOOD.ID
 list_hero_ids = [Darius_ID, 
                  HeroInfo.ROBIN_HOOD.ID,
@@ -95,8 +96,9 @@ list_hero_ids = [Darius_ID,
                  HeroInfo.TSAR_KONSTANTIN.ID,
                  Dagnajan_Elephant_ID,
                  HeroInfo.GENGHIS_KHAN.ID,
-                 HeroInfo.GODS_OWN_SLING_PACKED.ID,
-                 HERO_FAKE_AS_EXPLODING_ELEPHANT_ID
+                # HeroInfo.GODS_OWN_SLING_PACKED.ID,
+                 HERO_FAKE_AS_EXPLODING_ELEPHANT_ID,
+                 HERO_POLEMARCH_ID
                  ]
 
 
@@ -111,8 +113,9 @@ list_description = ["Javelin Splashing duo-horse Chariot",
                     "Gatling Ballista tri-horse Chariot", 
                     "Flaming Thunder War Elephant", 
                     "Knight of the Exploding Wolf Summon",
-                    "God Swing",
-                    "Self-Exploding Elephant that destroies everything"
+                    #"God Swing",
+                    "Self-Exploding Elephant that destroies everything",
+                    "AOE Greek Hero FootMan"
                     ]
 
 
@@ -153,6 +156,60 @@ tents_selected_object_ids = [317958, 317979, 322879, 319227, 328305, 328275, 328
     # standing_graphic = 1788,
     # dying_graphic = 1787,
     # walking_graphic = 1789,
+
+
+
+
+
+"""
+POLEMARCH FOOTMAN HERO
+
+"""
+war_galley_projectile_id = 373
+
+inst_war_galley_projectile = Hero(hero_id = war_galley_projectile_id, 
+                                #standing_graphic = 1743, 
+                                #walking_graphic = 1743,
+                                #dying_graphic = 1743,
+                                dead_unit_id = 1334,
+                                #blood_unit = 1334,
+                                movement_speed_divide = 3,
+                                movement_speed_multiply = 2)
+
+boost_hero(source_trigger_manager, inst_war_galley_projectile, PlayerId.all()[1:])
+
+
+
+inst_polemarch_footman_hero = Hero(
+    hero_id=HERO_POLEMARCH_ID,  # You'll need to provide the correct hero_id
+    projectile_unit=war_galley_projectile_id,
+    #secondary_projectile_unit = 676,
+    max_range=3,
+    min_range=0,
+    melee_attack=10,
+    blast_width=1,
+    blast_attack_level=2,
+    pierce_armor=17,
+    melee_armour=17,
+    attack_reload_set=2,  
+    accuracy_percent=45,
+    total_missile = 25,
+    attack_dispersion = 1,
+    attack_dispersion_multiply=3,
+    attack_dispersion_divide = 2,
+    combat_ability= 1 + 16 + 8,
+    #walking_graphic = 654,
+    #movement_speed=1,
+    #frame_delay=4,
+    health_point=500,
+    projectile_smart_mode = 2,
+
+)
+
+
+boost_hero(source_trigger_manager, inst_polemarch_footman_hero, PlayerId.all()[1:])
+
+
 
 inst_projectile_unit_laser = Hero(
     hero_id= 1595,  # You'll need to provide the correct hero_id
@@ -199,18 +256,22 @@ for player in PlayerId.all()[1:]:
     disable_selection_trigger.new_effect.disable_object_deletion(object_list_unit_id=HERO_FAKE_AS_EXPLODING_ELEPHANT_ID, source_player=player)
 
 boost_hero(source_trigger_manager, inst_weak_elephant, PlayerId.all()[1:])
+
+attack_dispersion_for_exploding_elephant = 2
+blast_width_for_exploding_elephant = 3
+
 inst_exploding_elephant = Hero(
     hero_id=HeroInfo.BAYINNAUNG.ID,  # You'll need to provide the correct hero_id
     secondary_projectile_unit = sabo_man_id,
     projectile_unit=1595,
     blast_attack_level=2,
-    blast_width = 5,
+    blast_width = blast_width_for_exploding_elephant,
     melee_attack=150,
     max_range=2,
     min_range=1,
     total_missile = NUM_TOTAL_MISSILE,
     combat_ability= 8 + 16,
-    attack_dispersion = 10,
+    attack_dispersion = attack_dispersion_for_exploding_elephant,
     accuracy_percent = 20,
 
     health_point=500,
@@ -234,13 +295,13 @@ inst_last_exploding_elephant = Hero(
     secondary_projectile_unit = sabo_man_id,
     projectile_unit=1595,
     blast_attack_level=2,
-    blast_width = 5,
+    blast_width = blast_width_for_exploding_elephant,
     melee_attack=150,
     max_range=2,
     min_range=1,
     total_missile = NUM_TOTAL_MISSILE,
     combat_ability= 8 + 16,
-    attack_dispersion = 10,
+    attack_dispersion = attack_dispersion_for_exploding_elephant,
     accuracy_percent = 20,
 
     health_point=500,
@@ -255,15 +316,25 @@ inst_last_exploding_elephant = Hero(
 
 boost_hero(source_trigger_manager, inst_last_exploding_elephant, PlayerId.all()[1:])
 
-# add lifetime of summoned wolf
-global_elephant_attack_stance_change = source_trigger_manager.add_trigger("global_elephant_attack_stance_change",enabled=True,looping=True)
-for player in range(1, 9):  # Loop from player 1 to 9
-    global_elephant_attack_stance_change.new_effect.change_object_stance(
-        object_list_unit_id=LAST_EXPLODING_ELEPHANT_ID, source_player=player, attack_stance=0
-    )
-    global_elephant_attack_stance_change.new_effect.change_object_stance(
-        object_list_unit_id=HeroInfo.BAYINNAUNG.ID, source_player=player, attack_stance=0
-    )
+# global_elephant_detection= source_trigger_manager.add_trigger("global_elephant_detection", enabled=True, looping=False)
+# global_elephant_attack_stance_change = source_trigger_manager.add_trigger("global_elephant_attack_stance_change",enabled=False,looping=False)
+# for player in range(1,9):
+#     global_elephant_detection.new_condition.own_objects(quantity=1, object_list=LAST_EXPLODING_ELEPHANT_ID, source_player=player)
+#     global_elephant_detection.new_condition.or_()
+#     global_elephant_detection.new_condition.own_objects(quantity=1, object_list=HeroInfo.BAYINNAUNG.ID, source_player=player)
+#     global_elephant_detection.new_effect.activate_trigger(global_elephant_attack_stance_change.trigger_id)
+
+
+
+# for player in range(1, 9):  # Loop from player 1 to 9
+#     global_elephant_attack_stance_change.new_condition.timer(2)
+#     global_elephant_attack_stance_change.new_effect.change_object_stance(
+#         object_list_unit_id=LAST_EXPLODING_ELEPHANT_ID, source_player=player, attack_stance=0
+#     )
+#     global_elephant_attack_stance_change.new_effect.change_object_stance(
+#         object_list_unit_id=HeroInfo.BAYINNAUNG.ID, source_player=player, attack_stance=0
+#     )
+#     global_elephant_attack_stance_change.new_effect.activate_trigger(global_elephant_detection.trigger_id)
 
 
 
@@ -275,14 +346,26 @@ for player in range(1, 9):  # Loop from player 1 to 9
 
 
 
+leviathan_projectile_id = 2226
+inst_leviathan_projectile = Hero(hero_id=leviathan_projectile_id, 
+                                 dead_unit_id = 1334, 
+                                 #movement_speed_divide = 2
+                                 dying_graphic = 15534,
+
+                                 )
+boost_hero(source_trigger_manager, inst_leviathan_projectile, PlayerId.all()[1:])
+
 
 
 inst_dagnajan_hero = Hero(
     hero_id= Dagnajan_Elephant_ID,  # You'll need to provide the correct hero_id
-    projectile_unit=469,
+    projectile_unit=leviathan_projectile_id,
+    #secondary_projectile_unit = 
     max_range=5,
-    min_range=1,
-    attack_dispersion=1,
+    min_range=0,
+    blast_width = 1,
+    blast_attack_level=2,
+    attack_dispersion_multiply=5,
     accuracy_percent=50,
     pierce_armor=15,
     melee_armour=14,
@@ -310,9 +393,9 @@ boost_hero(source_trigger_manager, inst_dagnajan_hero, PlayerId.all()[1:])
 inst_god_swing_packed_hero = Hero(
     hero_id=HeroInfo.GODS_OWN_SLING_PACKED.ID,  # You'll need to provide the correct hero_id
     projectile_unit=469,
-    max_range=14,
-    line_of_sight = 15,
-    search_radius = 15,
+    max_range=20,
+    line_of_sight = 20,
+    search_radius = 20,
     min_range=13,
     blast_width=1,
     blast_attack_level=2, 
@@ -325,19 +408,37 @@ inst_god_swing_packed_hero = Hero(
 boost_hero(source_trigger_manager, inst_god_swing_packed_hero, PlayerId.all()[1:])
 
 
+
+# original projectile 469
+projectile_from_war_galley_antiquity = 506
+
+inst_god_swing_projectile = Hero(hero_id = projectile_from_war_galley_antiquity, 
+                                standing_graphic = 3393, 
+                                walking_graphic = 3378,
+                                dying_graphic = 12206,
+                                dead_unit_id = 1334,
+                                #blood_unit = 1334,
+                               #movement_speed_divide = 2
+                               )
+boost_hero(source_trigger_manager, inst_god_swing_projectile, PlayerId.all()[1:])
+
+
+
+
 inst_god_swing_hero = Hero(
     hero_id=HeroInfo.GODS_OWN_SLING.ID,  # You'll need to provide the correct hero_id
-    projectile_unit=469,
-    max_range=14,
-    min_range=4,
-    blast_width=1,
+    projectile_unit=projectile_from_war_galley_antiquity,
+    max_range=20,
+    line_of_sight = 20,
+    search_radius = 20,
+    min_range=2,
+    blast_width=2,
     blast_attack_level=2, 
     accuracy_percent=45,
     total_missile = 30,
     attack_dispersion=1,
     health_point = 300,
-    line_of_sight = 15,
-    search_radius = 15,
+
     combat_ability= 16 + 8,
         
 )
@@ -414,6 +515,11 @@ inst_hero_ulrich = Hero(
     attack_dispersion = 3,
 )
 
+
+
+
+javaline_with_fire_id = 1780
+
 inst_hero_darius = Hero(
     max_range=4,
     min_range = 0,
@@ -424,7 +530,7 @@ inst_hero_darius = Hero(
     blast_attack_level=2,
     melee_attack=25,
     total_missile=40,  # This covers both Max Total Missiles and Total Missiles
-    projectile_unit=1780, 
+    projectile_unit=leviathan_projectile_id, 
     pierce_armor=15 ,
     melee_armour=15,
     movement_speed=2,
@@ -489,7 +595,7 @@ inst_hero_tsar_constantin = Hero(
 wolf_id = 700
 
 num_summon = 7
-summon_cooldown = 8
+summon_cooldown = 6
 summon_hp_drop_per_second = 9
 flame_id_spawned_after_explosion = 1334
 num_max_flame = num_summon * 4
@@ -504,8 +610,8 @@ inst_tamar_summon_hero = Hero(
     search_radius = 7,
     attack_dispersion=5,
     accuracy_percent=20,
-    pierce_armor=12,
-    melee_armour=12,
+    pierce_armor=13,
+    melee_armour=13,
     melee_attack = 1,
     attack_reload_set=summon_cooldown,  
     total_missile = num_summon,
@@ -523,6 +629,7 @@ inst_tamar_summon_hero = Hero(
     charge_type = 3,
     recharge_rate = 1,
     max_charge = summon_cooldown-3,
+    health_point = 400,
     #projectile_vanish_mode = 1
     #unit_trait = 8,
     #trait_piece = 2151,
@@ -589,14 +696,29 @@ for player_num in range(1, 9):
 #need trigger to remove flames for performance reason
 
 # add lifetime of summoned wolf
-global_wolf_minus_hp = source_trigger_manager.add_trigger("global_wolf_minus_hp",enabled=True,looping=True)
-for player in range(1, 9):  # Loop from player 1 to 9
-    global_wolf_minus_hp.new_effect.change_object_hp(
-        object_list_unit_id=wolf_id, operation=3, quantity=summon_hp_drop_per_second, source_player=player
+list_wolf_detection = []
+list_wolf_minus_hp = []
+
+for player in range(1, 9):
+    minus_trigger = source_trigger_manager.add_trigger("global_wolf_minus_hp",enabled=False,looping=False)
+    list_wolf_minus_hp.append(minus_trigger)
+
+for player in range(1, 9):
+    detection_trigger = source_trigger_manager.add_trigger("global_wolf_detection", enabled=True, looping= False)
+    detection_trigger.new_condition.own_objects(quantity=num_summon-1, object_list=wolf_id, source_player=player)
+    detection_trigger.new_effect.activate_trigger(list_wolf_minus_hp[player-1].trigger_id)
+    list_wolf_detection.append(detection_trigger)
+
+for index, trigger in enumerate(list_wolf_minus_hp):
+    trigger.new_condition.timer(5)
+    trigger.new_effect.change_object_hp(
+        object_list_unit_id=wolf_id, operation=3, quantity=summon_hp_drop_per_second, source_player=index+1
     )
-    global_wolf_minus_hp.new_effect.change_object_stance(
-        object_list_unit_id=wolf_id, source_player=player, attack_stance=0
+    trigger.new_effect.change_object_stance(
+        object_list_unit_id=wolf_id, source_player=index+1, attack_stance=0
     )
+    trigger.new_effect.activate_trigger(list_wolf_detection[index].trigger_id)
+
 
 
 
@@ -989,20 +1111,6 @@ initialize_trigger.new_effect.disable_unit_targeting(
 
 initialize_trigger.new_effect.change_object_hp(source_player=INITIAL_OWNER, area_x1=BUILDING_AREA_X1, area_x2=BUILDING_AREA_X2, area_y1=BUILDING_AREA_Y1, area_y2=BUILDING_AREA_Y2, quantity=0, operation=Operation.SET)
 initialize_trigger.new_effect.change_object_hp(source_player=INITIAL_OWNER, area_x1=BUILDING_AREA_X1, area_x2=BUILDING_AREA_X2, area_y1=BUILDING_AREA_Y1, area_y2=BUILDING_AREA_Y2, quantity=0, operation=Operation.SET)
-
-
-
-# # triggers that keep monk stance as stand ground stance
-# list_looping_trigger_that_continue_assert_stand_ground = []
-
-# for player in PlayerId.all()[1:]:
-#     trigger = source_trigger_manager.add_trigger("f{player} monk stand ground", 
-#                                                  enabled=False, 
-#                                                  looping=True)
-#     trigger.new_effect.change_object_stance(source_player=player,area_x1=BUILDING_AREA_X1, area_x2=BUILDING_AREA_X2,area_y1=BUILDING_AREA_Y1, area_y2=BUILDING_AREA_Y2, attack_stance=AttackStance.STAND_GROUND)
-#     list_looping_trigger_that_continue_assert_stand_ground.append(trigger)
-
-
 
 
 

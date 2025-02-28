@@ -3,10 +3,16 @@ from AoE2ScenarioParser.datasets.heroes import HeroInfo
 
 from AoE2ScenarioParser.datasets.players import PlayerId
 
+longbow_projectile_id = 511
+
+
+projectile_from_war_galley_antiquity = 540
+
+used_projectile = projectile_from_war_galley_antiquity
 
 inst_robin_archer_hero = Hero(
     hero_id=HeroInfo.ROBIN_HOOD.ID,  # You'll need to provide the correct hero_id
-    projectile_unit=511,
+    projectile_unit=used_projectile,
     #secondary_projectile_unit = 676,
     max_range=10,
     min_range=4,
@@ -28,10 +34,22 @@ inst_robin_archer_hero = Hero(
 
 )
 
-
-inst_projectile_vol_fire = Hero(hero_id = 511, 
+#longbow project arc -0.06
+inst_projectile_vol_fire = Hero(hero_id = used_projectile, 
                                 #standing_graphic = 1743, 
                                 #walking_graphic = 1743,
+                                #dying_graphic = 1743,
                                 dead_unit_id = 1334,
                                 #blood_unit = 1334,
-                                movement_speed_divide = 2)
+                                movement_speed_divide = 2
+                                )
+
+
+# inst_projectile_vol_fire = Hero(hero_id = used_projectile, 
+#                                 standing_graphic = 3378, 
+#                                 walking_graphic = 3378,
+#                                 #dying_graphic = 1743,
+#                                 dead_unit_id = 1334,
+#                                 #blood_unit = 1334,
+#                                #movement_speed_divide = 2
+#                                )
