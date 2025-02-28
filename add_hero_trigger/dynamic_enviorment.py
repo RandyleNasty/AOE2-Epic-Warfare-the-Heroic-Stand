@@ -46,7 +46,7 @@ START_POLE_Y = 0
 
 END_POLE_X = 0
 END_POLE_Y = 240
-TIME_START_FROZEN = 5000
+
 #TIME_START_FROZEN = 20
 # Configuration
 FROZEN_PACE_DELAY = 2 
@@ -71,7 +71,9 @@ UNFREEZE_POINT_RIVER_Y = 50
 
 
 # WINTER CHANGE SPEED CONTROL
+TIME_START_FROZEN = 5000
 CLUSTER_SIZE = 30
+#CLUSTER_SIZE = 500
 KILL_EARLY = 1
 
 TREE_REPLACE_OBJECTS = [
@@ -138,6 +140,13 @@ def add_blockage_object_to_target_tiles_that_mimic_water(source_scenario:AoE2DES
     for terrain in originalTerrains:
         distance = calculate_distance_to_end_pole(terrain)
 
+        """
+        add filter and decides up to where to freeze
+        """
+
+        if calculate_distance_to_start_pole(terrain) > calculate_unfreeze_point_distance_to_start_pole():
+            continue
+
         # DO NO TOUCH terrain near sacred center
         if calculate_euclean_distance_to_center_sacred(terrain) < CENTER_WINTER_NO_CHANGE_DISTANCE:
             continue 
@@ -176,6 +185,10 @@ def add_blockage_object_to_target_tiles_that_mimic_water(source_scenario:AoE2DES
     #non_winter_tree = []
     # get reference id
     for gaia_unit in gaia_units:
+
+        if calculate_distance_to_start_pole(gaia_unit) > calculate_unfreeze_point_distance_to_start_pole():
+            continue
+
         # DO NO TOUCH terrain near sacred center
         if calculate_euclean_distance_to_center_sacred(gaia_unit) < CENTER_WINTER_NO_CHANGE_DISTANCE:
             continue 
