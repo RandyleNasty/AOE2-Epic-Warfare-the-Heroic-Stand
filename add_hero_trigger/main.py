@@ -949,10 +949,10 @@ boost_hero(source_trigger_manager, inst_shrine, PlayerId.all())
 #area_x2: 125
 #area_y2: 130
 
-UNIT_DETECT_AREA_X1 = 111
-UNIT_DETECT_AREA_X2 = 125
-UNIT_DETECT_AREA_Y1 = 117
-UNIT_DETECT_AREA_Y2 = 130
+UNIT_DETECT_AREA_X1 = 109
+UNIT_DETECT_AREA_X2 = 127
+UNIT_DETECT_AREA_Y1 = 115
+UNIT_DETECT_AREA_Y2 = 132
 
 BUILDING_AREA_X1 = 113
 BUILDING_AREA_X2 = 123
@@ -1008,9 +1008,11 @@ initialize_trigger.new_effect.change_object_hp(source_player=INITIAL_OWNER, area
 
 
 
-NUM_CONVERTABLE_OBECT = 5
+NUM_CONVERTABLE_BUILDING = 5
 
-NUM_CONVERABLE_MILITARY_OBJECT = 3
+# MONK also considerable as military
+NUM_PLAYER_UNIT_REQUIRED_TO_CONVERT = 1
+
 
 list_give_it_to_player_triggers = []
 for player in PlayerId.all()[1:]:
@@ -1021,10 +1023,11 @@ for player in PlayerId.all()[1:]:
 #FROM PLAYER GIVE BACK TO GAIA
 list_gaia_give_triggers = []
 for index, player in enumerate(PlayerId.all()[1:]):
-    trigger = source_trigger_manager.add_trigger(f"p{player}_gaia_give", enabled=True, looping=False)
+    trigger = source_trigger_manager.add_trigger(f"p{player}_give_to_gaia", enabled=True, looping=False)
     list_gaia_give_triggers.append(trigger)
-    trigger.new_condition.timer(1)
-    trigger.new_condition.objects_in_area(quantity=NUM_CONVERABLE_MILITARY_OBJECT, inverted=True,
+    trigger.new_condition.timer(5)
+    trigger.new_condition.objects_in_area(quantity=1, 
+                                          inverted=True,
                                         area_x1 = UNIT_DETECT_AREA_X1,
                                         area_x2 = UNIT_DETECT_AREA_X2,
                                         area_y1 = UNIT_DETECT_AREA_Y1,
@@ -1049,20 +1052,21 @@ for index, player in enumerate(PlayerId.all()[1:]):
 # FROM GAIA TO PLAYER
 
 for index, trigger in enumerate(list_give_it_to_player_triggers):
-    trigger.new_condition.timer(1)
-    trigger.new_condition.objects_in_area(quantity=1, 
+    trigger.new_condition.timer(5)
+    trigger.new_condition.objects_in_area(quantity=NUM_PLAYER_UNIT_REQUIRED_TO_CONVERT, 
                                         area_x1 = UNIT_DETECT_AREA_X1,
                                         area_x2 = UNIT_DETECT_AREA_X2,
                                         area_y1 = UNIT_DETECT_AREA_Y1,
                                         area_y2 = UNIT_DETECT_AREA_Y2,
                                         source_player=index+1, 
                                         object_state=ObjectState.ALIVE,
-                                        object_type=ObjectType.MILITARY)
+                                        #object_type=ObjectType.MILITARY
+                                        )
     trigger.new_condition.and_()
 
     #detect gaia unit
     trigger.new_condition.objects_in_area(
-                                        quantity=NUM_CONVERTABLE_OBECT, 
+                                        quantity=NUM_CONVERTABLE_BUILDING, 
                                         area_x1=BUILDING_AREA_X1, 
                                         area_x2=BUILDING_AREA_X2, 
                                         area_y1=BUILDING_AREA_Y1, 
@@ -1071,29 +1075,22 @@ for index, trigger in enumerate(list_give_it_to_player_triggers):
                                         object_state=ObjectState.ALIVE,
                                         object_type=ObjectType.BUILDING
                                         )
-    trigger.new_effect.change_ownership(source_player = 0, target_player = index + 1,
+    trigger.new_effect.change_ownership(source_player = 0, 
+                                        target_player = index + 1,
                                         area_x1=BUILDING_AREA_X1, 
                                         area_x2=BUILDING_AREA_X2, 
                                         area_y1=BUILDING_AREA_Y1, 
                                         area_y2=BUILDING_AREA_Y2,
                                         #object_type=ObjectType.BUILDING
                                         )
-    
-    trigger.new_effect.change_object_stance(source_player=index + 1,
-                                 area_x1=BUILDING_AREA_X1, 
-                                 area_x2=BUILDING_AREA_X2,
-                                 area_y1=BUILDING_AREA_Y1, 
-                                 area_y2=BUILDING_AREA_Y2, 
-                                 attack_stance=AttackStance.STAND_GROUND)
-    
 
 
     # trigger.new_effect.activate_trigger(list_looping_trigger_that_continue_assert_stand_ground[index].trigger_id)
     trigger.new_effect.activate_trigger(list_gaia_give_triggers[index].trigger_id)
 
 
-
-
+print(len(list_give_it_to_player_triggers))
+print(len(list_gaia_give_triggers))
 
 # Final step: write a modified scenario class to a new scenario file
 source_scenario.write_to_file(output_path)
