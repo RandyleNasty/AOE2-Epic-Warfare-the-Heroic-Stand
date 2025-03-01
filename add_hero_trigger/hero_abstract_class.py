@@ -104,6 +104,10 @@ def boost_hero(trigger_manager, hero, players_applied):
         'projectile_smart_mode': 19,
         'projectile_vanish_mode': 68,
         'projectile_arc': 69,
+        'projectile_arc_divide':69,
+        'projectile_arc_multiply':69,
+
+
         'projectile_hit_mode': 67,
         'secondary_projectile_unit': 65,
 
@@ -182,7 +186,22 @@ def boost_hero(trigger_manager, hero, players_applied):
                     source_player=player_id,
                     object_list_unit_id=hero.hero_id
                 ) 
-                                       
+                elif attr == "projectile_arc_divide":
+                    trigger.new_effect.modify_attribute(
+                    quantity=value,
+                    object_attributes=obj_attr,
+                    operation=Operation.DIVIDE,
+                    source_player=player_id,
+                    object_list_unit_id=hero.hero_id
+                )
+                elif attr == "projectile_arc_multiply":
+                    trigger.new_effect.modify_attribute(
+                    quantity=value,
+                    object_attributes=obj_attr,
+                    operation=Operation.MULTIPLY,
+                    source_player=player_id,
+                    object_list_unit_id=hero.hero_id
+                )                              
                 elif attr == "attack_dispersion_multiply":
                     trigger.new_effect.modify_attribute(
                         quantity=value,

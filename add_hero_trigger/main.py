@@ -176,22 +176,24 @@ projectile_LBT_id = 512
 footman_summoned_id = 2318
 archerman_summoned_id = HeroInfo.GUGLIELMO_EMBRIACO.ID
 
-num_summon_roman_army = 2
-num_summon_hp_drop_per_second_roman_army = 20
+num_summon_roman_army = 15
+num_summon_hp_drop_per_second_roman_army = 10
 const_time_trigger_interval = 5
 
 reload_time = 20
 
 inst_projectile_LBT = Hero(hero_id = projectile_LBT_id, 
-                                standing_graphic = 3822, 
+                                standing_graphic = 1721, 
                                 walking_graphic = 3822,
                                 #dying_graphic = 1743,
                                 dead_unit_id = footman_summoned_id,
-                                #projectile_arc = 1,
+                                projectile_arc = 1,
+                                projectile_arc_divide = 3,
+                                projectile_arc_multiply = 2,
                                 #blood_unit = sabo_man_id,
 
                                 #blood_unit = HeroInfo.HENRY_II.ID,
-                                #movement_speed_divide = 2
+                                movement_speed_divide = 2
                                 )
 
 
@@ -199,8 +201,8 @@ inst_roman_army_summon_hero = Hero(
     hero_id=HeroInfo.BELISARIUS.ID,  # You'll need to provide the correct hero_id
     projectile_unit=projectile_LBT_id,
     secondary_projectile_unit = HeroInfo.GUGLIELMO_EMBRIACO.ID,
-    max_range=9,
-    min_range=0,
+    max_range=4,
+    min_range=1,
     melee_attack=1,
     #blast_width=1,
     #blast_attack_level=2,
@@ -208,24 +210,27 @@ inst_roman_army_summon_hero = Hero(
     melee_armour=10,
     attack_reload_set=reload_time,  
     accuracy_percent=100,
-    total_missile = 10,
+    total_missile = num_summon_roman_army,
     #attack_dispersion = 1,
     #attack_dispersion_multiply=3,
     combat_ability= 16 + 8,
     # #walking_graphic = 654,
     # movement_speed=1,
     # #frame_delay=4,
-    health_point=250,
+    health_point=350,
     charge_event = 1,
     charge_type = 3,
     recharge_rate = 1,
     max_charge = reload_time,
-    # projectile_smart_mode = 2,
+    projectile_smart_mode = 3,
 
 )
 
 boost_hero(source_trigger_manager, inst_projectile_LBT, PlayerId.all()[1:])
 boost_hero(source_trigger_manager, inst_roman_army_summon_hero, PlayerId.all()[1:])
+
+
+
 
 
 
@@ -285,8 +290,9 @@ for index, trigger in enumerate(list_archer_minus_hp):
 inst_footman_summoned = Hero(
     hero_id=footman_summoned_id,  # You'll need to provide the correct hero_id
     dying_graphic = 5462,
-    health_point=100,
+    health_point=50,
     dead_unit_id = 0,
+    population = 0,
     # projectile_smart_mode = 2,
 
 )
@@ -294,8 +300,9 @@ inst_footman_summoned = Hero(
 inst_archerman_summoned = Hero(
     hero_id=archerman_summoned_id,  # You'll need to provide the correct hero_id
     dying_graphic = 5462,
-    health_point=100,
+    health_point=50,
     dead_unit_id = 0,
+    population = 0,
     # projectile_smart_mode = 2,
 
 )
@@ -354,9 +361,10 @@ boost_hero(source_trigger_manager, inst_mounted_gunpower_hero, PlayerId.all()[1:
 POLEMARCH FOOTMAN HERO
 
 """
-war_galley_projectile_id = 373
+projectile_polemarch_used = 1057
 
-inst_war_galley_projectile = Hero(hero_id = war_galley_projectile_id, 
+
+inst_war_galley_projectile = Hero(hero_id = projectile_polemarch_used, 
                                 #standing_graphic = 1743, 
                                 #walking_graphic = 1743,
                                 #dying_graphic = 1743,
@@ -372,7 +380,7 @@ boost_hero(source_trigger_manager, inst_war_galley_projectile, PlayerId.all()[1:
 inst_polemarch_footman_hero = Hero(
     hero_id=HERO_POLEMARCH_ID,  # You'll need to provide the correct hero_id
     #projectile_unit=war_galley_projectile_id,
-    projectile_unit = 1057,
+    projectile_unit = projectile_polemarch_used,
     #secondary_projectile_unit = 676,
     max_range=3,
     min_range=0,
@@ -693,7 +701,29 @@ inst_jean_bureau = Hero(
     blast_attack_level=2
 
 )
-            
+
+
+"""
+TO-DO extend projectile unit with standing grpahic 1722
+
+war_galley_projectile_id = 373
+projectile_polycritus_id = 2342
+
+"""
+flame_id_spawned_after_explosion = 1334
+inst_fire_projectile_for_ulrich = Hero(
+
+    hero_id=676,
+    standing_graphic = 1722,
+    dead_unit_id = flame_id_spawned_after_explosion
+    
+)
+
+boost_hero(source_trigger_manager, inst_fire_projectile_for_ulrich, PlayerId.all()[1:])
+
+
+
+
 inst_hero_ulrich = Hero(
     hero_id=HeroInfo.ULRICH_VON_JUNGINGEN.ID,  # You'll need to provide the correct hero_id
     melee_attack=25,
@@ -789,7 +819,7 @@ inst_hero_tsar_constantin = Hero(
 
 wolf_id = 700
 
-num_summon = 7
+num_summon = 8
 summon_cooldown = 7
 summon_hp_drop_per_second = 35
 flame_id_spawned_after_explosion = 1334
@@ -800,13 +830,13 @@ inst_tamar_summon_hero = Hero(
     blast_defense_level = 1,
     projectile_unit=676,
     secondary_projectile_unit=wolf_id,
-    max_range=4,
+    max_range=5,
     line_of_sight = 7,
     search_radius = 7,
     attack_dispersion=5,
     accuracy_percent=20,
-    pierce_armor=8,
-    melee_armour=8,
+    pierce_armor=10,
+    melee_armour=10,
     melee_attack = 1,
     attack_reload_set=summon_cooldown,  
     total_missile = num_summon,
