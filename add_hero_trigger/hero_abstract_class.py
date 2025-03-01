@@ -126,6 +126,12 @@ def boost_hero(trigger_manager, hero, players_applied):
             looping=False
         )
 
+        trigger.new_condition.own_objects(
+            quantity=1,
+            source_player=player_id,
+            object_list=hero.hero_id
+        )
+
         for attr, value in hero.attributes.items():
             if value is not None and attr in attribute_mapping:
                 obj_attr = attribute_mapping[attr]

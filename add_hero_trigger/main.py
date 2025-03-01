@@ -2,6 +2,7 @@
 
 
 import glob
+from multiprocessing import spawn
 from AoE2ScenarioParser.scenarios.aoe2_de_scenario import AoE2DEScenario
 from AoE2ScenarioParser.datasets.trigger_lists import *
 
@@ -85,7 +86,10 @@ hero_test_id = 1072
 
 HERO_FAKE_AS_EXPLODING_ELEPHANT_ID = 1071
 
-HERO_POLEMARCH_ID = 2162
+
+#POLEMARCH suspicious of having bug
+#HERO_POLEMARCH_ID = 2162
+HERO_POLEMARCH_ID = 2316
 #HeroInfo.ROBIN_HOOD.ID
 list_hero_ids = [
                 #Darius_ID, 
@@ -175,6 +179,9 @@ archerman_summoned_id = HeroInfo.GUGLIELMO_EMBRIACO.ID
 num_summon_roman_army = 2
 num_summon_hp_drop_per_second_roman_army = 20
 const_time_trigger_interval = 5
+
+reload_time = 20
+
 inst_projectile_LBT = Hero(hero_id = projectile_LBT_id, 
                                 standing_graphic = 3822, 
                                 walking_graphic = 3822,
@@ -192,14 +199,14 @@ inst_roman_army_summon_hero = Hero(
     hero_id=HeroInfo.BELISARIUS.ID,  # You'll need to provide the correct hero_id
     projectile_unit=projectile_LBT_id,
     secondary_projectile_unit = HeroInfo.GUGLIELMO_EMBRIACO.ID,
-    max_range=6,
-    min_range=2,
+    max_range=9,
+    min_range=0,
     melee_attack=1,
     #blast_width=1,
     #blast_attack_level=2,
     pierce_armor=10,
     melee_armour=10,
-    attack_reload_set=20,  
+    attack_reload_set=reload_time,  
     accuracy_percent=100,
     total_missile = 10,
     #attack_dispersion = 1,
@@ -209,6 +216,10 @@ inst_roman_army_summon_hero = Hero(
     # movement_speed=1,
     # #frame_delay=4,
     health_point=250,
+    charge_event = 1,
+    charge_type = 3,
+    recharge_rate = 1,
+    max_charge = reload_time,
     # projectile_smart_mode = 2,
 
 )
@@ -360,11 +371,12 @@ boost_hero(source_trigger_manager, inst_war_galley_projectile, PlayerId.all()[1:
 
 inst_polemarch_footman_hero = Hero(
     hero_id=HERO_POLEMARCH_ID,  # You'll need to provide the correct hero_id
-    projectile_unit=war_galley_projectile_id,
+    #projectile_unit=war_galley_projectile_id,
+    projectile_unit = 1057,
     #secondary_projectile_unit = 676,
     max_range=3,
     min_range=0,
-    melee_attack=10,
+    melee_attack=25,
     blast_width=1,
     blast_attack_level=2,
     pierce_armor=17,
@@ -375,12 +387,17 @@ inst_polemarch_footman_hero = Hero(
     attack_dispersion = 1,
     attack_dispersion_multiply=3,
     attack_dispersion_divide = 2,
-    combat_ability= 1 + 16 + 8,
+    combat_ability= 1+ 16,
     #walking_graphic = 654,
     #movement_speed=1,
     #frame_delay=4,
     health_point=500,
     projectile_smart_mode = 2,
+
+    charge_event = 1,
+    charge_type = 3,
+    recharge_rate = 1,
+    max_charge = 10,
 
 )
 
@@ -671,7 +688,7 @@ inst_jean_bureau = Hero(
     #pierce_armor=0,  # Not modified in the original function
     melee_attack=15,
     movement_speed=1,
-    health_point=150,
+    health_point=300,
     blast_width=1,
     blast_attack_level=2
 
@@ -773,8 +790,8 @@ inst_hero_tsar_constantin = Hero(
 wolf_id = 700
 
 num_summon = 7
-summon_cooldown = 6
-summon_hp_drop_per_second = 9
+summon_cooldown = 7
+summon_hp_drop_per_second = 35
 flame_id_spawned_after_explosion = 1334
 num_max_flame = num_summon * 4
 
@@ -783,13 +800,13 @@ inst_tamar_summon_hero = Hero(
     blast_defense_level = 1,
     projectile_unit=676,
     secondary_projectile_unit=wolf_id,
-    max_range=6,
+    max_range=4,
     line_of_sight = 7,
     search_radius = 7,
     attack_dispersion=5,
     accuracy_percent=20,
-    pierce_armor=13,
-    melee_armour=13,
+    pierce_armor=8,
+    melee_armour=8,
     melee_attack = 1,
     attack_reload_set=summon_cooldown,  
     total_missile = num_summon,
@@ -807,7 +824,7 @@ inst_tamar_summon_hero = Hero(
     charge_type = 3,
     recharge_rate = 1,
     max_charge = summon_cooldown-3,
-    health_point = 400,
+    health_point = 300,
     #projectile_vanish_mode = 1
     #unit_trait = 8,
     #trait_piece = 2151,
@@ -824,8 +841,8 @@ inst_summon_unit = Hero(
 inst_sabo_man_unit = Hero(
     hero_id= sabo_man_id,  # You'll need to provide the correct hero_id
     melee_attack = 40,
-    melee_attack_for_building = 15,
-    melee_attack_for_wall_and_gate = 10,
+    melee_attack_for_building = 10,
+    melee_attack_for_wall_and_gate = 5,
     blast_attack_level=2,
     health_point = 0,
     max_range=2,
@@ -942,17 +959,17 @@ inst_themistocles_hero = Hero(
     melee_attack=25,
     max_range=2,
     min_range=0,
-    pierce_armor=20,
-    melee_armour=20,
+    pierce_armor=15,
+    melee_armour=15,
     attack_reload_set=3,  
-    total_missile = 8,
+    total_missile = 6,
     combat_ability= 8 + 16,
     #attack_dispersion = 1,
     #accuracy_percent = 10,
     blast_width = 4,
     health_point=500,
     movement_speed_divide=3,
-    movement_speed_multiply=2,
+    movement_speed_multiply=3,
     #walking_graphic = 654,
     projectile_smart_mode = 2,
     #dead_unit_id = 942,
@@ -1377,6 +1394,81 @@ for index, trigger in enumerate(list_give_it_to_player_triggers):
 
 print(len(list_give_it_to_player_triggers))
 print(len(list_gaia_give_triggers))
+
+
+
+"""
+ADD FINAL EAST ALL  STAR HERO PUSH
+
+
+				area_x1: 210
+				area_y1: 182
+				area_x2: 238
+				area_y2: 239
+"""
+
+change_castle_garrison_limit =  source_trigger_manager.add_trigger("change_castle_garrison_limit", enabled=True, looping=False)
+change_castle_garrison_limit.new_effect.modify_attribute(source_player=8, 
+                                                         quantity=len(list_hero_ids), 
+                                                         operation=Operation.SET, 
+                                                         object_attributes=ObjectAttribute.GARRISON_CAPACITY,
+                                                         object_list_unit_id=445)
+
+
+spawn_all_hero_from_castle = source_trigger_manager.add_trigger("spawn_all_hero_from_castle", enabled=False, looping=False)
+looping_keep_spawning_trash_unit =  source_trigger_manager.add_trigger("looping_keep_spawning_trash_unit", enabled=False, looping=True)
+
+
+detect_area_x1 = 210
+detect_area_x2 = 238
+detect_area_y1 = 182
+detect_area_y2 = 239
+detection_east_castle_under_threat = source_trigger_manager.add_trigger("detection_east_castle_under_threat", enabled=True, looping=False)
+for player in range(1, 5):  # Loop from player 1 to player 8
+    detection_east_castle_under_threat.new_condition.objects_in_area(
+        quantity=3,
+        source_player=player,
+        area_x1=detect_area_x1,
+        area_x2=detect_area_x2,
+        area_y1=detect_area_y1,
+        area_y2=detect_area_y2,
+        object_state=ObjectState.ALIVE,
+        object_type=ObjectType.MILITARY
+    )
+    if player < 4:
+        detection_east_castle_under_threat.new_condition.or_()
+detection_east_castle_under_threat.new_effect.activate_trigger(spawn_all_hero_from_castle.trigger_id)
+detection_east_castle_under_threat.new_effect.activate_trigger(looping_keep_spawning_trash_unit.trigger_id)
+detection_east_castle_under_threat.new_effect.display_instructions(object_list_unit_id=HeroInfo.GENGHIS_KHAN.ID,
+                                                    source_player=0,
+                                                    display_time=20,
+                                                    message = "Enemy has summoned all heros for final push!")
+
+
+spawn_all_hero_from_castle.new_condition.timer(5)
+
+for hero_id in list_hero_ids:
+    spawn_all_hero_from_castle.new_effect.create_garrisoned_object(source_player=8, 
+                                                                   object_list_unit_id_2=hero_id,
+                                                                   selected_object_ids = 224976)
+
+spawn_all_hero_from_castle.new_effect.unload(source_player=8, location_x=39, location_y= 52, selected_object_ids=224976)
+
+
+looping_keep_spawning_trash_unit.new_condition.timer(2)
+looping_keep_spawning_trash_unit.new_effect.create_garrisoned_object(source_player=8, 
+                                                                   object_list_unit_id_2=359,
+                                                                   selected_object_ids = 224976)
+looping_keep_spawning_trash_unit.new_effect.create_garrisoned_object(source_player=8, 
+                                                                   object_list_unit_id_2=6,
+                                                                   selected_object_ids = 224976)
+looping_keep_spawning_trash_unit.new_effect.create_garrisoned_object(source_player=8, 
+                                                                   object_list_unit_id_2=359,
+                                                                   selected_object_ids = 224976)
+looping_keep_spawning_trash_unit.new_effect.create_garrisoned_object(source_player=8, 
+                                                                   object_list_unit_id_2=6,
+                                                                   selected_object_ids = 224976)
+looping_keep_spawning_trash_unit.new_effect.unload(source_player=8, location_x=39, location_y= 52, selected_object_ids=224976)
 
 # Final step: write a modified scenario class to a new scenario file
 source_scenario.write_to_file(output_path)

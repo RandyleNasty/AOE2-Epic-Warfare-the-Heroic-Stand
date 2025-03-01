@@ -3380,5 +3380,23 @@ Triggers:
 				area_x2: 125
 				area_y2: 130
 
+	'Final Hero All Star' [Index: 50, Display: 50]:
+		enabled: False
+		looping: False
+		description_stid: 0
+		short_description_stid: 0
+		effects:
+			create_garrisoned_object [Index: 0, Display: 0]:
+				source_player: Player One (1)
+				object_list_unit_id_2: Crossbowman (24)
+				selected_object_ids: 1 unit:
+					0: Poenari Castle (445) [P8, X230.0, Y215.0] (224976)
+			unload [Index: 1, Display: 1]:
+				source_player: Player One (1)
+				location_x: 39
+				location_y: 52
+				selected_object_ids: 1 unit:
+					0: Poenari Castle (445) [P8, X230.0, Y215.0] (224976)
+
 Variables:
 	<<No Variables>>
