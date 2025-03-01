@@ -54,8 +54,8 @@ input_path = scenario_folder + "Epic_Warfare Remastered v2_3 test frozen river.a
 
 
 #output_path = scenario_folder + "Epic_Warfare Remastered v2_3 test frozen river Parsed.aoe2scenario"
-#output_path = scenario_folder + "Epic Warfare the Heroic Stand Remasterd 2_0.aoe2scenario"
-output_path = "C:/Users/Randy/Games/Age of Empires 2 DE/76561198060805641/mods/local/Epic Warfare the Heroic Stand Remasterd 2_0/resources/_common/scenario/Epic Warfare the Heroic Stand Remasterd 2_0.aoe2scenario"
+output_path = scenario_folder + "Epic Warfare the Heroic Stand Remasterd 2_0 Generated.aoe2scenario"
+#output_path = "C:/Users/Randy/Games/Age of Empires 2 DE/76561198060805641/mods/local/Epic Warfare the Heroic Stand Remasterd 2_0/resources/_common/scenario/Epic Warfare the Heroic Stand Remasterd 2_0.aoe2scenario"
 
 
 # declare scenario class
@@ -87,7 +87,8 @@ HERO_FAKE_AS_EXPLODING_ELEPHANT_ID = 1071
 
 HERO_POLEMARCH_ID = 2162
 #HeroInfo.ROBIN_HOOD.ID
-list_hero_ids = [Darius_ID, 
+list_hero_ids = [
+                #Darius_ID, 
                  HeroInfo.ROBIN_HOOD.ID,
                  HeroInfo.JEAN_BUREAU.ID,
                  Themistocles_ID,
@@ -98,13 +99,16 @@ list_hero_ids = [Darius_ID,
                  HeroInfo.GENGHIS_KHAN.ID,
                 # HeroInfo.GODS_OWN_SLING_PACKED.ID,
                  HERO_FAKE_AS_EXPLODING_ELEPHANT_ID,
-                 HERO_POLEMARCH_ID
+                 HERO_POLEMARCH_ID,
+                 #HeroInfo.FRANCISCO_DE_ORELLANA.ID,
+                 HeroInfo.BELISARIUS.ID
                  ]
 
 
 
 
-list_description = ["Javelin Splashing duo-horse Chariot", 
+list_description = [
+    #"Javelin Splashing duo-horse Chariot", 
                     "Vaelor, the Stormbow, a feared master of the battlefield, wields the legendary Stormbow, capable of unleashing a relentless downpour of arrows upon his enemies. His volleys blot out the sun, leaving no escape for those caught beneath his deadly rain. Tales of his wrath spread across kingdoms, as entire armies have fallen under his sky-darkening assault.",
                     "Skyfall Cluster Bomb Cannon",
                     "Invisible Footman with Explosives", 
@@ -115,7 +119,9 @@ list_description = ["Javelin Splashing duo-horse Chariot",
                     "Knight of the Exploding Wolf Summon",
                     #"God Swing",
                     "Self-Exploding Elephant that destroies everything",
-                    "AOE Greek Hero FootMan"
+                    "AOE Greek Hero FootMan",
+                    #"Mounted Gunpower Knight",
+                    "Roman Army Summon General"
                     ]
 
 
@@ -156,6 +162,178 @@ tents_selected_object_ids = [317958, 317979, 322879, 319227, 328305, 328275, 328
     # standing_graphic = 1788,
     # dying_graphic = 1787,
     # walking_graphic = 1789,
+
+"""
+ROMAN ARMY SUMMON HERO
+"""
+projectile_LBT_id = 512
+
+
+footman_summoned_id = 2318
+archerman_summoned_id = HeroInfo.GUGLIELMO_EMBRIACO.ID
+
+num_summon_roman_army = 2
+num_summon_hp_drop_per_second_roman_army = 20
+const_time_trigger_interval = 5
+inst_projectile_LBT = Hero(hero_id = projectile_LBT_id, 
+                                standing_graphic = 3822, 
+                                walking_graphic = 3822,
+                                #dying_graphic = 1743,
+                                dead_unit_id = footman_summoned_id,
+                                #projectile_arc = 1,
+                                #blood_unit = sabo_man_id,
+
+                                #blood_unit = HeroInfo.HENRY_II.ID,
+                                #movement_speed_divide = 2
+                                )
+
+
+inst_roman_army_summon_hero = Hero(
+    hero_id=HeroInfo.BELISARIUS.ID,  # You'll need to provide the correct hero_id
+    projectile_unit=projectile_LBT_id,
+    secondary_projectile_unit = HeroInfo.GUGLIELMO_EMBRIACO.ID,
+    max_range=6,
+    min_range=2,
+    melee_attack=1,
+    #blast_width=1,
+    #blast_attack_level=2,
+    pierce_armor=10,
+    melee_armour=10,
+    attack_reload_set=20,  
+    accuracy_percent=100,
+    total_missile = 10,
+    #attack_dispersion = 1,
+    #attack_dispersion_multiply=3,
+    combat_ability= 16 + 8,
+    # #walking_graphic = 654,
+    # movement_speed=1,
+    # #frame_delay=4,
+    health_point=250,
+    # projectile_smart_mode = 2,
+
+)
+
+boost_hero(source_trigger_manager, inst_projectile_LBT, PlayerId.all()[1:])
+boost_hero(source_trigger_manager, inst_roman_army_summon_hero, PlayerId.all()[1:])
+
+
+
+# add lifetime of summoned footman
+list_footman_detection = []
+list_footman_minus_hp = []
+
+for player in range(1, 9):
+    minus_trigger = source_trigger_manager.add_trigger("global_footman_minus_hp", enabled=False, looping=False)
+    list_footman_minus_hp.append(minus_trigger)
+
+for player in range(1, 9):
+    detection_trigger = source_trigger_manager.add_trigger("global_footman_detection", enabled=True, looping=False)
+    detection_trigger.new_condition.own_objects(quantity=num_summon_roman_army-1, object_list=footman_summoned_id, source_player=player)
+    detection_trigger.new_effect.activate_trigger(list_footman_minus_hp[player-1].trigger_id)
+    list_footman_detection.append(detection_trigger)
+
+for index, trigger in enumerate(list_footman_minus_hp):
+    trigger.new_condition.timer(const_time_trigger_interval)
+    trigger.new_effect.change_object_hp(
+        object_list_unit_id=footman_summoned_id, operation=3, quantity=num_summon_hp_drop_per_second_roman_army, source_player=index+1
+    )
+    trigger.new_effect.change_object_stance(
+        object_list_unit_id=footman_summoned_id, source_player=index+1, attack_stance=0
+    )
+    trigger.new_effect.activate_trigger(list_footman_detection[index].trigger_id)
+
+
+# add lifetime of summoned archer
+list_archer_detection = []
+list_archer_minus_hp = []
+
+for player in range(1, 9):
+    minus_trigger = source_trigger_manager.add_trigger("global_archer_minus_hp", enabled=False, looping=False)
+    list_archer_minus_hp.append(minus_trigger)
+
+for player in range(1, 9):
+    detection_trigger = source_trigger_manager.add_trigger("global_archer_detection", enabled=True, looping=False)
+    detection_trigger.new_condition.own_objects(quantity=num_summon_roman_army-1, object_list=archerman_summoned_id, source_player=player)
+    detection_trigger.new_effect.activate_trigger(list_archer_minus_hp[player-1].trigger_id)
+    list_archer_detection.append(detection_trigger)
+
+for index, trigger in enumerate(list_archer_minus_hp):
+    trigger.new_condition.timer(const_time_trigger_interval)
+    trigger.new_effect.change_object_hp(
+        object_list_unit_id=archerman_summoned_id, operation=3, quantity=num_summon_hp_drop_per_second_roman_army, source_player=index+1
+    )
+    trigger.new_effect.change_object_stance(
+        object_list_unit_id=archerman_summoned_id, source_player=index+1, attack_stance=0
+    )
+    trigger.new_effect.activate_trigger(list_archer_detection[index].trigger_id)
+
+
+
+
+
+inst_footman_summoned = Hero(
+    hero_id=footman_summoned_id,  # You'll need to provide the correct hero_id
+    dying_graphic = 5462,
+    health_point=100,
+    dead_unit_id = 0,
+    # projectile_smart_mode = 2,
+
+)
+
+inst_archerman_summoned = Hero(
+    hero_id=archerman_summoned_id,  # You'll need to provide the correct hero_id
+    dying_graphic = 5462,
+    health_point=100,
+    dead_unit_id = 0,
+    # projectile_smart_mode = 2,
+
+)
+
+boost_hero(source_trigger_manager, inst_footman_summoned, PlayerId.all()[1:])
+boost_hero(source_trigger_manager, inst_archerman_summoned, PlayerId.all()[1:])
+
+
+
+"""
+
+Projectile spawns unit
+
+512 Projectile LBT used by longboat 250
+"""
+
+
+
+
+inst_mounted_gunpower_hero = Hero(
+    hero_id=HeroInfo.FRANCISCO_DE_ORELLANA.ID,  # You'll need to provide the correct hero_id
+    #projectile_unit=projectile_LBT_id,
+    #secondary_projectile_unit = 676,
+    # max_range=10,
+    # min_range=4,
+    # melee_attack=5,
+    blast_width=1,
+    blast_attack_level=2,
+    # pierce_armor=10,
+    # melee_armour=10,
+    # attack_reload_set=4,  
+    accuracy_percent=75,
+    total_missile = 10,
+    attack_dispersion = 1,
+    #attack_dispersion_multiply=3,
+    combat_ability= 16 + 8,
+    # #walking_graphic = 654,
+    # movement_speed=1,
+    # #frame_delay=4,
+    # health_point=200,
+    # projectile_smart_mode = 2,
+
+)
+
+
+
+
+
+boost_hero(source_trigger_manager, inst_mounted_gunpower_hero, PlayerId.all()[1:])
 
 
 
