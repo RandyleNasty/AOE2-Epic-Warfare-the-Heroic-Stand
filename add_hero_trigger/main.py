@@ -11,7 +11,7 @@ from AoE2ScenarioParser.datasets.terrains import TerrainId
 from AoE2ScenarioParser.datasets.buildings import BuildingInfo
 from AoE2ScenarioParser.datasets.units import UnitInfo
 from AoE2ScenarioParser.datasets.heroes import HeroInfo
-
+from AoE2ScenarioParser.datasets.techs import TechInfo
 from AoE2ScenarioParser.datasets.other import OtherInfo
 
 
@@ -109,30 +109,38 @@ list_hero_ids = [
                  ]
 
 
+"""define general hero armour"""
+general_footman_melee_armour = 5
+general_footman_pierce_armour = 5
+general_cav_melee_armour = 5
+general_cav_pierce_armour = 5
+
+general_ranged_melee_armour = 5
+general_ranged_pierce_armour = 5
 
 
 list_description = [
     #"Javelin Splashing duo-horse Chariot", 
                     "Vaelor, the Stormbow, a feared master of the battlefield, wields the legendary Stormbow, capable of unleashing a relentless downpour of arrows upon his enemies. His volleys blot out the sun, leaving no escape for those caught beneath his deadly rain. Tales of his wrath spread across kingdoms, as entire armies have fallen under his sky-darkening assault.",
-                    "Skyfall Cluster Bomb Cannon",
-                    "Invisible Footman with Explosives", 
-                    "Explosive Arrow Mounter Archer",
-                    "Flaming Throw knight", 
-                    "Gatling Ballista tri-horse Chariot", 
-                    "Flaming Thunder War Elephant", 
-                    "Knight of the Exploding Wolf Summon",
+                    "The Cataclysm Ordinance: Skyfall Cluster Bomb Cannon, a doomsday weapon of unparalleled destruction, reshapes the battlefield with every thunderous volley. Upon activation, it unleashes a cascade of incendiary canisters, each fragmenting into countless explosive shards that rain devastation from the heavens. No stronghold is impenetrable, no army beyond its reach—its fury engulfs all who dare stand beneath its cataclysmic downpour. Legends speak in hushed whispers of its wrath, a harbinger of ruin whose echoes linger long after the battlefield is reduced to ash.",
+                    "The Invincible Footman, known as the Warlord's Juggernaut, marches fearlessly into battle, an unstoppable force clad in impenetrable armor. Armed with devastating explosives, he turns the tide of war with calculated detonations, blasting through enemy ranks and fortifications alike. Blades shatter against him, arrows break upon his shield—no force can halt his advance. Stories of his wrath spread like wildfire, a living legend of destruction that leaves only ruin in his wake.", 
+                    "The Explosive Arrow Mounter Archer, known as the Blazing Harbinger, strikes fear into the hearts of his foes with every fiery shot. Armed with a deadly arsenal of explosive-tipped arrows, he turns the sky into a battlefield, each projectile igniting upon impact in a storm of fire and shrapnel. No wall is safe, no formation unbroken—his volleys tear through ranks and fortifications alike. Whispers of his devastation spread far and wide, a bringer of ruin whose arrows spell the end for those caught in their blazing wake.",
+                    "The Flaming Throw Knight, known as the Infernal Vanguard, charges into battle wreathed in fire, his weapon a conduit of relentless devastation. With every swing, he hurls searing flames, engulfing enemies in a blazing storm that leaves only ashes in its wake. His presence alone turns the battlefield into an inferno, where armor melts and courage falters. Tales of his fiery wrath spread like wildfire, a harbinger of ruin whose advance none can withstand.", 
+                    "The Gatling Ballista Tri-Horse Chariot, known as the Stormstride Reaper, thunders across the battlefield like a force of nature. Drawn by three war-hardened steeds, its rotating ballista unleashes an unrelenting hail of bolts, shredding ranks and fortifications with mechanical precision. No warrior can outrun its charge, no shield can withstand its storm—those caught in its path are left in ruin. Legends of its devastation echo through war-torn lands, a relentless harbinger of annihilation.", 
+                    "The Flaming Thunder War Elephant, known as the Pyrostorm Behemoth, is a living engine of destruction, towering over the battlefield as fire and fury erupt in its wake. Adorned with armor wreathed in flame, it charges with unstoppable force, trampling ranks beneath its colossal might while hurling searing blasts of fire and lightning. Walls crumble, armies scatter, and the earth trembles beneath its relentless advance. Whispers of its devastation spread like wildfire—when the Pyrostorm Behemoth marches, only ashes remain.", 
+                    "The Exploding Wolf Summoner, known as the Ravager of the Wilds, calls forth a pack of fiery, explosive wolves that tear through the battlefield with savage fury. Each summoned beast is a ticking time bomb, charging at enemies with a howl that heralds their doom, detonating in violent bursts of fire and shrapnel upon impact. No enemy is safe, as the explosive wolves hunt in relentless packs, turning the battlefield into a chaotic inferno. Tales of the Ravager’s fury spread across the lands, a terrifying force that leaves only destruction in its wake.",
                     #"God Swing",
-                    "Self-Exploding Elephant that destroies everything",
-                    "AOE Greek Hero FootMan",
+                    "The Self-Exploding Elephant, known as the Doombringer, is a massive, unstoppable force of nature, bound for annihilation. With every step, it charges relentlessly toward its target, its body rigged with volatile explosives. Upon impact, it detonates in a cataclysmic explosion, obliterating everything in its path—fortifications, armies, and the earth itself. No structure stands, no army survives its wrath. Whispers of the Doombringer's devastation spread far and wide, a terrifying omen of unstoppable destruction, where only ruin remains in its wake.",
+                    "The AOE Greek Hero Footman, known as the Spartan Vanguard, stands as a symbol of unmatched strength and courage. Clad in heavy armor and armed with a legendary shield, he leads the charge with the might of a warrior born from the gods. With every swing of his weapon, he creates shockwaves that ripple across the battlefield, striking down foes in all directions. His presence inspires his allies, while his devastating attacks leave nothing but destruction in his wake. The stories of his valor and wrath echo throughout the lands, a living legend whose fury no enemy can withstand.",
                     #"Mounted Gunpower Knight",
-                    "Roman Army Summon General"
+                    "The Roman Army Summon General, known as the Imperial Warlord, commands the might of a disciplined and unyielding legion. With a single call, he summons the full force of the Roman army, their ironclad ranks forming an impenetrable wall of power and precision. His strategic brilliance leads them into battle, with every legionnaire moving in perfect harmony to crush enemies under the weight of Roman might. No force can rival his command, no army can break his ranks. Legends speak of the Imperial Warlord’s ability to turn the tide of war, leaving only the echoes of victory in his wake."
                     ]
 
 
 
 TIME_WINDOW_PLAYER_CHOOSE_HERO = 120
 TIME_HERO_RESPAWN = 120
-NUM_HERO_ALLOWED = 1
+NUM_HERO_ALLOWED = 11
 
 
 
@@ -153,6 +161,27 @@ instruction_trigger.new_effect.display_timer(
     reset_timer=1,
     message=r"Time out selecting heroes in %d"
 )
+
+
+
+"""
+TO-DO find better solution for thumb ring technolgy affects hero...
+"""
+# conduct trigger wisely by encapusaltion
+disable_thumb_ring_tech_for_all = source_trigger_manager.add_trigger("disable_thumb_ring_tech_for_all", enabled=True, looping=False)
+
+for playid in PlayerId.all()[1:]:
+    disable_thumb_ring_tech_for_all.new_effect.enable_disable_technology(playid, enabled=False, technology=TechInfo.THUMB_RING.ID)
+
+
+
+
+
+
+
+
+
+
 
 
 # conduct trigger wisely by encapusaltion
@@ -206,14 +235,14 @@ inst_roman_army_summon_hero = Hero(
     melee_attack=1,
     #blast_width=1,
     #blast_attack_level=2,
-    pierce_armor=10,
-    melee_armour=10,
+    pierce_armor=general_cav_pierce_armour,
+    melee_armour=general_cav_melee_armour,
     attack_reload_set=reload_time,  
     accuracy_percent=100,
     total_missile = num_summon_roman_army,
     #attack_dispersion = 1,
     #attack_dispersion_multiply=3,
-    combat_ability= 16 + 8,
+    combat_ability= 1 + 16 + 8,
     # #walking_graphic = 654,
     # movement_speed=1,
     # #frame_delay=4,
@@ -223,6 +252,7 @@ inst_roman_army_summon_hero = Hero(
     recharge_rate = 1,
     max_charge = reload_time,
     projectile_smart_mode = 3,
+    population = 0,
 
 )
 
@@ -286,6 +316,20 @@ for index, trigger in enumerate(list_archer_minus_hp):
 
 
 
+"""
+TO-DO garrisoned unit and unload to create units
+""" 
+
+
+
+
+
+
+
+
+
+
+
 
 inst_footman_summoned = Hero(
     hero_id=footman_summoned_id,  # You'll need to provide the correct hero_id
@@ -338,13 +382,13 @@ inst_mounted_gunpower_hero = Hero(
     total_missile = 10,
     attack_dispersion = 1,
     #attack_dispersion_multiply=3,
-    combat_ability= 16 + 8,
+    combat_ability= 1 + 16 + 8,
     # #walking_graphic = 654,
     # movement_speed=1,
     # #frame_delay=4,
     # health_point=200,
     # projectile_smart_mode = 2,
-
+    population = 0,
 )
 
 
@@ -384,18 +428,18 @@ inst_polemarch_footman_hero = Hero(
     #secondary_projectile_unit = 676,
     max_range=3,
     min_range=0,
-    melee_attack=25,
+    melee_attack=15,
     blast_width=1,
     blast_attack_level=2,
-    pierce_armor=17,
-    melee_armour=17,
+    pierce_armor=general_footman_pierce_armour,
+    melee_armour=general_footman_melee_armour,
     attack_reload_set=2,  
     accuracy_percent=45,
     total_missile = 25,
     attack_dispersion = 1,
     attack_dispersion_multiply=3,
     attack_dispersion_divide = 2,
-    combat_ability= 1+ 16,
+    combat_ability= 1 + 16,
     #walking_graphic = 654,
     #movement_speed=1,
     #frame_delay=4,
@@ -406,7 +450,7 @@ inst_polemarch_footman_hero = Hero(
     charge_type = 3,
     recharge_rate = 1,
     max_charge = 10,
-
+    population = 0,
 )
 
 
@@ -451,6 +495,7 @@ inst_weak_elephant = Hero(hero_id=HERO_FAKE_AS_EXPLODING_ELEPHANT_ID,
                           dying_graphic = 0,
                           search_radius = 7,
                           line_of_sight = 7,
+                              population = 0,
                           )
 
 # forbidden auto delete
@@ -471,13 +516,13 @@ inst_exploding_elephant = Hero(
     blast_width = blast_width_for_exploding_elephant,
     melee_attack=150,
     max_range=2,
-    min_range=1,
+    min_range=0,
     total_missile = NUM_TOTAL_MISSILE,
-    combat_ability= 8 + 16,
+    combat_ability= 1 + 8 + 16,
     attack_dispersion = attack_dispersion_for_exploding_elephant,
     accuracy_percent = 20,
 
-    health_point=500,
+    health_point=300,
     standing_graphic = 2863,
     dying_graphic = 2860,
     walking_graphic = 2864,
@@ -487,6 +532,7 @@ inst_exploding_elephant = Hero(
     search_radius = 10,
     #movement_speed = 2,
     line_of_sight = 10,
+        population = 0,
 )
 
 boost_hero(source_trigger_manager, inst_exploding_elephant, PlayerId.all()[1:])
@@ -501,13 +547,13 @@ inst_last_exploding_elephant = Hero(
     blast_width = blast_width_for_exploding_elephant,
     melee_attack=150,
     max_range=2,
-    min_range=1,
+    min_range=0,
     total_missile = NUM_TOTAL_MISSILE,
-    combat_ability= 8 + 16,
+    combat_ability= 1 + 8 + 16,
     attack_dispersion = attack_dispersion_for_exploding_elephant,
     accuracy_percent = 20,
 
-    health_point=500,
+    health_point=300,
     standing_graphic = 2863,
     dying_graphic = 2860,
     walking_graphic = 2864,
@@ -515,6 +561,7 @@ inst_last_exploding_elephant = Hero(
     search_radius = 10,
     #movement_speed = 2,
     line_of_sight = 10,
+        population = 0,
 )
 
 boost_hero(source_trigger_manager, inst_last_exploding_elephant, PlayerId.all()[1:])
@@ -564,18 +611,18 @@ inst_dagnajan_hero = Hero(
     hero_id= Dagnajan_Elephant_ID,  # You'll need to provide the correct hero_id
     projectile_unit=leviathan_projectile_id,
     #secondary_projectile_unit = 
-    max_range=5,
+    max_range=7,
     min_range=0,
     blast_width = 1,
     blast_attack_level=2,
     attack_dispersion_multiply=5,
     accuracy_percent=50,
-    pierce_armor=15,
-    melee_armour=14,
-    melee_attack = 30,
+    pierce_armor=general_cav_pierce_armour,
+    melee_armour=general_cav_melee_armour,
+    melee_attack = 20,
     attack_reload_set=3,  
     total_missile = 30,
-    combat_ability= 8 + 16,
+    combat_ability= 1 + 8 + 16,
     #walking_graphic = 654,
     movement_speed=1,
     #projectile_vanish_mode = 1
@@ -584,6 +631,7 @@ inst_dagnajan_hero = Hero(
     health_point = 500,
     line_of_sight = 7,
     search_radius = 7,
+        population = 0,
 )
 boost_hero(source_trigger_manager, inst_dagnajan_hero, PlayerId.all()[1:])
 
@@ -607,6 +655,7 @@ inst_god_swing_packed_hero = Hero(
     attack_dispersion=1,
     movement_speed=1,
     health_point = 300,
+        population = 0,
 )
 boost_hero(source_trigger_manager, inst_god_swing_packed_hero, PlayerId.all()[1:])
 
@@ -642,7 +691,8 @@ inst_god_swing_hero = Hero(
     attack_dispersion=1,
     health_point = 300,
 
-    combat_ability= 16 + 8,
+    combat_ability= 1 + 16 + 8,
+        population = 0,
         
 )
 
@@ -672,6 +722,7 @@ inst_frank_paladin_hero = Hero(
     movement_speed=2,
     #dead_unit_id = 942,
     health_point = 300,
+        population = 0,
 
 )
 
@@ -694,11 +745,13 @@ inst_jean_bureau = Hero(
     attack_dispersion_divide=2,
     #melee_armour=0,  # Not modified in the original function
     #pierce_armor=0,  # Not modified in the original function
-    melee_attack=15,
+    melee_attack=10,
     movement_speed=1,
     health_point=300,
     blast_width=1,
-    blast_attack_level=2
+    blast_attack_level=2,
+    combat_ability = 1 + 8 + 16,
+        population = 0,
 
 )
 
@@ -726,18 +779,20 @@ boost_hero(source_trigger_manager, inst_fire_projectile_for_ulrich, PlayerId.all
 
 inst_hero_ulrich = Hero(
     hero_id=HeroInfo.ULRICH_VON_JUNGINGEN.ID,  # You'll need to provide the correct hero_id
-    melee_attack=25,
+    melee_attack=15,
     #movement_speed=2,
     blast_width=1,
-    melee_armour=25,
-    pierce_armor=25,
+    melee_armour=general_cav_melee_armour,
+    pierce_armor=general_cav_pierce_armour,
     blast_attack_level=4,
     max_range=2,
     total_missile=20,
     projectile_unit=676,
-    accuracy_percent=30,
-    combat_ability= 8 + 16,
+    accuracy_percent=50,
+    combat_ability= 1 + 8 + 16,
     attack_dispersion = 3,
+    health_point = 450,
+        population = 0,
 )
 
 
@@ -753,17 +808,17 @@ inst_hero_darius = Hero(
     hero_id=Darius_ID,  # You'll need to provide the correct hero_id
     blast_width=1,
     blast_attack_level=2,
-    melee_attack=25,
+    melee_attack=15,
     total_missile=40,  # This covers both Max Total Missiles and Total Missiles
     projectile_unit=leviathan_projectile_id, 
     pierce_armor=15 ,
     melee_armour=15,
     movement_speed=2,
-    combat_ability= 16 + 8,
+    combat_ability= 1 + 16 + 8,
     accuracy_percent = 20,
     attack_dispersion=1,
     attack_reload_set = 2,
-
+    population = 0,
 )
 
 
@@ -773,17 +828,18 @@ inst_hero_mounted_archer = Hero(
     min_range = 1,
     line_of_sight = 9,
     search_radius = 9,
-    melee_attack=25,
+    melee_attack=15,
     blast_width=1,
     blast_attack_level=4,
     accuracy_percent=70,
     #attack_dispersion=1,
     total_missile=5,
-    pierce_armor=15,
-    melee_armour=8,
+    pierce_armor=general_cav_pierce_armour,
+    melee_armour=general_cav_melee_armour,
     attack_reload_set=2, 
     projectile_unit = 1595,
-    combat_ability= 16 + 8,
+    combat_ability= 1 + 16 + 8,
+        population = 0,
 )
 
 inst_hero_tsar_constantin = Hero(
@@ -792,17 +848,19 @@ inst_hero_tsar_constantin = Hero(
     max_range=10,
     line_of_sight = 10,
     search_radius = 10,
-    melee_attack=25,
+    melee_attack=15,
     blast_width=1,
     blast_attack_level=4,
-    pierce_armor=13,
-    melee_armour=5,
+    pierce_armor=general_cav_pierce_armour,
+    melee_armour=general_cav_melee_armour,
     attack_reload_divide=12,  # This will be divided, not added
     accuracy_percent=50,
     attack_dispersion=1,
     #combat_ability= 8, # has bug that attack ground no projectile shown
     projectile_vanish_mode = 1,
     projectile_hit_mode = 1,
+    combat_ability= 1,
+        population = 0,
 )
 
 
@@ -819,7 +877,7 @@ inst_hero_tsar_constantin = Hero(
 
 wolf_id = 700
 
-num_summon = 8
+num_summon = 6
 summon_cooldown = 7
 summon_hp_drop_per_second = 35
 flame_id_spawned_after_explosion = 1334
@@ -830,13 +888,13 @@ inst_tamar_summon_hero = Hero(
     blast_defense_level = 1,
     projectile_unit=676,
     secondary_projectile_unit=wolf_id,
-    max_range=5,
+    max_range=6,
     line_of_sight = 7,
     search_radius = 7,
     attack_dispersion=5,
     accuracy_percent=20,
-    pierce_armor=10,
-    melee_armour=10,
+    pierce_armor=general_cav_pierce_armour,
+    melee_armour=general_cav_melee_armour,
     melee_attack = 1,
     attack_reload_set=summon_cooldown,  
     total_missile = num_summon,
@@ -854,10 +912,11 @@ inst_tamar_summon_hero = Hero(
     charge_type = 3,
     recharge_rate = 1,
     max_charge = summon_cooldown-3,
-    health_point = 300,
+    health_point = 200,
     #projectile_vanish_mode = 1
     #unit_trait = 8,
     #trait_piece = 2151,
+        population = 0,
 )
 inst_summon_unit = Hero(
     hero_id= wolf_id,  # You'll need to provide the correct hero_id
@@ -866,11 +925,12 @@ inst_summon_unit = Hero(
     line_of_sight = 7,
     hero_status = 64,
     dead_unit_id = sabo_man_id,
+        population = 0,
 )
 # not actually doing damage to friendly unit
 inst_sabo_man_unit = Hero(
     hero_id= sabo_man_id,  # You'll need to provide the correct hero_id
-    melee_attack = 40,
+    melee_attack = 25,
     melee_attack_for_building = 10,
     melee_attack_for_wall_and_gate = 5,
     blast_attack_level=2,
@@ -884,6 +944,7 @@ inst_sabo_man_unit = Hero(
     #dying_graphic = 7252,
     walking_graphic = 7256,
     #undead_graphic = 7252
+        population = 0,
 )
 
 # remove flames regularly
@@ -986,26 +1047,27 @@ inst_themistocles_hero = Hero(
     projectile_unit=1595,
     blast_attack_level=2 + 64 + 128,
     blast_defense_level = 1,
-    melee_attack=25,
+    melee_attack=15,
     max_range=2,
     min_range=0,
-    pierce_armor=15,
-    melee_armour=15,
+    pierce_armor=general_footman_pierce_armour,
+    melee_armour=general_footman_melee_armour,
     attack_reload_set=3,  
     total_missile = 6,
     combat_ability= 8 + 16,
     #attack_dispersion = 1,
     #accuracy_percent = 10,
     blast_width = 4,
-    health_point=500,
+    health_point=350,
     movement_speed_divide=3,
     movement_speed_multiply=3,
     #walking_graphic = 654,
     projectile_smart_mode = 2,
     #dead_unit_id = 942,
-    projectile_vanish_mode = 0
+    projectile_vanish_mode = 0,
     #unit_trait = 8,
     #trait_piece = 2151,
+        population = 0,
 )
 
 
@@ -1349,7 +1411,7 @@ NUM_PLAYER_UNIT_REQUIRED_TO_CONVERT = 1
 
 list_give_it_to_player_triggers = []
 for player in PlayerId.all()[1:]:
-    trigger = source_trigger_manager.add_trigger(f"p{player}_give", enabled=False, looping=False)
+    trigger = source_trigger_manager.add_trigger(f"p{player}_give", enabled=True, looping=False)
     list_give_it_to_player_triggers.append(trigger)
 # Construct Give to Gaia
 
