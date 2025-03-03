@@ -349,9 +349,10 @@ Triggers:
 				trigger_id: "West Bonus" (7)
 
 	'East Front Attacked' [Index: 9, Display: 9]:
-		enabled: True
-		looping: True
+		enabled: False
+		looping: False
 		description_stid: 0
+		short_description_stid: 0
 		conditions:
 			timer [Index: 0, Display: 0]:
 				timer: 30
@@ -408,9 +409,10 @@ Triggers:
 				object_type: Military (4)
 
 	'West Front Attacked' [Index: 10, Display: 10]:
-		enabled: True
-		looping: True
+		enabled: False
+		looping: False
 		description_stid: 0
+		short_description_stid: 0
 		conditions:
 			timer [Index: 0, Display: 0]:
 				timer: 30
@@ -2932,7 +2934,7 @@ Triggers:
 					0: Fire Tower (190) [P7, X105.5, Y177.5] (255623)
 
 	'Side Bridge Reinforcement' [Index: 41, Display: 41]:
-		enabled: True
+		enabled: False
 		looping: False
 		description_stid: 0
 		short_description_stid: 0
