@@ -124,27 +124,40 @@ attribute_mapping = {
 
 }
 
-def boost_object(trigger_manager, hero, players_applied, bool_add_additional_guard_for_projectile = True):
+def boost_object(trigger_manager, hero, players_applied):
 
 
     for player_id in players_applied:
+
+
+        """
+        so only for accurary
+        """
+        # if "accuracy_percent" in hero.attributes:
+        #     trigger_detect_projectile_tech_researched = trigger_manager.add_trigger(
+        #         "trigger_detect_projectile_tech_researched",
+        #         enabled=True,
+        #         looping=False
+        #     )
+        #     trigger_detect_projectile_tech_researched.new_condition.timer(2)
+        #     trigger_detect_projectile_tech_researched.new_condition.research_technology(source_player = player_id, technology = TechInfo.THUMB_RING.ID)
+        #     trigger_detect_projectile_tech_researched.new_condition.or_()
+        #     trigger_detect_projectile_tech_researched.new_condition.research_technology(source_player = player_id, technology = TechInfo.BALLISTICS.ID)
+            
+        #     trigger_detect_projectile_tech_researched.new_effect.modify_attribute(
+        #                 quantity=hero.attributes["accuracy_percent"],
+        #                 object_attributes=attribute_mapping["accuracy_percent"],
+        #                 operation=Operation.SET,
+        #                 source_player=player_id,
+        #                 object_list_unit_id=hero.hero_id
+        #             )    
+        #     trigger_detect_projectile_tech_researched.new_effect.activate_trigger(trigger_detect_projectile_tech_researched.trigger_id)
 
         trigger = trigger_manager.add_trigger(
             f"hero_{hero.hero_id}_p{player_id}",
             enabled=True,
             looping=False
         )
-        if bool_add_additional_guard_for_projectile == True:
-            trigger_detect_projectile_tech_researched = trigger_manager.add_trigger(
-                "trigger_detect_projectile_tech_researched",
-                enabled=False,
-                looping=False
-            )
-            trigger_detect_projectile_tech_researched.new_condition.research_technology(source_player = player_id, technology = TechInfo.THUMB_RING.ID)
-            trigger_detect_projectile_tech_researched.new_condition.or_()
-            trigger_detect_projectile_tech_researched.new_condition.research_technology(source_player = player_id, technology = TechInfo.BALLISTICS.ID)
-            trigger_detect_projectile_tech_researched.new_effect.activate_trigger(trigger.trigger_id)
-
 
         trigger.new_condition.own_objects(
             quantity=1,
@@ -245,8 +258,4 @@ def boost_object(trigger_manager, hero, players_applied, bool_add_additional_gua
                     )
             elif attr not in attribute_mapping:
                 assert False, f"attribute not found: {attr}"
-
-
-            if bool_add_additional_guard_for_projectile == True:
-                trigger.new_effect.activate_trigger(trigger_detect_projectile_tech_researched.trigger_id)
 

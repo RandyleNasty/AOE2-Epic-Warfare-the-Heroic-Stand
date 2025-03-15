@@ -156,11 +156,11 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
     """
     TO-DO find better solution for thumb ring technolgy affects hero...
     """
-    # conduct trigger wisely by encapusaltion
-    # disable_thumb_ring_tech_for_all = source_trigger_manager.add_trigger("disable_thumb_ring_tech_for_all", enabled=True, looping=False)
+    #conduct trigger wisely by encapusaltion
+    disable_thumb_ring_tech_for_all = source_trigger_manager.add_trigger("disable_thumb_ring_tech_for_all", enabled=True, looping=False)
 
-    # for playid in PlayerId.all()[1:]:
-    #     disable_thumb_ring_tech_for_all.new_effect.enable_disable_technology(playid, enabled=False, technology=TechInfo.THUMB_RING.ID)
+    for playid in PlayerId.all()[1:]:
+        disable_thumb_ring_tech_for_all.new_effect.enable_disable_technology(playid, enabled=False, technology=TechInfo.THUMB_RING.ID)
 
 
 
