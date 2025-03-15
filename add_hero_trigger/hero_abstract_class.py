@@ -37,89 +37,93 @@ class Hero(ABC):
 class HeroChangesGraphics(ABC):
     pass
 
+
+
+# Define a dictionary mapping attribute names to their corresponding object_attributes values
+attribute_mapping = {
+    'max_range': 12,
+    'min_range': 20,
+    'total_missile': [107, 102],
+
+    'selection_effect':80,
+    'accuracy_percent': 11,
+    'attack_dispersion': 64,
+    'attack_dispersion_multiply':64,
+    'attack_dispersion_divide':64,
+
+    'attack_reload_divide': 10,
+    'attack_reload_set': 10,
+    'melee_armour': (8, 4),
+    'pierce_armor': (8, 3),
+    'melee_attack': (9, 4),
+    'melee_attack_for_building':(9, 11),
+    'melee_attack_for_wall_and_gate':(9, 13),
+
+    'movement_speed': 5,
+    'movement_speed_multiply': 5,
+    'movement_speed_divide':5,
+    'health_point': 0,
+    'blast_width': 22,
+    'blast_attack_level': 44,
+    'blast_defense_level': 45,
+
+    'train_time':101,
+
+    'can_be_built_on':33,
+
+    'population': 110,
+
+    'attack_graphic': 70,
+    'standing_graphic': 71,
+    'standing_graphic_2': 72,
+    'dying_graphic': 73,
+    'undead_graphic': 74,
+    'walking_graphic': 75,
+    'running_graphic': 76,
+    'occlusion_mode': 29,
+
+    'dead_unit_id': 57,
+    'blood_unit': 66,
+    'blockage_class': 79,
+
+    'combat_ability': 63,
+    'icon_id': 25,
+
+
+    'unit_trait': 54,
+    'trait_piece': 56,
+    'search_radius': 23,
+    'line_of_sight': 1,
+    'hero_status':40,
+    'charge_type': 62,
+    'recharge_rate': 60,
+    'charge_event': 61,
+    'max_charge':59,
+    'frame_delay':41,
+
+    'projectile_unit': 16,
+    'projectile_smart_mode': 19,
+    'projectile_vanish_mode': 68,
+    'projectile_arc': 69,
+    'projectile_arc_divide':69,
+    'projectile_arc_multiply':69,
+
+
+    'projectile_hit_mode': 67,
+    'secondary_projectile_unit': 65,
+
+    #Terrain-related
+    'foundation_terrain': 34,
+    'terrain_restriction_id':53,
+
+
+    'unit_size_x': 3,
+    'unit_size_y': 4,
+
+}
+
 def boost_hero(trigger_manager, hero, players_applied):
-    # Define a dictionary mapping attribute names to their corresponding object_attributes values
-    attribute_mapping = {
-        'max_range': 12,
-        'min_range': 20,
-        'total_missile': [107, 102],
-
-        'selection_effect':80,
-        'accuracy_percent': 11,
-        'attack_dispersion': 64,
-        'attack_dispersion_multiply':64,
-        'attack_dispersion_divide':64,
-
-        'attack_reload_divide': 10,
-        'attack_reload_set': 10,
-        'melee_armour': (8, 4),
-        'pierce_armor': (8, 3),
-        'melee_attack': (9, 4),
-        'melee_attack_for_building':(9, 11),
-        'melee_attack_for_wall_and_gate':(9, 13),
-
-        'movement_speed': 5,
-        'movement_speed_multiply': 5,
-        'movement_speed_divide':5,
-        'health_point': 0,
-        'blast_width': 22,
-        'blast_attack_level': 44,
-        'blast_defense_level': 45,
-
-        'train_time':101,
-
-        'can_be_built_on':33,
-
-        'population': 110,
-
-        'attack_graphic': 70,
-        'standing_graphic': 71,
-        'standing_graphic_2': 72,
-        'dying_graphic': 73,
-        'undead_graphic': 74,
-        'walking_graphic': 75,
-        'running_graphic': 76,
-        'occlusion_mode': 29,
-
-        'dead_unit_id': 57,
-        'blood_unit': 66,
-        'blockage_class': 79,
-
-        'combat_ability': 63,
-        'icon_id': 25,
-
-
-        'unit_trait': 54,
-        'trait_piece': 56,
-        'search_radius': 23,
-        'line_of_sight': 1,
-        'hero_status':40,
-        'charge_type': 62,
-        'recharge_rate': 60,
-        'charge_event': 61,
-        'max_charge':59,
-        'frame_delay':41,
-
-        'projectile_unit': 16,
-        'projectile_smart_mode': 19,
-        'projectile_vanish_mode': 68,
-        'projectile_arc': 69,
-        'projectile_arc_divide':69,
-        'projectile_arc_multiply':69,
-
-
-        'projectile_hit_mode': 67,
-        'secondary_projectile_unit': 65,
-
-        #Terrain-related
-        'foundation_terrain': 34,
-        'terrain_restriction_id':53,
-
-
-        'unit_size_x': 3,
-        'unit_size_y': 4,
-
-    }
+    
 
 
 

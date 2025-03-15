@@ -15,7 +15,7 @@ inst_robin_archer_hero = Hero(
     projectile_unit=used_projectile,
     #secondary_projectile_unit = 676,
     max_range=10,
-    min_range=0,
+    min_range=3,
     melee_attack=5,
     blast_width=1,
     blast_attack_level=4,
@@ -31,6 +31,7 @@ inst_robin_archer_hero = Hero(
     #frame_delay=4,
     health_point=200,
     projectile_smart_mode = 2,
+    population = 0,
 
 )
 

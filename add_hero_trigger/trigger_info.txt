@@ -124,7 +124,7 @@ Triggers:
 				item_id: 871
 
 	'East First Line Broken' [Index: 4, Display: 4]:
-		enabled: True
+		enabled: False
 		looping: False
 		description_stid: 0
 		short_description_stid: 0
@@ -204,9 +204,10 @@ Triggers:
 				trigger_id: "Bonus" (3)
 
 	'West First Line Broken' [Index: 6, Display: 6]:
-		enabled: True
+		enabled: False
 		looping: False
 		description_stid: 0
+		short_description_stid: 0
 		conditions:
 			objects_in_area [Index: 0, Display: 0]:
 				quantity: 10
@@ -2862,7 +2863,7 @@ Triggers:
 				trigger_id: "Limit Navy Player8" (30)
 
 	'buff fire tower1' [Index: 37, Display: 37]:
-		enabled: True
+		enabled: False
 		looping: True
 		description_stid: 0
 		short_description_stid: 0
@@ -2880,7 +2881,7 @@ Triggers:
 					0: Fire Tower (190) [P1, X125.5, Y78.5] (267785)
 
 	'buff fire tower2' [Index: 38, Display: 38]:
-		enabled: True
+		enabled: False
 		looping: True
 		description_stid: 0
 		short_description_stid: 0
@@ -2898,7 +2899,7 @@ Triggers:
 					0: Fire Tower (190) [P3, X74.5, Y168.5] (267786)
 
 	'buff fire tower3' [Index: 39, Display: 39]:
-		enabled: True
+		enabled: False
 		looping: True
 		description_stid: 0
 		short_description_stid: 0
@@ -2916,7 +2917,7 @@ Triggers:
 					0: Fire Tower (190) [P5, X144.5, Y78.5] (267787)
 
 	'buff fire tower4' [Index: 40, Display: 40]:
-		enabled: True
+		enabled: False
 		looping: True
 		description_stid: 0
 		short_description_stid: 0
@@ -3234,7 +3235,7 @@ Triggers:
 				trigger_id: "Side Bridge Spawn" (42)
 
 	'Create Upper Bridge' [Index: 44, Display: 44]:
-		enabled: True
+		enabled: False
 		looping: False
 		description_stid: 0
 		short_description_stid: 0
@@ -3300,7 +3301,7 @@ Triggers:
 				scroll: True (1)
 
 	'Upper Bridge to Gaia' [Index: 45, Display: 45]:
-		enabled: True
+		enabled: False
 		looping: False
 		description_stid: 0
 		short_description_stid: 0
@@ -3399,6 +3400,21 @@ Triggers:
 				location_y: 52
 				selected_object_ids: 1 unit:
 					0: Poenari Castle (445) [P8, X230.0, Y215.0] (224976)
+
+	'Both Side Castle' [Index: 51, Display: 51]:
+		enabled: False
+		looping: False
+		description_stid: 0
+		short_description_stid: 0
+		effects:
+			attack_move [Index: 0, Display: 0]:
+				source_player: Player One (1)
+				location_x: 225
+				location_y: 214
+			attack_move [Index: 1, Display: 1]:
+				source_player: Player One (1)
+				location_x: 42
+				location_y: 46
 
 Variables:
 	<<No Variables>>

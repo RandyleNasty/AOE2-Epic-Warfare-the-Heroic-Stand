@@ -87,7 +87,11 @@ def create_hero_exploding_elephant(source_trigger_manager):
         search_radius = 10,
         #movement_speed = 2,
         line_of_sight = 10,
-            population = 0,
+        population = 0,
+
+
+        melee_attack_for_building = 100,
+        melee_attack_for_wall_and_gate = 100,
     )
 
     boost_hero(source_trigger_manager, inst_exploding_elephant, PlayerId.all()[1:])
@@ -117,6 +121,10 @@ def create_hero_exploding_elephant(source_trigger_manager):
         #movement_speed = 2,
         line_of_sight = 10,
             population = 0,
+
+        melee_attack_for_building = 100,
+        melee_attack_for_wall_and_gate = 100,
+
     )
 
     boost_hero(source_trigger_manager, inst_last_exploding_elephant, PlayerId.all()[1:])

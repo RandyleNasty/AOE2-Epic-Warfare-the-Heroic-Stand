@@ -23,7 +23,7 @@ from AoE2ScenarioParser.datasets.trigger_lists import Operation
 
 
 from util_add_tent_spawn_ability import *
-
+from constant_spawn_battleline import *
 
 from hero_abstract_class import *
 
@@ -68,7 +68,7 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
     with open("trigger_info.txt", "w", encoding="utf-8") as file:
         file.write(content)
 
-    Themistocles_ID = 2315
+    cleon_ID = 2346
     Darius_ID = 2347
     Jean_De_Lorrain_ID = 644  
     Dagnajan_Elephant_ID = 1106
@@ -78,15 +78,15 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
 
 
 
-    #POLEMARCH suspicious of having bug
-    #HERO_POLEMARCH_ID = 2162
-    HERO_POLEMARCH_ID = 2316
+    #BRASIDAS suspicious of having bug
+    #HERO_BRASIDAS_ID = 2162
+    HERO_BRASIDAS_ID = 2317
     #HeroInfo.ROBIN_HOOD.ID
     list_hero_ids = [
                     #Darius_ID, 
                     HeroInfo.ROBIN_HOOD.ID,
                     HeroInfo.JEAN_BUREAU.ID,
-                    Themistocles_ID,
+                    cleon_ID,
                     HeroInfo.KOTYAN_KHAN.ID,
                     HeroInfo.ULRICH_VON_JUNGINGEN.ID,
                     HeroInfo.TSAR_KONSTANTIN.ID,
@@ -94,7 +94,7 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
                     HeroInfo.GENGHIS_KHAN.ID,
                     # HeroInfo.GODS_OWN_SLING_PACKED.ID,
                     HERO_FAKE_AS_EXPLODING_ELEPHANT_ID,
-                    HERO_POLEMARCH_ID,
+                    HERO_BRASIDAS_ID,
                     #HeroInfo.FRANCISCO_DE_ORELLANA.ID,
                     HeroInfo.BELISARIUS.ID
                     ]
@@ -129,7 +129,7 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
 
 
 
-    TIME_WINDOW_PLAYER_CHOOSE_HERO = 5
+    TIME_WINDOW_PLAYER_CHOOSE_HERO = 120
     TIME_HERO_RESPAWN = 120
     NUM_HERO_ALLOWED = num_hero_allowed
 
@@ -238,10 +238,6 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
         # movement_speed=1,
         # #frame_delay=4,
         health_point=350,
-        charge_event = 1,
-        charge_type = 3,
-        recharge_rate = 1,
-        max_charge = reload_time,
         projectile_smart_mode = 3,
         population = 0,
 
@@ -405,13 +401,13 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
 
 
     """
-    POLEMARCH FOOTMAN HERO
+    BRASIDAS FOOTMAN HERO
 
     """
-    projectile_polemarch_used = 1057
+    projectile_BRASIDAS_used = 1057
 
 
-    inst_war_galley_projectile = Hero(hero_id = projectile_polemarch_used, 
+    inst_war_galley_projectile = Hero(hero_id = projectile_BRASIDAS_used, 
                                     #standing_graphic = 1743, 
                                     #walking_graphic = 1743,
                                     #dying_graphic = 1743,
@@ -424,10 +420,10 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
 
 
 
-    inst_polemarch_footman_hero = Hero(
-        hero_id=HERO_POLEMARCH_ID,  # You'll need to provide the correct hero_id
+    inst_BRASIDAS_footman_hero = Hero(
+        hero_id=HERO_BRASIDAS_ID,  # You'll need to provide the correct hero_id
         #projectile_unit=war_galley_projectile_id,
-        projectile_unit = projectile_polemarch_used,
+        projectile_unit = projectile_BRASIDAS_used,
         #secondary_projectile_unit = 676,
         max_range=3,
         min_range=0,
@@ -449,6 +445,10 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
         health_point=500,
         projectile_smart_mode = 2,
 
+        charge_event = 1,
+        charge_type = 4,
+        recharge_rate = 1,
+        max_charge = 5,
         #charge_event = 1,
         #charge_type = 3,
         #recharge_rate = 1,
@@ -457,7 +457,7 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
     )
 
 
-    boost_hero(source_trigger_manager, inst_polemarch_footman_hero, PlayerId.all()[1:])
+    boost_hero(source_trigger_manager, inst_BRASIDAS_footman_hero, PlayerId.all()[1:])
 
 
 
@@ -546,6 +546,11 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
         line_of_sight = 7,
         search_radius = 7,
             population = 0,
+
+        charge_event = 1,
+        charge_type = 4,
+        recharge_rate = 1,
+        max_charge = 10,
     )
     boost_hero(source_trigger_manager, inst_dagnajan_hero, PlayerId.all()[1:])
 
@@ -648,11 +653,11 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
     # Instantiate Jean Bureau
     inst_jean_bureau = Hero(
         hero_id=HeroInfo.JEAN_BUREAU.ID,  # You'll need to provide the correct hero_id
-        max_range=15,  #
+        max_range=11,  #
         #line_of_sight = 15,
         #search_radius = 15，
-        min_range=5,  # Not modified in the original function
-        total_missile=75,
+        min_range=7,  # Not modified in the original function
+        total_missile=60,
         projectile_unit=658,
         accuracy_percent=35,
         attack_dispersion = 1,
@@ -700,13 +705,14 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
         pierce_armor=general_cav_pierce_armour,
         blast_attack_level=4,
         max_range=2,
-        total_missile=20,
+        total_missile=30,
         projectile_unit=676,
         accuracy_percent=50,
         combat_ability= 1 + 8 + 16,
         attack_dispersion = 3,
         health_point = 450,
-            population = 0,
+        population = 0,
+        movement_speed = 2,
     )
 
 
@@ -953,13 +959,13 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
 
 
 
-    Themistocles_ID
-    inst_themistocles_hero = Hero(
-        hero_id= Themistocles_ID,  # You'll need to provide the correct hero_id
+    #cleon_ID
+    inst_cleon_hero = Hero(
+        hero_id= cleon_ID,  # You'll need to provide the correct hero_id
         #projectile_unit=1798,
         secondary_projectile_unit = sabo_man_id,
         projectile_unit=1595,
-        blast_attack_level=2 + 64 + 128,
+        blast_attack_level=4 + 64 + 128,
         #blast_defense_level = 1,
         melee_attack=15,
         max_range=2,
@@ -967,7 +973,7 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
         pierce_armor=general_footman_pierce_armour,
         melee_armour=general_footman_melee_armour,
         attack_reload_set=3,  
-        total_missile = 6,
+        total_missile = 7,
         combat_ability= 8 + 16,
         #attack_dispersion = 1,
         #accuracy_percent = 10,
@@ -981,6 +987,12 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
         projectile_vanish_mode = 0,
         #unit_trait = 8,
         #trait_piece = 2151,
+
+        charge_event = 1,
+        charge_type = 4,
+        recharge_rate = 1,
+        max_charge = 5,
+
             population = 0,
     )
 
@@ -991,7 +1003,7 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
     # )
 
     # boost_hero(source_trigger_manager, inst_summon_hawk_unit, PlayerId.all()[1:])
-    boost_hero(source_trigger_manager, inst_themistocles_hero, PlayerId.all()[1:])
+    boost_hero(source_trigger_manager, inst_cleon_hero, PlayerId.all()[1:])
 
     #put change object cost to last, not before modify attribute.
 
@@ -1041,8 +1053,8 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
 
 
 
-
-
+    create_variable = source_trigger_manager.add_trigger("create_variable", enabled=True, looping=False)
+    create_variable.new_effect.change_variable(quantity=1, operation=Operation.SET, variable=0)
 
 
 
@@ -1084,6 +1096,12 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
                 looping=False
             )
             delay_trigger.new_condition.timer(timer=TIME_WINDOW_PLAYER_CHOOSE_HERO)
+
+            # if player_id == 3:
+            #     delay_trigger.new_effect.display_instructions(object_list_unit_id=HeroInfo.GENGHIS_KHAN.ID,
+            #                                                 source_player=3,
+            #                                                 display_time=20,
+            #                                                 message = "Random Dice begins!")
             
             chance_triggers = []
 
@@ -1374,10 +1392,10 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
     # Construct Give to Gaia
 
     #FROM PLAYER GIVE BACK TO GAIA
-    list_gaia_give_triggers = []
+    list_give_to_gaia_triggers = []
     for index, player in enumerate(PlayerId.all()[1:]):
         trigger = source_trigger_manager.add_trigger(f"p{player}_give_to_gaia", enabled=True, looping=False)
-        list_gaia_give_triggers.append(trigger)
+        list_give_to_gaia_triggers.append(trigger)
         trigger.new_condition.timer(5)
         trigger.new_condition.objects_in_area(quantity=1, 
                                             inverted=True,
@@ -1397,8 +1415,14 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
                                             #object_type=ObjectType.BUILDING
                                             )
         # trigger.new_effect.deactivate_trigger(list_looping_trigger_that_continue_assert_stand_ground[index].trigger_id)
-        trigger.new_effect.activate_trigger(list_give_it_to_player_triggers[index].trigger_id)
-
+        for give_to_player_trigger in list_give_it_to_player_triggers:
+            trigger.new_effect.activate_trigger(give_to_player_trigger.trigger_id)
+    
+    # After all triggers are added, deactivate all other triggers except the current one
+    for index, trigger in enumerate(list_give_to_gaia_triggers):
+        for other_index, other_trigger in enumerate(list_give_to_gaia_triggers):
+            if other_index != index:
+                trigger.new_effect.deactivate_trigger(other_trigger.trigger_id)
 
 
 
@@ -1439,11 +1463,19 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
 
 
         # trigger.new_effect.activate_trigger(list_looping_trigger_that_continue_assert_stand_ground[index].trigger_id)
-        trigger.new_effect.activate_trigger(list_gaia_give_triggers[index].trigger_id)
+        trigger.new_effect.activate_trigger(list_give_to_gaia_triggers[index].trigger_id)
+
+
+    # After all triggers are added, deactivate all other triggers except the current one
+    for index, trigger in enumerate(list_give_it_to_player_triggers):
+        for other_index, other_trigger in enumerate(list_give_it_to_player_triggers):
+            if other_index != index:
+                trigger.new_effect.deactivate_trigger(other_trigger.trigger_id)
+
 
 
     print(len(list_give_it_to_player_triggers))
-    print(len(list_gaia_give_triggers))
+    print(len(list_give_to_gaia_triggers))
 
 
 
@@ -1456,10 +1488,11 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
                     area_x2: 238
                     area_y2: 239
     """
-
+    BATTLELINE_CASTLE_SPAWN_REFERENCE_ID = 224976
     change_castle_garrison_limit =  source_trigger_manager.add_trigger("change_castle_garrison_limit", enabled=True, looping=False)
     change_castle_garrison_limit.new_effect.modify_attribute(source_player=8, 
-                                                            quantity=len(list_hero_ids), 
+                                                            #quantity=len(list_hero_ids), 
+                                                            quantity=20, 
                                                             operation=Operation.SET, 
                                                             object_attributes=ObjectAttribute.GARRISON_CAPACITY,
                                                             object_list_unit_id=445)
@@ -1500,41 +1533,81 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
     for hero_id in list_hero_ids:
         spawn_all_hero_from_castle.new_effect.create_garrisoned_object(source_player=8, 
                                                                     object_list_unit_id_2=hero_id,
-                                                                    selected_object_ids = 224976)
+                                                                    selected_object_ids = BATTLELINE_CASTLE_SPAWN_REFERENCE_ID)
 
-    spawn_all_hero_from_castle.new_effect.unload(source_player=8, location_x=39, location_y= 52, selected_object_ids=224976)
+    spawn_all_hero_from_castle.new_effect.unload(source_player=8, location_x=39, location_y= 52, selected_object_ids=BATTLELINE_CASTLE_SPAWN_REFERENCE_ID)
 
 
     looping_keep_spawning_trash_unit.new_condition.timer(10)
     looping_keep_spawning_trash_unit.new_effect.create_garrisoned_object(source_player=8, 
                                                                     object_list_unit_id_2=359,
-                                                                    selected_object_ids = 224976)
+                                                                    selected_object_ids = BATTLELINE_CASTLE_SPAWN_REFERENCE_ID)
     looping_keep_spawning_trash_unit.new_effect.create_garrisoned_object(source_player=8, 
                                                                     object_list_unit_id_2=6,
-                                                                    selected_object_ids = 224976)
+                                                                    selected_object_ids = BATTLELINE_CASTLE_SPAWN_REFERENCE_ID)
     looping_keep_spawning_trash_unit.new_effect.create_garrisoned_object(source_player=8, 
                                                                     object_list_unit_id_2=359,
-                                                                    selected_object_ids = 224976)
+                                                                    selected_object_ids = BATTLELINE_CASTLE_SPAWN_REFERENCE_ID)
     looping_keep_spawning_trash_unit.new_effect.create_garrisoned_object(source_player=8, 
                                                                     object_list_unit_id_2=6,
-                                                                    selected_object_ids = 224976)
-    looping_keep_spawning_trash_unit.new_effect.unload(source_player=8, location_x=39, location_y= 52, selected_object_ids=224976)
+                                                                    selected_object_ids = BATTLELINE_CASTLE_SPAWN_REFERENCE_ID)
+    looping_keep_spawning_trash_unit.new_effect.unload(source_player=8, location_x=39, location_y= 52, selected_object_ids=BATTLELINE_CASTLE_SPAWN_REFERENCE_ID)
+
+
+
+
+
+    EAST_TARGET_LOCATION_X = 42
+    EAST_TARGET_LOCATION_Y = 46
+    ID_COMMANDER_TENT = 2262
+
+
+    for east_player in [5, 6, 7, 8]:
+        give_building_ability_to_constantly_spawn_battle_line_unit(source_trigger_manager, 
+                                                                tents_selected_object_ids[east_player-1], 
+                                                                ID_COMMANDER_TENT,
+                                                                EAST_TARGET_LOCATION_X,
+                                                                EAST_TARGET_LOCATION_Y,
+                                                                east_player)
+    
+    WEST_TARGET_LOCATION_X = 225
+    WEST_TARGET_LOCATION_Y = 214
+
+    for west_player in [1, 2, 3, 4]:
+        give_building_ability_to_constantly_spawn_battle_line_unit(source_trigger_manager, 
+                                                                tents_selected_object_ids[west_player-1], 
+                                                                ID_COMMANDER_TENT,
+                                                                WEST_TARGET_LOCATION_X,
+                                                                WEST_TARGET_LOCATION_Y,
+                                                                west_player)
+
+
+
+
+
+
+
 
     # Final step: write a modified scenario class to a new scenario file
     source_scenario.write_to_file(output_path)
 
 
+
+
+
+
+
 scenario_folder = "C:/Users/Randy/Games/Age of Empires 2 DE/76561198060805641/resources/_common/scenario/"
 
 input_path1 = scenario_folder + "Epic_Warfare 2_0 Raw.aoe2scenario"
-input_path2 = scenario_folder + "Epic_Warfare 2_0 Hero PK Test.aoe2scenario"
+#input_path2 = scenario_folder + "Epic_Warfare 2_0 Hero PK Test.aoe2scenario"
 
-output_path1 = scenario_folder + "Epic Warfare 2_0 ONE HERO the Heroic Stand Remastered.aoe2scenario"
+output_path1 = scenario_folder + "Epic Warfare 2_0 ONE HERO the Heroic Stand Remastered Generated.aoe2scenario"
 
 output_path3 = scenario_folder + "Epic Warfare 2_0 ALL STAR the Heroic Stand Remastered.aoe2scenario"
 
 output_path2 = scenario_folder + "Epic Warfare 2_0 Hero PK Test Generated.aoe2scenario"
 
 parse_scenario_with_epic_warfare_logic(input_path1, output_path1, num_hero_allowed = 1)
-#parse_scenario_with_epic_warfare_logic(input_path1, output_path3, num_hero_allowed=11)
+parse_scenario_with_epic_warfare_logic(input_path1, output_path3, num_hero_allowed=11)
 #parse_scenario_with_epic_warfare_logic(input_path2, output_path2, num_hero_allowed=11)
