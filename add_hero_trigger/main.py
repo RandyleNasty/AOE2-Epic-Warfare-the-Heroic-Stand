@@ -10,6 +10,9 @@ from AoE2ScenarioParser.datasets.trigger_lists import *
 from AoE2ScenarioParser.datasets.terrains import TerrainId
 from AoE2ScenarioParser.datasets.buildings import BuildingInfo
 from AoE2ScenarioParser.datasets.units import UnitInfo
+
+
+
 from AoE2ScenarioParser.datasets.heroes import HeroInfo
 from AoE2ScenarioParser.datasets.techs import TechInfo
 from AoE2ScenarioParser.datasets.other import OtherInfo
@@ -33,10 +36,12 @@ from dynamic_enviorment import *
 
 from center_sacred_parameters import *
 from hero_exploding_elephant import *
+from hero_roman_army_summoner import *
+
 # File & Folder setup - Declare your scenario directory path
 #scenario_folder = "C:/Users/Admin/Games/Age of Empires 2 DE/76561198148041091/resources/_common/scenario/"
 
-
+from general_hero_stats import *
 # Source scenario to work with
 
 #input_path = scenario_folder + "hero test.aoe2scenario"
@@ -100,14 +105,7 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
                     ]
 
 
-    """define general hero armour"""
-    general_footman_melee_armour = 9
-    general_footman_pierce_armour = 9
-    general_cav_melee_armour = 7
-    general_cav_pierce_armour = 7
 
-    general_ranged_melee_armour = 5
-    general_ranged_pierce_armour = 5
 
 
     list_description = [
@@ -159,10 +157,10 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
     TO-DO find better solution for thumb ring technolgy affects hero...
     """
     # conduct trigger wisely by encapusaltion
-    disable_thumb_ring_tech_for_all = source_trigger_manager.add_trigger("disable_thumb_ring_tech_for_all", enabled=True, looping=False)
+    # disable_thumb_ring_tech_for_all = source_trigger_manager.add_trigger("disable_thumb_ring_tech_for_all", enabled=True, looping=False)
 
-    for playid in PlayerId.all()[1:]:
-        disable_thumb_ring_tech_for_all.new_effect.enable_disable_technology(playid, enabled=False, technology=TechInfo.THUMB_RING.ID)
+    # for playid in PlayerId.all()[1:]:
+    #     disable_thumb_ring_tech_for_all.new_effect.enable_disable_technology(playid, enabled=False, technology=TechInfo.THUMB_RING.ID)
 
 
 
@@ -187,168 +185,8 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
         # dying_graphic = 1787,
         # walking_graphic = 1789,
 
-    """
-    ROMAN ARMY SUMMON HERO
-    """
-    projectile_LBT_id = 512
 
-
-    footman_summoned_id = 2318
-    archerman_summoned_id = HeroInfo.GUGLIELMO_EMBRIACO.ID
-
-    num_summon_roman_army = 15
-    num_summon_hp_drop_per_second_roman_army = 10
-    const_time_trigger_interval = 5
-
-    reload_time = 20
-
-    inst_projectile_LBT = Hero(hero_id = projectile_LBT_id, 
-                                    standing_graphic = 1721, 
-                                    walking_graphic = 3822,
-                                    #dying_graphic = 1743,
-                                    dead_unit_id = footman_summoned_id,
-                                    projectile_arc = 1,
-                                    projectile_arc_divide = 3,
-                                    projectile_arc_multiply = 2,
-                                    #blood_unit = sabo_man_id,
-
-                                    #blood_unit = HeroInfo.HENRY_II.ID,
-                                    movement_speed_divide = 2
-                                    )
-
-
-    inst_roman_army_summon_hero = Hero(
-        hero_id=HeroInfo.BELISARIUS.ID,  # You'll need to provide the correct hero_id
-        projectile_unit=projectile_LBT_id,
-        secondary_projectile_unit = HeroInfo.GUGLIELMO_EMBRIACO.ID,
-        max_range=4,
-        min_range=1,
-        melee_attack=1,
-        #blast_width=1,
-        #blast_attack_level=2,
-        pierce_armor=general_cav_pierce_armour,
-        melee_armour=general_cav_melee_armour,
-        attack_reload_set=reload_time,  
-        accuracy_percent=100,
-        total_missile = num_summon_roman_army,
-        #attack_dispersion = 1,
-        #attack_dispersion_multiply=3,
-        combat_ability= 1 + 16 + 8,
-        # #walking_graphic = 654,
-        # movement_speed=1,
-        # #frame_delay=4,
-        health_point=350,
-        projectile_smart_mode = 3,
-        population = 0,
-
-    )
-
-    boost_hero(source_trigger_manager, inst_projectile_LBT, PlayerId.all()[1:])
-    boost_hero(source_trigger_manager, inst_roman_army_summon_hero, PlayerId.all()[1:])
-
-
-
-
-
-
-
-    # add lifetime of summoned footman
-    list_footman_detection = []
-    list_footman_minus_hp = []
-
-    for player in range(1, 9):
-        minus_trigger = source_trigger_manager.add_trigger("global_footman_minus_hp", enabled=False, looping=False)
-        list_footman_minus_hp.append(minus_trigger)
-
-    for player in range(1, 9):
-        detection_trigger = source_trigger_manager.add_trigger("global_footman_detection", enabled=True, looping=False)
-        detection_trigger.new_condition.own_objects(quantity=num_summon_roman_army-1, object_list=footman_summoned_id, source_player=player)
-        detection_trigger.new_effect.activate_trigger(list_footman_minus_hp[player-1].trigger_id)
-        list_footman_detection.append(detection_trigger)
-
-    for index, trigger in enumerate(list_footman_minus_hp):
-        trigger.new_condition.timer(const_time_trigger_interval)
-        trigger.new_effect.change_object_hp(
-            object_list_unit_id=footman_summoned_id, operation=3, quantity=num_summon_hp_drop_per_second_roman_army, source_player=index+1
-        )
-        trigger.new_effect.change_object_stance(
-            object_list_unit_id=footman_summoned_id, source_player=index+1, attack_stance=0
-        )
-        trigger.new_effect.activate_trigger(list_footman_detection[index].trigger_id)
-
-
-    # add lifetime of summoned archer
-    list_archer_detection = []
-    list_archer_minus_hp = []
-
-    for player in range(1, 9):
-        minus_trigger = source_trigger_manager.add_trigger("global_archer_minus_hp", enabled=False, looping=False)
-        list_archer_minus_hp.append(minus_trigger)
-
-    for player in range(1, 9):
-        detection_trigger = source_trigger_manager.add_trigger("global_archer_detection", enabled=True, looping=False)
-        detection_trigger.new_condition.own_objects(quantity=num_summon_roman_army-1, object_list=archerman_summoned_id, source_player=player)
-        detection_trigger.new_effect.activate_trigger(list_archer_minus_hp[player-1].trigger_id)
-        list_archer_detection.append(detection_trigger)
-
-    for index, trigger in enumerate(list_archer_minus_hp):
-        trigger.new_condition.timer(const_time_trigger_interval)
-        trigger.new_effect.change_object_hp(
-            object_list_unit_id=archerman_summoned_id, operation=3, quantity=num_summon_hp_drop_per_second_roman_army, source_player=index+1
-        )
-        trigger.new_effect.change_object_stance(
-            object_list_unit_id=archerman_summoned_id, source_player=index+1, attack_stance=0
-        )
-        trigger.new_effect.activate_trigger(list_archer_detection[index].trigger_id)
-
-
-
-
-    """
-    TO-DO garrisoned unit and unload to create units
-    """ 
-
-
-
-
-
-
-
-
-
-
-
-
-    inst_footman_summoned = Hero(
-        hero_id=footman_summoned_id,  # You'll need to provide the correct hero_id
-        dying_graphic = 5462,
-        health_point=50,
-        dead_unit_id = 0,
-        population = 0,
-        # projectile_smart_mode = 2,
-
-    )
-
-    inst_archerman_summoned = Hero(
-        hero_id=archerman_summoned_id,  # You'll need to provide the correct hero_id
-        dying_graphic = 5462,
-        health_point=50,
-        dead_unit_id = 0,
-        population = 0,
-        # projectile_smart_mode = 2,
-
-    )
-
-    boost_hero(source_trigger_manager, inst_footman_summoned, PlayerId.all()[1:])
-    boost_hero(source_trigger_manager, inst_archerman_summoned, PlayerId.all()[1:])
-
-
-
-
-
-
-
-
+    create_roman_army_summoner(source_trigger_manager)
 
     create_hero_exploding_elephant(source_trigger_manager)
 
@@ -394,7 +232,7 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
 
 
 
-    boost_hero(source_trigger_manager, inst_mounted_gunpower_hero, PlayerId.all()[1:])
+    boost_object(source_trigger_manager, inst_mounted_gunpower_hero, PlayerId.all()[1:])
 
 
 
@@ -416,7 +254,7 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
                                     movement_speed_divide = 3,
                                     movement_speed_multiply = 2)
 
-    boost_hero(source_trigger_manager, inst_war_galley_projectile, PlayerId.all()[1:])
+    boost_object(source_trigger_manager, inst_war_galley_projectile, PlayerId.all()[1:])
 
 
 
@@ -457,7 +295,7 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
     )
 
 
-    boost_hero(source_trigger_manager, inst_BRASIDAS_footman_hero, PlayerId.all()[1:])
+    boost_object(source_trigger_manager, inst_BRASIDAS_footman_hero, PlayerId.all()[1:])
 
 
 
@@ -469,7 +307,7 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
         standing_graphic = 3403,
     )
 
-    boost_hero(source_trigger_manager, inst_projectile_unit_laser, PlayerId.all()[1:])
+    boost_object(source_trigger_manager, inst_projectile_unit_laser, PlayerId.all()[1:])
 
 
     # fire arrows 787
@@ -517,7 +355,7 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
                                     dying_graphic = 15534,
 
                                     )
-    boost_hero(source_trigger_manager, inst_leviathan_projectile, PlayerId.all()[1:])
+    boost_object(source_trigger_manager, inst_leviathan_projectile, PlayerId.all()[1:])
 
 
 
@@ -552,7 +390,7 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
         recharge_rate = 1,
         max_charge = 10,
     )
-    boost_hero(source_trigger_manager, inst_dagnajan_hero, PlayerId.all()[1:])
+    boost_object(source_trigger_manager, inst_dagnajan_hero, PlayerId.all()[1:])
 
 
 
@@ -576,7 +414,7 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
         health_point = 300,
             population = 0,
     )
-    boost_hero(source_trigger_manager, inst_god_swing_packed_hero, PlayerId.all()[1:])
+    boost_object(source_trigger_manager, inst_god_swing_packed_hero, PlayerId.all()[1:])
 
 
 
@@ -591,7 +429,7 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
                                     #blood_unit = 1334,
                                 #movement_speed_divide = 2
                                 )
-    boost_hero(source_trigger_manager, inst_god_swing_projectile, PlayerId.all()[1:])
+    boost_object(source_trigger_manager, inst_god_swing_projectile, PlayerId.all()[1:])
 
 
 
@@ -615,7 +453,7 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
             
     )
 
-    boost_hero(source_trigger_manager, inst_god_swing_hero, PlayerId.all()[1:])
+    boost_object(source_trigger_manager, inst_god_swing_hero, PlayerId.all()[1:])
 
 
 
@@ -645,7 +483,7 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
 
     )
 
-    boost_hero(source_trigger_manager, inst_frank_paladin_hero, PlayerId.all()[1:])
+    boost_object(source_trigger_manager, inst_frank_paladin_hero, PlayerId.all()[1:])
 
 
 
@@ -654,8 +492,8 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
     inst_jean_bureau = Hero(
         hero_id=HeroInfo.JEAN_BUREAU.ID,  # You'll need to provide the correct hero_id
         max_range=11,  #
-        #line_of_sight = 15,
-        #search_radius = 15，
+        line_of_sight = 11,
+        search_radius = 11,
         min_range=7,  # Not modified in the original function
         total_missile=60,
         projectile_unit=658,
@@ -665,6 +503,8 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
         #melee_armour=0,  # Not modified in the original function
         #pierce_armor=0,  # Not modified in the original function
         melee_attack=10,
+        melee_attack_for_building = 5,
+        melee_attack_for_wall_and_gate = 5,
         movement_speed=1,
         health_point=300,
         blast_width=1,
@@ -691,7 +531,7 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
         
     )
 
-    boost_hero(source_trigger_manager, inst_fire_projectile_for_ulrich, PlayerId.all()[1:])
+    boost_object(source_trigger_manager, inst_fire_projectile_for_ulrich, PlayerId.all()[1:])
 
 
 
@@ -928,9 +768,9 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
 
 
 
-    boost_hero(source_trigger_manager, inst_tamar_summon_hero, PlayerId.all()[1:])
-    boost_hero(source_trigger_manager, inst_summon_unit, PlayerId.all()[1:])
-    boost_hero(source_trigger_manager, inst_sabo_man_unit, PlayerId.all()[1:])
+    boost_object(source_trigger_manager, inst_tamar_summon_hero, PlayerId.all()[1:])
+    boost_object(source_trigger_manager, inst_summon_unit, PlayerId.all()[1:])
+    boost_object(source_trigger_manager, inst_sabo_man_unit, PlayerId.all()[1:])
     # elephant, where invisible project, but with flame impact
 
     #change projectile to unit. spawn hero
@@ -938,22 +778,22 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
 
     #inst_projectile_vol_fire = Hero(hero_id = 511, standing_graphic = 1743)
 
-    boost_hero(source_trigger_manager, inst_robin_archer_hero, PlayerId.all()[1:])
+    boost_object(source_trigger_manager, inst_robin_archer_hero, PlayerId.all()[1:])
     # add fire effect to arrows
 
 
 
 
 
-    boost_hero(source_trigger_manager, inst_projectile_vol_fire, PlayerId.all()[1:])
+    boost_object(source_trigger_manager, inst_projectile_vol_fire, PlayerId.all()[1:])
 
 
-    boost_hero(source_trigger_manager, inst_jean_bureau, PlayerId.all()[1:])
-    boost_hero(source_trigger_manager, inst_hero_ulrich, PlayerId.all()[1:])
-    boost_hero(source_trigger_manager, inst_hero_darius, PlayerId.all()[1:])
-    boost_hero(source_trigger_manager, inst_hero_mounted_archer, PlayerId.all()[1:])
+    boost_object(source_trigger_manager, inst_jean_bureau, PlayerId.all()[1:])
+    boost_object(source_trigger_manager, inst_hero_ulrich, PlayerId.all()[1:])
+    boost_object(source_trigger_manager, inst_hero_darius, PlayerId.all()[1:])
+    boost_object(source_trigger_manager, inst_hero_mounted_archer, PlayerId.all()[1:])
 
-    boost_hero(source_trigger_manager, inst_hero_tsar_constantin, PlayerId.all()[1:])
+    boost_object(source_trigger_manager, inst_hero_tsar_constantin, PlayerId.all()[1:])
 
     #boost_hero(source_trigger_manager, inst_projectile_vol_fire, PlayerId.all()[1:])
 
@@ -1003,7 +843,7 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
     # )
 
     # boost_hero(source_trigger_manager, inst_summon_hawk_unit, PlayerId.all()[1:])
-    boost_hero(source_trigger_manager, inst_cleon_hero, PlayerId.all()[1:])
+    boost_object(source_trigger_manager, inst_cleon_hero, PlayerId.all()[1:])
 
     #put change object cost to last, not before modify attribute.
 
@@ -1322,11 +1162,11 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
         #movement_speed=0,
 
     )
-    boost_hero(source_trigger_manager, inst_spa_monk, PlayerId.all())
+    boost_object(source_trigger_manager, inst_spa_monk, PlayerId.all())
 
     inst_shrine = Hero(hero_id = PAGAN_SHRINE_ID, combat_ability = 32, hero_status = 64)
 
-    boost_hero(source_trigger_manager, inst_shrine, PlayerId.all())
+    boost_object(source_trigger_manager, inst_shrine, PlayerId.all())
 
 
     #area_x1: 111
@@ -1557,9 +1397,6 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
 
 
 
-    EAST_TARGET_LOCATION_X = 42
-    EAST_TARGET_LOCATION_Y = 46
-    ID_COMMANDER_TENT = 2262
 
 
     for east_player in [5, 6, 7, 8]:
@@ -1570,8 +1407,7 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
                                                                 EAST_TARGET_LOCATION_Y,
                                                                 east_player)
     
-    WEST_TARGET_LOCATION_X = 225
-    WEST_TARGET_LOCATION_Y = 214
+
 
     for west_player in [1, 2, 3, 4]:
         give_building_ability_to_constantly_spawn_battle_line_unit(source_trigger_manager, 

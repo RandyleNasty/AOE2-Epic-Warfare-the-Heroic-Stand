@@ -41,7 +41,7 @@ def give_building_ability_to_constantly_spawn_battle_line_unit(source_trigger_ma
     disabl
     """
     INTERVAL_TO_SPAWN_BATTLE_LINE = 120
-
+    INTERVAL_ATTACK_ORDER = 20
     BATTLELINE_FOOTMAN_0 = 168
     BATTLELINE_ARCHER_0 = 686
     BATTLELINE_FOOTMAN_1 = 164
@@ -88,7 +88,7 @@ def give_building_ability_to_constantly_spawn_battle_line_unit(source_trigger_ma
         line_of_sight = 12,
         health_point = 45,
         )
-        boost_hero(source_trigger_manager, inst_unit_to_be_boosted, [source_player])
+        boost_object(source_trigger_manager, inst_unit_to_be_boosted, [source_player])
         #battleline_disable_selection.new_effect.disable_object_selection(
         #    source_player=source_player,
         #    object_list_unit_id = unit_id
@@ -117,3 +117,10 @@ def give_building_ability_to_constantly_spawn_battle_line_unit(source_trigger_ma
             source_player=source_player,
             object_list_unit_id = unit_id
         )
+
+
+    #add trigger that keep give attack order
+    keep_giving_attack_order = source_trigger_manager.add_trigger("keep_giving_attack_order", enabled=True, looping=True)
+    keep_giving_attack_order.new_condition.timer(INTERVAL_ATTACK_ORDER)
+    for unit_id in BATTLELINE_UNIT_LIST:
+        keep_giving_attack_order.new_effect.attack_move(object_list_unit_id = unit_id, location_x=moving_location_x, location_y= moving_location_y, source_player=source_player)

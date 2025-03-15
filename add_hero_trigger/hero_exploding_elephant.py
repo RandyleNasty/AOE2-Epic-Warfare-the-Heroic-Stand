@@ -57,7 +57,7 @@ def create_hero_exploding_elephant(source_trigger_manager):
     for player in PlayerId.all()[1:]:
         disable_selection_trigger.new_effect.disable_object_deletion(object_list_unit_id=HERO_FAKE_AS_EXPLODING_ELEPHANT_ID, source_player=player)
 
-    boost_hero(source_trigger_manager, inst_weak_elephant, PlayerId.all()[1:])
+    boost_object(source_trigger_manager, inst_weak_elephant, PlayerId.all()[1:])
 
     attack_dispersion_for_exploding_elephant = 2
     blast_width_for_exploding_elephant = 3
@@ -94,7 +94,7 @@ def create_hero_exploding_elephant(source_trigger_manager):
         melee_attack_for_wall_and_gate = 100,
     )
 
-    boost_hero(source_trigger_manager, inst_exploding_elephant, PlayerId.all()[1:])
+    boost_object(source_trigger_manager, inst_exploding_elephant, PlayerId.all()[1:])
 
 
 
@@ -127,7 +127,7 @@ def create_hero_exploding_elephant(source_trigger_manager):
 
     )
 
-    boost_hero(source_trigger_manager, inst_last_exploding_elephant, PlayerId.all()[1:])
+    boost_object(source_trigger_manager, inst_last_exploding_elephant, PlayerId.all()[1:])
 
 
     const_time_trigger_interval = 5

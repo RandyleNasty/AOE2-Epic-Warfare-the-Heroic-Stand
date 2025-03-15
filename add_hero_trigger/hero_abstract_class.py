@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Dict, List, Any
 from AoE2ScenarioParser.datasets.trigger_lists import Operation
-
+from AoE2ScenarioParser.datasets.techs import TechInfo
 
 """ def modify_attribute(...) ¶
 The parameters 'armour_attack_quantity' and 'armour_attack_class' are only used when object_attributes is Armor or Attack (8 or 9). Use, 'quantity' otherwise.
@@ -71,6 +71,8 @@ attribute_mapping = {
 
     'can_be_built_on':33,
 
+    'garrison_capacity':2,
+
     'population': 110,
 
     'attack_graphic': 70,
@@ -122,17 +124,27 @@ attribute_mapping = {
 
 }
 
-def boost_hero(trigger_manager, hero, players_applied):
-    
-
+def boost_object(trigger_manager, hero, players_applied, bool_add_additional_guard_for_projectile = True):
 
 
     for player_id in players_applied:
+
         trigger = trigger_manager.add_trigger(
             f"hero_{hero.hero_id}_p{player_id}",
             enabled=True,
             looping=False
         )
+        if bool_add_additional_guard_for_projectile == True:
+            trigger_detect_projectile_tech_researched = trigger_manager.add_trigger(
+                "trigger_detect_projectile_tech_researched",
+                enabled=False,
+                looping=False
+            )
+            trigger_detect_projectile_tech_researched.new_condition.research_technology(source_player = player_id, technology = TechInfo.THUMB_RING.ID)
+            trigger_detect_projectile_tech_researched.new_condition.or_()
+            trigger_detect_projectile_tech_researched.new_condition.research_technology(source_player = player_id, technology = TechInfo.BALLISTICS.ID)
+            trigger_detect_projectile_tech_researched.new_effect.activate_trigger(trigger.trigger_id)
+
 
         trigger.new_condition.own_objects(
             quantity=1,
@@ -233,4 +245,8 @@ def boost_hero(trigger_manager, hero, players_applied):
                     )
             elif attr not in attribute_mapping:
                 assert False, f"attribute not found: {attr}"
+
+
+            if bool_add_additional_guard_for_projectile == True:
+                trigger.new_effect.activate_trigger(trigger_detect_projectile_tech_researched.trigger_id)
 

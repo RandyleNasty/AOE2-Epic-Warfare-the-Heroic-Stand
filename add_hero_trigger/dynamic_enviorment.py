@@ -427,7 +427,7 @@ def prepare_object_for_changing_terrain(source_trigger_manager):
                                             unit_size_x = 1,
                                            unit_size_y = 1,
                                             )
-    boost_hero(source_trigger_manager, inst_intermedite_object_building, PlayerId.all()[1:])
+    boost_object(source_trigger_manager, inst_intermedite_object_building, PlayerId.all()[1:])
 
 
 
@@ -444,7 +444,7 @@ def prepare_object_for_changing_terrain(source_trigger_manager):
                                    unit_size_x = 1,
                                 unit_size_y = 1,
                                   )
-    boost_hero(source_trigger_manager, inst_tenta_id_building, PlayerId.all()[1:])
+    boost_object(source_trigger_manager, inst_tenta_id_building, PlayerId.all()[1:])
 
 
 
@@ -463,7 +463,7 @@ def prepare_object_for_changing_terrain(source_trigger_manager):
                             # train_time=0, 
                             )
 
-    boost_hero(source_trigger_manager, inst_try_object, PlayerId.all()[1:])
+    boost_object(source_trigger_manager, inst_try_object, PlayerId.all()[1:])
 
 
     """
@@ -485,4 +485,4 @@ def prepare_object_for_changing_terrain(source_trigger_manager):
                                                         unit_size_y = 1,
                                                         )
 
-    boost_hero(source_trigger_manager, inst_invisible_storage_with_water_foundation, PlayerId.all()[1:])
+    boost_object(source_trigger_manager, inst_invisible_storage_with_water_foundation, PlayerId.all()[1:])
