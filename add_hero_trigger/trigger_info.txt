@@ -607,9 +607,9 @@ Triggers:
 				quantity: 3
 				source_player: Player One (1)
 				area_x1: 210
-				area_y1: 182
-				area_x2: 238
-				area_y2: 239
+				area_y1: 197
+				area_x2: 239
+				area_y2: 233
 				object_type: Military (4)
 				inverted: False (0)
 				object_state: Alive (2)
@@ -3415,6 +3415,45 @@ Triggers:
 				source_player: Player One (1)
 				location_x: 42
 				location_y: 46
+
+	'tent_location' [Index: 52, Display: 52]:
+		enabled: False
+		looping: False
+		description_stid: 0
+		short_description_stid: 0
+		effects:
+			train_unit [Index: 0, Display: 0]:
+				source_player: Player One (1)
+				location_x: 103
+				location_y: 41
+			train_unit [Index: 1, Display: 1]:
+				source_player: Player One (1)
+				location_x: 54
+				location_y: 114
+			train_unit [Index: 2, Display: 2]:
+				source_player: Player One (1)
+				location_x: 27
+				location_y: 187
+			train_unit [Index: 3, Display: 3]:
+				source_player: Player One (1)
+				location_x: 22
+				location_y: 101
+			train_unit [Index: 4, Display: 4]:
+				source_player: Player One (1)
+				location_x: 180
+				location_y: 174
+			train_unit [Index: 5, Display: 5]:
+				source_player: Player One (1)
+				location_x: 205
+				location_y: 84
+			train_unit [Index: 6, Display: 6]:
+				source_player: Player One (1)
+				location_x: 130
+				location_y: 210
+			train_unit [Index: 7, Display: 7]:
+				source_player: Player One (1)
+				location_x: 233
+				location_y: 148
 
 Variables:
 	<<No Variables>>

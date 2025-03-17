@@ -161,7 +161,7 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
 
     for playid in PlayerId.all()[1:]:
         disable_thumb_ring_tech_for_all.new_effect.enable_disable_technology(playid, enabled=False, technology=TechInfo.THUMB_RING.ID)
-
+        disable_thumb_ring_tech_for_all.new_effect.enable_disable_technology(playid, enabled=False, technology=TechInfo.BALLISTICS.ID)
 
 
 
@@ -270,7 +270,7 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
         blast_attack_level=4,
         pierce_armor=general_footman_pierce_armour,
         melee_armour=general_footman_melee_armour,
-        attack_reload_set=2,  
+        attack_reload_set=3,  
         accuracy_percent=45,
         total_missile = 25,
         attack_dispersion = 1,
@@ -280,13 +280,13 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
         #walking_graphic = 654,
         #movement_speed=1,
         #frame_delay=4,
-        health_point=500,
+        health_point=350,
         projectile_smart_mode = 2,
 
         charge_event = 1,
         charge_type = 4,
         recharge_rate = 1,
-        max_charge = 5,
+        max_charge = 20,
         #charge_event = 1,
         #charge_type = 3,
         #recharge_rate = 1,
@@ -491,9 +491,9 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
     # Instantiate Jean Bureau
     inst_jean_bureau = Hero(
         hero_id=HeroInfo.JEAN_BUREAU.ID,  # You'll need to provide the correct hero_id
-        max_range=11,  #
-        line_of_sight = 11,
-        search_radius = 11,
+        max_range=14,  #
+        line_of_sight = 15,
+        search_radius = 15,
         min_range=7,  # Not modified in the original function
         total_missile=60,
         projectile_unit=658,
@@ -503,12 +503,12 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
         #melee_armour=0,  # Not modified in the original function
         #pierce_armor=0,  # Not modified in the original function
         melee_attack=10,
-        melee_attack_for_building = 5,
-        melee_attack_for_wall_and_gate = 5,
+        melee_attack_for_building = 10,
+        melee_attack_for_wall_and_gate = 10,
         movement_speed=1,
         health_point=300,
         blast_width=1,
-        blast_attack_level=2,
+        blast_attack_level=4,
         combat_ability = 1 + 8 + 16,
             population = 0,
 
@@ -545,6 +545,7 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
         pierce_armor=general_cav_pierce_armour,
         blast_attack_level=4,
         max_range=2,
+        min_range=1,
         total_missile=30,
         projectile_unit=676,
         accuracy_percent=50,
@@ -553,6 +554,10 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
         health_point = 450,
         population = 0,
         movement_speed = 2,
+        charge_event = 1,
+        charge_type = 4,
+        recharge_rate = 1,
+        max_charge = 12,
     )
 
 
@@ -600,6 +605,11 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
         projectile_unit = 1595,
         combat_ability= 1 + 16 + 8,
             population = 0,
+
+        charge_event = 1,
+        charge_type = 4,
+        recharge_rate = 1,
+        max_charge = 3,
     )
 
     inst_hero_tsar_constantin = Hero(
@@ -621,6 +631,11 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
         projectile_hit_mode = 1,
         combat_ability= 1,
             population = 0,
+
+        charge_event = 1,
+        charge_type = 4,
+        recharge_rate = 1,
+        max_charge = 8,
     )
 
 
@@ -637,7 +652,7 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
 
     wolf_id = 700
 
-    num_summon = 6
+    num_summon = 8
     summon_cooldown = 7
     summon_hp_drop_per_second = 35
     flame_id_spawned_after_explosion = 1334
@@ -686,6 +701,7 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
         hero_status = 64,
         dead_unit_id = sabo_man_id,
             population = 0,
+            melee_attack = 15,
     )
     # not actually doing damage to friendly unit
     inst_sabo_man_unit = Hero(
@@ -813,7 +829,7 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
         pierce_armor=general_footman_pierce_armour,
         melee_armour=general_footman_melee_armour,
         attack_reload_set=3,  
-        total_missile = 7,
+        total_missile = 5,
         combat_ability= 8 + 16,
         #attack_dispersion = 1,
         #accuracy_percent = 10,
@@ -831,7 +847,7 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
         charge_event = 1,
         charge_type = 4,
         recharge_rate = 1,
-        max_charge = 5,
+        max_charge = 20,
 
             population = 0,
     )
@@ -957,11 +973,16 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
                 trigger.new_condition.timer(idx * 2)
 
                 trigger.new_condition.chance(quantity=chance)
+
+                x, y = tent_training_location_tuple[player_id-1]
+
                 trigger.new_effect.train_unit(
                     object_list_unit_id=hero_id,
                     quantity=1,
                     selected_object_ids=spawn_id,
-                    source_player=player_id
+                    source_player=player_id,
+                    location_x = x,
+                    location_y = y,
                 )
                 chance_triggers.append(trigger)
                 delay_trigger.new_effect.activate_trigger(trigger.trigger_id)
@@ -1343,9 +1364,9 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
 
 
     detect_area_x1 = 210
-    detect_area_x2 = 238
-    detect_area_y1 = 182
-    detect_area_y2 = 239
+    detect_area_x2 = 239
+    detect_area_y1 = 197
+    detect_area_y2 = 233
     detection_east_castle_under_threat = source_trigger_manager.add_trigger("detection_east_castle_under_threat", enabled=True, looping=False)
     for player in range(1, 5):  # Loop from player 1 to player 8
         detection_east_castle_under_threat.new_condition.objects_in_area(
@@ -1406,7 +1427,10 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
                                                                 EAST_TARGET_LOCATION_X,
                                                                 EAST_TARGET_LOCATION_Y,
                                                                 east_player)
-    
+
+        detect_player_defeat = source_trigger_manager.add_trigger("detect_player_defeat", enabled=True, looping=False)
+        detect_player_defeat.new_condition.player_defeated(source_player=east_player)
+        detect_player_defeat.new_effect.activate_trigger(spawn_all_hero_from_castle.trigger_id)
 
 
     for west_player in [1, 2, 3, 4]:

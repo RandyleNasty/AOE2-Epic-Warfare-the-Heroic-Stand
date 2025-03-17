@@ -19,18 +19,19 @@ def create_roman_army_summoner(source_trigger_manager):
     footman_summoned_id = 2318
     archerman_summoned_id = HeroInfo.GUGLIELMO_EMBRIACO.ID
 
-    num_summon_roman_army = 10
+    num_summon_roman_army = 12
     num_summon_hp_drop_per_second_roman_army = 10
-    const_time_trigger_interval = 5
+    CONST_TIME_INTERVAL_TRIGGER = 24
 
-    reload_time = 20
+    reload_time = 25
 
     HERO_ID_ROMAN_ARMY_SUMMONER = HeroInfo.BELISARIUS.ID
 
     inst_projectile_LBT = Hero(hero_id = projectile_LBT_id, 
-                                    standing_graphic = 1721, 
-                                    walking_graphic = 3822,
-                                    #dying_graphic = 1743,
+                                    #standing_graphic = 1721, 
+                                    standing_graphic = 4258, 
+                                    #walking_graphic = 3822,
+                                    #dying_graphic = 1744,
                                     #dead_unit_id = footman_summoned_id,
                                     projectile_arc = 1,
                                     projectile_arc_divide = 3,
@@ -46,7 +47,7 @@ def create_roman_army_summoner(source_trigger_manager):
         hero_id=HERO_ID_ROMAN_ARMY_SUMMONER,  # You'll need to provide the correct hero_id
         projectile_unit=projectile_LBT_id,
         secondary_projectile_unit = HeroInfo.GUGLIELMO_EMBRIACO.ID,
-        max_range=7,
+        max_range=5,
         min_range=1,
         search_radius = 10,
         line_of_sight = 10,
@@ -58,7 +59,8 @@ def create_roman_army_summoner(source_trigger_manager):
         pierce_armor=general_cav_pierce_armour,
         melee_armour=general_cav_melee_armour,
         attack_reload_set=reload_time,  
-        accuracy_percent=100,
+        accuracy_percent=1,
+        attack_dispersion = 3,
         total_missile = num_summon_roman_army,
         #attack_dispersion = 1,
         #attack_dispersion_multiply=3,
@@ -67,9 +69,13 @@ def create_roman_army_summoner(source_trigger_manager):
         # movement_speed=1,
         # #frame_delay=4,
         health_point=350,
-        projectile_smart_mode = 3,
+        #projectile_smart_mode = 3,
         population = 0,
-        garrison_capacity = 20,
+        garrison_capacity = 25,
+        charge_event = 1,
+        charge_type = 4,
+        recharge_rate = 1,
+        max_charge = 2,
 
     )
 
@@ -80,30 +86,40 @@ def create_roman_army_summoner(source_trigger_manager):
     following code does not work, because UNLOAD does not work
     """
 
-    # detect_attack_and_spawn_list = []
+    detect_attack_and_spawn_list = []
    
-    # add_delays_to_detection_list = []
-    # for player in range(1, 9):
-    #     add_delay_trigger = source_trigger_manager.add_trigger("add_delay_trigger", enabled=False, looping=False)
-    #     add_delays_to_detection_list.append(add_delay_trigger)
+    add_delays_to_detection_list = []
+    for player in range(1, 9):
+        add_delay_trigger = source_trigger_manager.add_trigger("add_delay_trigger", enabled=False, looping=False)
+        add_delays_to_detection_list.append(add_delay_trigger)
 
-    # for player in range(1, 9):
-    #     detect_attack_action_army_hero = source_trigger_manager.add_trigger("detect_attack_action_army_hero", enabled=True, looping=False)
-    #     detect_attack_action_army_hero.new_condition.own_objects(quantity=num_summon_roman_army-1, object_list=projectile_LBT_id, source_player=player)
-    #     for unit in range(1, num_summon_roman_army):
-    #         detect_attack_action_army_hero.new_effect.create_garrisoned_object(source_player=player, 
-    #                                                                     object_list_unit_id = HERO_ID_ROMAN_ARMY_SUMMONER,
-    #                                                                     object_list_unit_id_2=footman_summoned_id)
-    #     detect_attack_action_army_hero.new_effect.unload(source_player=player, object_list_unit_id=HERO_ID_ROMAN_ARMY_SUMMONER, area_x1 = 0, area_x2 = 200, area_y1 = 0, area_y2 = 200, location_x = WEST_TARGET_LOCATION_X,  location_y = WEST_TARGET_LOCATION_Y)
-        
-    #     detect_attack_action_army_hero.new_effect.activate_trigger(add_delays_to_detection_list[player-1].trigger_id)
+    for player in range(1, 9):
+        detect_attack_action_army_hero = source_trigger_manager.add_trigger("detect_attack_action_army_hero", enabled=True, looping=False)
+        detect_attack_action_army_hero.new_condition.own_objects(quantity=num_summon_roman_army-1, object_list=projectile_LBT_id, source_player=player)
+        detect_attack_action_army_hero.new_condition.timer(1)
+        for unit in range(1, 4):
+            detect_attack_action_army_hero.new_effect.create_garrisoned_object(source_player=player, 
+                                                                        object_list_unit_id = HERO_ID_ROMAN_ARMY_SUMMONER,
+                                                                        object_list_unit_id_2=footman_summoned_id)
+        for unit in range(1, 4):
+            detect_attack_action_army_hero.new_effect.create_garrisoned_object(source_player=player, 
+                                                                    object_list_unit_id = HERO_ID_ROMAN_ARMY_SUMMONER,
+                                                                    object_list_unit_id_2=archerman_summoned_id)
+        #detect_attack_action_army_hero.new_effect.unload(source_player=player, object_list_unit_id=HERO_ID_ROMAN_ARMY_SUMMONER, area_x1 = 0, area_x2 = 200, area_y1 = 0, area_y2 = 200, location_x = WEST_TARGET_LOCATION_X,  location_y = WEST_TARGET_LOCATION_Y)
+        detect_attack_action_army_hero.new_effect.task_object(source_player=player,object_list_unit_id=HERO_ID_ROMAN_ARMY_SUMMONER, action_type=ActionType.UNLOAD)
 
-    #     detect_attack_and_spawn_list.append(detect_attack_action_army_hero)
+        detect_attack_action_army_hero.new_effect.task_object(source_player=player,object_list_unit_id=footman_summoned_id, action_type=ActionType.STAGGERED_FORMATION)
+        detect_attack_action_army_hero.new_effect.task_object(source_player=player,object_list_unit_id=archerman_summoned_id, action_type=ActionType.STAGGERED_FORMATION)
 
-    # #detect_attack_action_army_hero
-    # for player in range(1, 9):
-    #     add_delays_to_detection_list[player-1].new_condition.timer(reload_time - 1)
-    #     add_delays_to_detection_list[player-1].new_effect.activate_trigger(detect_attack_and_spawn_list[player-1].trigger_id)
+        detect_attack_action_army_hero.new_effect.activate_trigger(add_delays_to_detection_list[player-1].trigger_id)
+
+        detect_attack_and_spawn_list.append(detect_attack_action_army_hero)
+
+    #detect_attack_action_army_hero
+    for player in range(1, 9):
+        add_delays_to_detection_list[player-1].new_condition.timer(reload_time - 1)
+        add_delays_to_detection_list[player-1].new_effect.activate_trigger(detect_attack_and_spawn_list[player-1].trigger_id)
+        #add_delays_to_detection_list[player-1].new_effect.task_object(source_player=player,object_list_unit_id=HERO_ID_ROMAN_ARMY_SUMMONER, action_type=ActionType.UNGARRISON)
 
     
 
@@ -122,10 +138,11 @@ def create_roman_army_summoner(source_trigger_manager):
         list_footman_detection.append(detection_trigger)
 
     for index, trigger in enumerate(list_footman_minus_hp):
-        trigger.new_condition.timer(const_time_trigger_interval)
-        trigger.new_effect.change_object_hp(
-            object_list_unit_id=footman_summoned_id, operation=3, quantity=num_summon_hp_drop_per_second_roman_army, source_player=index+1
-        )
+        trigger.new_condition.timer(CONST_TIME_INTERVAL_TRIGGER)
+        # trigger.new_effect.change_object_hp(
+        #     object_list_unit_id=footman_summoned_id, operation=3, quantity=num_summon_hp_drop_per_second_roman_army, source_player=index+1
+        # )
+        trigger.new_effect.kill_object(source_player = index+1, object_list_unit_id = footman_summoned_id)
         trigger.new_effect.change_object_stance(
             object_list_unit_id=footman_summoned_id, source_player=index+1, attack_stance=0
         )
@@ -147,10 +164,11 @@ def create_roman_army_summoner(source_trigger_manager):
         list_archer_detection.append(detection_trigger)
 
     for index, trigger in enumerate(list_archer_minus_hp):
-        trigger.new_condition.timer(const_time_trigger_interval)
-        trigger.new_effect.change_object_hp(
-            object_list_unit_id=archerman_summoned_id, operation=3, quantity=num_summon_hp_drop_per_second_roman_army, source_player=index+1
-        )
+        trigger.new_condition.timer(CONST_TIME_INTERVAL_TRIGGER)
+        # trigger.new_effect.change_object_hp(
+        #     object_list_unit_id=archerman_summoned_id, operation=3, quantity=num_summon_hp_drop_per_second_roman_army, source_player=index+1
+        # )
+        trigger.new_effect.kill_object(source_player = index+1, object_list_unit_id = archerman_summoned_id)
         trigger.new_effect.change_object_stance(
             object_list_unit_id=archerman_summoned_id, source_player=index+1, attack_stance=0
         )

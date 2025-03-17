@@ -66,7 +66,7 @@ def create_hero_exploding_elephant(source_trigger_manager):
         hero_id=HeroInfo.BAYINNAUNG.ID,  # You'll need to provide the correct hero_id
         secondary_projectile_unit = sabo_man_id,
         projectile_unit=1595,
-        blast_attack_level=2,
+        blast_attack_level=4,
         blast_width = blast_width_for_exploding_elephant,
         melee_attack=150,
         max_range=2,
@@ -89,7 +89,6 @@ def create_hero_exploding_elephant(source_trigger_manager):
         line_of_sight = 10,
         population = 0,
 
-
         melee_attack_for_building = 100,
         melee_attack_for_wall_and_gate = 100,
     )
@@ -102,7 +101,7 @@ def create_hero_exploding_elephant(source_trigger_manager):
         hero_id=LAST_EXPLODING_ELEPHANT_ID,  # You'll need to provide the correct hero_id
         secondary_projectile_unit = sabo_man_id,
         projectile_unit=1595,
-        blast_attack_level=2,
+        blast_attack_level=4,
         blast_width = blast_width_for_exploding_elephant,
         melee_attack=150,
         max_range=2,
@@ -121,7 +120,8 @@ def create_hero_exploding_elephant(source_trigger_manager):
         #movement_speed = 2,
         line_of_sight = 10,
             population = 0,
-
+        dead_unit_id = 706,
+        blood_unit  = 706,
         melee_attack_for_building = 100,
         melee_attack_for_wall_and_gate = 100,
 

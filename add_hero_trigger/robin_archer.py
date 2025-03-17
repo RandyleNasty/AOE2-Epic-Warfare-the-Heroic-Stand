@@ -32,7 +32,10 @@ inst_robin_archer_hero = Hero(
     health_point=200,
     projectile_smart_mode = 2,
     population = 0,
-
+    charge_event = 1,
+    charge_type = 4,
+    recharge_rate = 1,
+    max_charge = 1,
 )
 
 #longbow project arc -0.06
