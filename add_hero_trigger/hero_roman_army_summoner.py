@@ -86,39 +86,39 @@ def create_roman_army_summoner(source_trigger_manager):
     following code does not work, because UNLOAD does not work
     """
 
-    detect_attack_and_spawn_list = []
+    # detect_attack_and_spawn_list = []
    
-    add_delays_to_detection_list = []
-    for player in range(1, 9):
-        add_delay_trigger = source_trigger_manager.add_trigger("add_delay_trigger", enabled=False, looping=False)
-        add_delays_to_detection_list.append(add_delay_trigger)
+    # add_delays_to_detection_list = []
+    # for player in range(1, 9):
+    #     add_delay_trigger = source_trigger_manager.add_trigger("add_delay_trigger", enabled=False, looping=False)
+    #     add_delays_to_detection_list.append(add_delay_trigger)
 
-    for player in range(1, 9):
-        detect_attack_action_army_hero = source_trigger_manager.add_trigger("detect_attack_action_army_hero", enabled=True, looping=False)
-        detect_attack_action_army_hero.new_condition.own_objects(quantity=num_summon_roman_army-1, object_list=projectile_LBT_id, source_player=player)
-        detect_attack_action_army_hero.new_condition.timer(1)
-        for unit in range(1, 4):
-            detect_attack_action_army_hero.new_effect.create_garrisoned_object(source_player=player, 
-                                                                        object_list_unit_id = HERO_ID_ROMAN_ARMY_SUMMONER,
-                                                                        object_list_unit_id_2=footman_summoned_id)
-        for unit in range(1, 4):
-            detect_attack_action_army_hero.new_effect.create_garrisoned_object(source_player=player, 
-                                                                    object_list_unit_id = HERO_ID_ROMAN_ARMY_SUMMONER,
-                                                                    object_list_unit_id_2=archerman_summoned_id)
-        #detect_attack_action_army_hero.new_effect.unload(source_player=player, object_list_unit_id=HERO_ID_ROMAN_ARMY_SUMMONER, area_x1 = 0, area_x2 = 200, area_y1 = 0, area_y2 = 200, location_x = WEST_TARGET_LOCATION_X,  location_y = WEST_TARGET_LOCATION_Y)
-        detect_attack_action_army_hero.new_effect.task_object(source_player=player,object_list_unit_id=HERO_ID_ROMAN_ARMY_SUMMONER, action_type=ActionType.UNLOAD)
+    # for player in range(1, 9):
+    #     detect_attack_action_army_hero = source_trigger_manager.add_trigger("detect_attack_action_army_hero", enabled=True, looping=False)
+    #     detect_attack_action_army_hero.new_condition.own_objects(quantity=num_summon_roman_army-1, object_list=projectile_LBT_id, source_player=player)
+    #     detect_attack_action_army_hero.new_condition.timer(1)
+    #     for unit in range(1, 4):
+    #         detect_attack_action_army_hero.new_effect.create_garrisoned_object(source_player=player, 
+    #                                                                     object_list_unit_id = HERO_ID_ROMAN_ARMY_SUMMONER,
+    #                                                                     object_list_unit_id_2=footman_summoned_id)
+    #     for unit in range(1, 4):
+    #         detect_attack_action_army_hero.new_effect.create_garrisoned_object(source_player=player, 
+    #                                                                 object_list_unit_id = HERO_ID_ROMAN_ARMY_SUMMONER,
+    #                                                                 object_list_unit_id_2=archerman_summoned_id)
+    #     #detect_attack_action_army_hero.new_effect.unload(source_player=player, object_list_unit_id=HERO_ID_ROMAN_ARMY_SUMMONER, area_x1 = 0, area_x2 = 200, area_y1 = 0, area_y2 = 200, location_x = WEST_TARGET_LOCATION_X,  location_y = WEST_TARGET_LOCATION_Y)
+    #     detect_attack_action_army_hero.new_effect.task_object(source_player=player,object_list_unit_id=HERO_ID_ROMAN_ARMY_SUMMONER, action_type=ActionType.UNLOAD)
 
-        detect_attack_action_army_hero.new_effect.task_object(source_player=player,object_list_unit_id=footman_summoned_id, action_type=ActionType.STAGGERED_FORMATION)
-        detect_attack_action_army_hero.new_effect.task_object(source_player=player,object_list_unit_id=archerman_summoned_id, action_type=ActionType.STAGGERED_FORMATION)
+    #     detect_attack_action_army_hero.new_effect.task_object(source_player=player,object_list_unit_id=footman_summoned_id, action_type=ActionType.STAGGERED_FORMATION)
+    #     detect_attack_action_army_hero.new_effect.task_object(source_player=player,object_list_unit_id=archerman_summoned_id, action_type=ActionType.STAGGERED_FORMATION)
 
-        detect_attack_action_army_hero.new_effect.activate_trigger(add_delays_to_detection_list[player-1].trigger_id)
+    #     detect_attack_action_army_hero.new_effect.activate_trigger(add_delays_to_detection_list[player-1].trigger_id)
 
-        detect_attack_and_spawn_list.append(detect_attack_action_army_hero)
+    #     detect_attack_and_spawn_list.append(detect_attack_action_army_hero)
 
-    #detect_attack_action_army_hero
-    for player in range(1, 9):
-        add_delays_to_detection_list[player-1].new_condition.timer(reload_time - 1)
-        add_delays_to_detection_list[player-1].new_effect.activate_trigger(detect_attack_and_spawn_list[player-1].trigger_id)
+    # #detect_attack_action_army_hero
+    # for player in range(1, 9):
+    #     add_delays_to_detection_list[player-1].new_condition.timer(reload_time - 1)
+    #     add_delays_to_detection_list[player-1].new_effect.activate_trigger(detect_attack_and_spawn_list[player-1].trigger_id)
         #add_delays_to_detection_list[player-1].new_effect.task_object(source_player=player,object_list_unit_id=HERO_ID_ROMAN_ARMY_SUMMONER, action_type=ActionType.UNGARRISON)
 
     

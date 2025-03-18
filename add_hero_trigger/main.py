@@ -73,37 +73,6 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
     with open("trigger_info.txt", "w", encoding="utf-8") as file:
         file.write(content)
 
-    cleon_ID = 2346
-    Darius_ID = 2347
-    Jean_De_Lorrain_ID = 644  
-    Dagnajan_Elephant_ID = 1106
-
-    sabo_man_id = 706
-    hero_test_id = 1072
-
-
-
-    #BRASIDAS suspicious of having bug
-    #HERO_BRASIDAS_ID = 2162
-    HERO_BRASIDAS_ID = 2317
-    #HeroInfo.ROBIN_HOOD.ID
-    list_hero_ids = [
-                    #Darius_ID, 
-                    HeroInfo.ROBIN_HOOD.ID,
-                    HeroInfo.JEAN_BUREAU.ID,
-                    cleon_ID,
-                    HeroInfo.KOTYAN_KHAN.ID,
-                    HeroInfo.ULRICH_VON_JUNGINGEN.ID,
-                    HeroInfo.TSAR_KONSTANTIN.ID,
-                    Dagnajan_Elephant_ID,
-                    HeroInfo.GENGHIS_KHAN.ID,
-                    # HeroInfo.GODS_OWN_SLING_PACKED.ID,
-                    HERO_FAKE_AS_EXPLODING_ELEPHANT_ID,
-                    HERO_BRASIDAS_ID,
-                    #HeroInfo.FRANCISCO_DE_ORELLANA.ID,
-                    HeroInfo.BELISARIUS.ID
-                    ]
-
 
 
 
@@ -132,7 +101,7 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
     NUM_HERO_ALLOWED = num_hero_allowed
 
 
-
+    CONST_MAP_SIZE = source_scenario.map_manager.map_size
 
     instruction_trigger = source_trigger_manager.add_trigger(
                                     "display hero instruction", 
@@ -175,7 +144,7 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
 
     # conduct trigger wisely by encapusaltion
     for playid in PlayerId.all()[1:]:
-        process_heros_for_every_player(source_trigger_manager, list_hero_ids, playid, list_description)
+        process_heros_for_every_player(source_trigger_manager, LIST_HERO_IDS, playid, list_description)
 
     # very fragile value! if in map the commander tent changes, could cause crash!
     tents_selected_object_ids = [317958, 317979, 322879, 319227, 328305, 328275, 328335, 328365]
@@ -280,7 +249,7 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
         #walking_graphic = 654,
         #movement_speed=1,
         #frame_delay=4,
-        health_point=350,
+        health_point=700,
         projectile_smart_mode = 2,
 
         charge_event = 1,
@@ -303,6 +272,7 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
         hero_id= 1595,  # You'll need to provide the correct hero_id
         movement_speed_divide = 2,
         #blast_attack_level = 2,
+        dead_unit_id = 1334,
         blast_width = 2,
         standing_graphic = 3403,
     )
@@ -389,6 +359,7 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
         charge_type = 4,
         recharge_rate = 1,
         max_charge = 10,
+        projectile_smart_mode = 1,
     )
     boost_object(source_trigger_manager, inst_dagnajan_hero, PlayerId.all()[1:])
 
@@ -834,7 +805,7 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
         #attack_dispersion = 1,
         #accuracy_percent = 10,
         blast_width = 2,
-        health_point=350,
+        health_point=700,
         movement_speed_divide=3,
         movement_speed_multiply=3,
         #walking_graphic = 654,
@@ -970,7 +941,7 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
                 )
                 
 
-                trigger.new_condition.timer(idx * 2)
+                #trigger.new_condition.timer(idx * 2)
 
                 trigger.new_condition.chance(quantity=chance)
 
@@ -1009,7 +980,7 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
     triggers_that_randomly_chooses_hero_for_players = create_equal_chance_system(
         source_trigger_manager,
         PlayerId.all()[1:],
-        list_hero_ids,
+        LIST_HERO_IDS,
         tents_list=tents_selected_object_ids
     )
 
@@ -1058,7 +1029,6 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
             object_list=hero_id,
             quantity=1
         )
-        
 
 
 
@@ -1068,11 +1038,23 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
             enabled=False,
             looping=False
         )
-        death_trigger.new_condition.own_fewer_objects(
-            source_player=player_id,
-            object_list=hero_id,
-            quantity=0
+        # death_trigger.new_condition.own_fewer_objects(
+        #     source_player=player_id,
+        #     object_list=hero_id,
+        #     quantity=0
+        # )
+
+        death_trigger.new_condition.objects_in_area(
+            source_player = player_id,
+            object_list = hero_id,
+            area_x1 = 0,
+            area_x2 = CONST_MAP_SIZE - 1,
+            area_y1 = 0,
+            area_y2 = CONST_MAP_SIZE - 1,
+            object_state = ObjectState.DYING, 
+            quantity = 1,
         )
+        #death_trigger.new_condition.or_()
 
         if hero_id == HeroInfo.GODS_OWN_SLING_PACKED.ID:
             death_trigger.new_condition.and_()        
@@ -1115,21 +1097,6 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
             target_player=player_id
         )
 
-        # respawn_trigger.new_effect.display_timer(
-        #     display_time=20,
-        #     time_unit=TimeUnit.SECONDS,
-        #     timer=player_id,
-        #     reset_timer=1,
-        #     message=f'Player {player_id} can repick Hero in' + r"%d"
-        # )
-        
-
-        # respawn_trigger.new_effect.train_unit(
-        #     object_list_unit_id=hero_id,
-        #     quantity=1,
-        #     selected_object_ids=tents_ids[player_id-1],
-        #     source_player=player_id
-        # )
         respawn_trigger.new_effect.activate_trigger(detect_trigger.trigger_id)
 
 
@@ -1139,7 +1106,7 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
     # For all players except GAIA (player 0)
     create_hero_respawn_system(
         source_trigger_manager,
-        list_hero_ids,
+        LIST_HERO_IDS,
         PlayerId.all()[1:],
         triggers_that_randomly_chooses_hero_for_players
     )
@@ -1391,7 +1358,7 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
 
     spawn_all_hero_from_castle.new_condition.timer(5)
 
-    for hero_id in list_hero_ids:
+    for hero_id in LIST_HERO_IDS:
         spawn_all_hero_from_castle.new_effect.create_garrisoned_object(source_player=8, 
                                                                     object_list_unit_id_2=hero_id,
                                                                     selected_object_ids = BATTLELINE_CASTLE_SPAWN_REFERENCE_ID)

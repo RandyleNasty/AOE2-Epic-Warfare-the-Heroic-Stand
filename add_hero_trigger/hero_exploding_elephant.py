@@ -17,11 +17,9 @@ from AoE2ScenarioParser.datasets.trigger_lists import ObjectAttribute
 from AoE2ScenarioParser.datasets.trigger_lists import Operation
 
 
-
+from general_hero_stats import *
 from hero_abstract_class import *
 
-HERO_FAKE_AS_EXPLODING_ELEPHANT_ID = 1071
-sabo_man_id = 706
 
 def create_hero_exploding_elephant(source_trigger_manager):
     """
@@ -78,7 +76,7 @@ def create_hero_exploding_elephant(source_trigger_manager):
 
         health_point=100,
         standing_graphic = 2863,
-        dying_graphic = 2860,
+        dying_graphic = 1744,
         walking_graphic = 2864,
         attack_reload_set = 60,
 
@@ -113,7 +111,7 @@ def create_hero_exploding_elephant(source_trigger_manager):
 
         health_point=100,
         standing_graphic = 2863,
-        dying_graphic = 2860,
+        dying_graphic = 1744,
         walking_graphic = 2864,
         attack_reload_set = 60,
         search_radius = 10,
