@@ -46,7 +46,10 @@ def give_building_ability_to_constantly_spawn_battle_line_unit(source_trigger_ma
     BATTLELINE_ARCHER_0 = 686
     BATTLELINE_FOOTMAN_1 = 164
 
-    BATTLELINE_UNIT_LIST = [BATTLELINE_FOOTMAN_0, BATTLELINE_FOOTMAN_1, BATTLELINE_ARCHER_0]
+
+    BATTLELINE_FOOTMAN_2 = HeroInfo.LITTLE_JOHN.ID
+
+    BATTLELINE_UNIT_LIST = [BATTLELINE_FOOTMAN_0, BATTLELINE_FOOTMAN_1,BATTLELINE_FOOTMAN_2, BATTLELINE_ARCHER_0]
     BATTLELINE_UNIT_LIST2 = [BATTLELINE_FOOTMAN_0, 
                              BATTLELINE_FOOTMAN_0,
                              BATTLELINE_FOOTMAN_0,
@@ -59,6 +62,16 @@ def give_building_ability_to_constantly_spawn_battle_line_unit(source_trigger_ma
                              BATTLELINE_FOOTMAN_1,
                              BATTLELINE_FOOTMAN_1, 
                              BATTLELINE_FOOTMAN_1, 
+                             BATTLELINE_FOOTMAN_2,
+                             BATTLELINE_FOOTMAN_2,
+                             BATTLELINE_FOOTMAN_2,
+                             BATTLELINE_FOOTMAN_2,
+                             BATTLELINE_FOOTMAN_2,
+                             BATTLELINE_FOOTMAN_2,
+                             BATTLELINE_FOOTMAN_2,
+                             BATTLELINE_FOOTMAN_2,
+                             BATTLELINE_FOOTMAN_2,
+
 
                              #BATTLELINE_ARCHER_0,
                              #BATTLELINE_ARCHER_0,

@@ -19,11 +19,13 @@ def create_roman_army_summoner(source_trigger_manager):
     footman_summoned_id = 2318
     archerman_summoned_id = HeroInfo.GUGLIELMO_EMBRIACO.ID
 
-    num_summon_roman_army = 12
+    num_summon_roman_army = 13
     num_summon_hp_drop_per_second_roman_army = 10
-    CONST_TIME_INTERVAL_TRIGGER = 24
+    CONST_TIME_INTERVAL_TRIGGER = 17
 
-    reload_time = 25
+    reload_time = 18
+
+    CONST_SUMMON_NUM_DETECT_THRESHOLD = 3
 
     HERO_ID_ROMAN_ARMY_SUMMONER = HeroInfo.BELISARIUS.ID
 
@@ -47,7 +49,7 @@ def create_roman_army_summoner(source_trigger_manager):
         hero_id=HERO_ID_ROMAN_ARMY_SUMMONER,  # You'll need to provide the correct hero_id
         projectile_unit=projectile_LBT_id,
         secondary_projectile_unit = HeroInfo.GUGLIELMO_EMBRIACO.ID,
-        max_range=5,
+        max_range=7,
         min_range=1,
         search_radius = 10,
         line_of_sight = 10,
@@ -133,7 +135,7 @@ def create_roman_army_summoner(source_trigger_manager):
 
     for player in range(1, 9):
         detection_trigger = source_trigger_manager.add_trigger("global_footman_detection", enabled=True, looping=False)
-        detection_trigger.new_condition.own_objects(quantity=num_summon_roman_army-1, object_list=footman_summoned_id, source_player=player)
+        detection_trigger.new_condition.own_objects(quantity=num_summon_roman_army+1, object_list=footman_summoned_id, source_player=player)
         detection_trigger.new_effect.activate_trigger(list_footman_minus_hp[player-1].trigger_id)
         list_footman_detection.append(detection_trigger)
 
@@ -159,7 +161,7 @@ def create_roman_army_summoner(source_trigger_manager):
 
     for player in range(1, 9):
         detection_trigger = source_trigger_manager.add_trigger("global_archer_detection", enabled=True, looping=False)
-        detection_trigger.new_condition.own_objects(quantity=num_summon_roman_army-1, object_list=archerman_summoned_id, source_player=player)
+        detection_trigger.new_condition.own_objects(quantity=CONST_SUMMON_NUM_DETECT_THRESHOLD, object_list=archerman_summoned_id, source_player=player)
         detection_trigger.new_effect.activate_trigger(list_archer_minus_hp[player-1].trigger_id)
         list_archer_detection.append(detection_trigger)
 

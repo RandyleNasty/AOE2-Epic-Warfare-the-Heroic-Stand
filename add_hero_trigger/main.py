@@ -77,30 +77,14 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
 
 
 
-    list_description = [
-        #"Javelin Splashing duo-horse Chariot", 
-                        "Vaelor, the Stormbow, a feared master of the battlefield, wields the legendary Stormbow, capable of unleashing a relentless downpour of arrows upon his enemies. His volleys blot out the sun, leaving no escape for those caught beneath his deadly rain. Tales of his wrath spread across kingdoms, as entire armies have fallen under his sky-darkening assault.",
-                        "The Cataclysm Ordinance: Skyfall Cluster Bomb Cannon, a doomsday weapon of unparalleled destruction, reshapes the battlefield with every thunderous volley. Upon activation, it unleashes a cascade of incendiary canisters, each fragmenting into countless explosive shards that rain devastation from the heavens. No stronghold is impenetrable, no army beyond its reach—its fury engulfs all who dare stand beneath its cataclysmic downpour. Legends speak in hushed whispers of its wrath, a harbinger of ruin whose echoes linger long after the battlefield is reduced to ash.",
-                        "The Invincible Footman, known as the Warlord's Juggernaut, marches fearlessly into battle, an unstoppable force clad in impenetrable armor. Armed with devastating explosives, he turns the tide of war with calculated detonations, blasting through enemy ranks and fortifications alike. Blades shatter against him, arrows break upon his shield—no force can halt his advance. Stories of his wrath spread like wildfire, a living legend of destruction that leaves only ruin in his wake.", 
-                        "The Explosive Arrow Mounter Archer, known as the Blazing Harbinger, strikes fear into the hearts of his foes with every fiery shot. Armed with a deadly arsenal of explosive-tipped arrows, he turns the sky into a battlefield, each projectile igniting upon impact in a storm of fire and shrapnel. No wall is safe, no formation unbroken—his volleys tear through ranks and fortifications alike. Whispers of his devastation spread far and wide, a bringer of ruin whose arrows spell the end for those caught in their blazing wake.",
-                        "The Flaming Throw Knight, known as the Infernal Vanguard, charges into battle wreathed in fire, his weapon a conduit of relentless devastation. With every swing, he hurls searing flames, engulfing enemies in a blazing storm that leaves only ashes in its wake. His presence alone turns the battlefield into an inferno, where armor melts and courage falters. Tales of his fiery wrath spread like wildfire, a harbinger of ruin whose advance none can withstand.", 
-                        "The Gatling Ballista Tri-Horse Chariot, known as the Stormstride Reaper, thunders across the battlefield like a force of nature. Drawn by three war-hardened steeds, its rotating ballista unleashes an unrelenting hail of bolts, shredding ranks and fortifications with mechanical precision. No warrior can outrun its charge, no shield can withstand its storm—those caught in its path are left in ruin. Legends of its devastation echo through war-torn lands, a relentless harbinger of annihilation.", 
-                        "The Flaming Thunder War Elephant, known as the Pyrostorm Behemoth, is a living engine of destruction, towering over the battlefield as fire and fury erupt in its wake. Adorned with armor wreathed in flame, it charges with unstoppable force, trampling ranks beneath its colossal might while hurling searing blasts of fire and lightning. Walls crumble, armies scatter, and the earth trembles beneath its relentless advance. Whispers of its devastation spread like wildfire—when the Pyrostorm Behemoth marches, only ashes remain.", 
-                        "The Exploding Wolf Summoner, known as the Ravager of the Wilds, calls forth a pack of fiery, explosive wolves that tear through the battlefield with savage fury. Each summoned beast is a ticking time bomb, charging at enemies with a howl that heralds their doom, detonating in violent bursts of fire and shrapnel upon impact. No enemy is safe, as the explosive wolves hunt in relentless packs, turning the battlefield into a chaotic inferno. Tales of the Ravager’s fury spread across the lands, a terrifying force that leaves only destruction in its wake.",
-                        #"God Swing",
-                        "The Self-Exploding Elephant, known as the Doombringer, is a massive, unstoppable force of nature, bound for annihilation. With every step, it charges relentlessly toward its target, its body rigged with volatile explosives. Upon impact, it detonates in a cataclysmic explosion, obliterating everything in its path—fortifications, armies, and the earth itself. No structure stands, no army survives its wrath. Whispers of the Doombringer's devastation spread far and wide, a terrifying omen of unstoppable destruction, where only ruin remains in its wake.",
-                        "The AOE Greek Hero Footman, known as the Spartan Vanguard, stands as a symbol of unmatched strength and courage. Clad in heavy armor and armed with a legendary shield, he leads the charge with the might of a warrior born from the gods. With every swing of his weapon, he creates shockwaves that ripple across the battlefield, striking down foes in all directions. His presence inspires his allies, while his devastating attacks leave nothing but destruction in his wake. The stories of his valor and wrath echo throughout the lands, a living legend whose fury no enemy can withstand.",
-                        #"Mounted Gunpower Knight",
-                        "The Roman Army Summon General, known as the Imperial Warlord, commands the might of a disciplined and unyielding legion. With a single call, he summons the full force of the Roman army, their ironclad ranks forming an impenetrable wall of power and precision. His strategic brilliance leads them into battle, with every legionnaire moving in perfect harmony to crush enemies under the weight of Roman might. No force can rival his command, no army can break his ranks. Legends speak of the Imperial Warlord’s ability to turn the tide of war, leaving only the echoes of victory in his wake."
-                        ]
 
 
 
-    TIME_WINDOW_PLAYER_CHOOSE_HERO = 120
-    TIME_HERO_RESPAWN = 120
+
     NUM_HERO_ALLOWED = num_hero_allowed
 
 
+    
     CONST_MAP_SIZE = source_scenario.map_manager.map_size
 
     instruction_trigger = source_trigger_manager.add_trigger(
@@ -110,7 +94,7 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
     instruction_trigger.new_effect.display_instructions(object_list_unit_id=HeroInfo.GENGHIS_KHAN.ID,
                                                         source_player=0,
                                                         display_time=20,
-                                                        message = "Welcome to Epic Warfare - The Heroic Stand! Feel free to select a hero from the Holy Commander Tent. Your choice will be your main hero, who will respawn throughout the game.")
+                                                        message = "Welcome to Epic Warfare - The Heroic Stand! Feel free to select a hero from the Holy Commander Tent. 请在指挥官帐篷选择英雄")
 
     instruction_trigger.new_effect.display_timer(
         display_time=TIME_WINDOW_PLAYER_CHOOSE_HERO,
@@ -144,22 +128,12 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
 
     # conduct trigger wisely by encapusaltion
     for playid in PlayerId.all()[1:]:
-        process_heros_for_every_player(source_trigger_manager, LIST_HERO_IDS, playid, list_description)
-
-    # very fragile value! if in map the commander tent changes, could cause crash!
-    tents_selected_object_ids = [317958, 317979, 322879, 319227, 328305, 328275, 328335, 328365]
-
-        # attack_graphic = 1786,
-        # standing_graphic = 1788,
-        # dying_graphic = 1787,
-        # walking_graphic = 1789,
+        process_heros_for_every_player(source_trigger_manager, LIST_HERO_IDS, playid, LIST_DESCRIPTION)
 
 
     create_roman_army_summoner(source_trigger_manager)
 
     create_hero_exploding_elephant(source_trigger_manager)
-
-
 
 
     """
@@ -655,9 +629,9 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
         walking_graphic = 12665,
         icon_id = 414,
         charge_event = 1,
-        charge_type = 3,
+        charge_type = 4,
         recharge_rate = 1,
-        max_charge = summon_cooldown-3,
+        max_charge = 6,
         health_point = 200,
         #projectile_vanish_mode = 1
         #unit_trait = 8,
@@ -670,9 +644,15 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
         movement_speed = 1,
         line_of_sight = 7,
         hero_status = 64,
+        #attack_graphic = 8444,
+        #walking_graphic = 8448,
+        #walking_graphic = 8448,
+        #standing_graphic = 8446,
+        dying_graphic = 1742,
+        #running_graphic = 8449,
         dead_unit_id = sabo_man_id,
             population = 0,
-            melee_attack = 15,
+            melee_attack = 4,
     )
     # not actually doing damage to friendly unit
     inst_sabo_man_unit = Hero(
@@ -885,222 +865,15 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
 
 
 
-    """
-    This One is for Equal Chance to spawn Hero, Worked!
-    add delay to give the user to select hero!
-    """
-
-
-    def create_equal_chance_system(trigger_manager, players, hero_ids, tents_list):
-        """Create equal chance hero selection system with:
-        - Auto-calculated percentages
-        - Integer rounding compensation
-        - Player-specific spawn points
-        """
-        num_heroes = len(hero_ids)
-        if num_heroes == 0:
-            raise ValueError("At least one hero must be provided")
-            
-        # Calculate base chance and adjust for rounding errors
-        base_chance = round(100 / num_heroes)
-        chances = [base_chance] * num_heroes
-        total = sum(chances)
-        
-
-        triggers_that_randomly_chooses_hero_for_players = []
-
-        # Adjust last chance if needed
-        if total != 100:
-            chances[-1] += 100 - total
-        
-        for player_id in players:
-            spawn_id = tents_list[player_id - 1]
-            
-            # Create delay trigger
-            delay_trigger = trigger_manager.add_trigger(
-                f"p{player_id}_hero_delay",
-                enabled=True,
-                looping=False
-            )
-            delay_trigger.new_condition.timer(timer=TIME_WINDOW_PLAYER_CHOOSE_HERO)
-
-            # if player_id == 3:
-            #     delay_trigger.new_effect.display_instructions(object_list_unit_id=HeroInfo.GENGHIS_KHAN.ID,
-            #                                                 source_player=3,
-            #                                                 display_time=20,
-            #                                                 message = "Random Dice begins!")
-            
-            chance_triggers = []
-
-            # Create chance triggers
-            for idx, (hero_id, chance) in enumerate(zip(hero_ids, chances), 1):
-                trigger = trigger_manager.add_trigger(
-                    f"p{player_id}_hero{idx}_chance",
-                    enabled=False,
-                    looping=False
-                )
-                
-
-                #trigger.new_condition.timer(idx * 2)
-
-                trigger.new_condition.chance(quantity=chance)
-
-                x, y = tent_training_location_tuple[player_id-1]
-
-                trigger.new_effect.train_unit(
-                    object_list_unit_id=hero_id,
-                    quantity=1,
-                    selected_object_ids=spawn_id,
-                    source_player=player_id,
-                    location_x = x,
-                    location_y = y,
-                )
-                chance_triggers.append(trigger)
-                delay_trigger.new_effect.activate_trigger(trigger.trigger_id)
-            import random
-            #once one chance trigger activate disable other generated chance trigger
-            for trigger in chance_triggers:
-                #get other chance trigger except for itself
-                other_triggers = [t for t in chance_triggers if t != trigger][NUM_HERO_ALLOWED - 1:]
-                num_to_remove = len(other_triggers) - (NUM_HERO_ALLOWED - 1)
-
-                #so that second selected hero not always chariot hero
-                #if num_to_remove > 0:
-                    #other_triggers = random.sample(other_triggers, len(other_triggers) - num_to_remove)
-
-                for other in other_triggers:
-                    trigger.new_effect.deactivate_trigger(other.trigger_id)
-
-            triggers_that_randomly_chooses_hero_for_players.append(delay_trigger)
-        
-        return triggers_that_randomly_chooses_hero_for_players
-
     # Usage examples:
     # 2 heroes (50/50)
     triggers_that_randomly_chooses_hero_for_players = create_equal_chance_system(
         source_trigger_manager,
         PlayerId.all()[1:],
         LIST_HERO_IDS,
-        tents_list=tents_selected_object_ids
+        TENTS_SELECTED_OBJECT_IDS,
+        NUM_HERO_ALLOWED
     )
-
-
-
-
-
-
-
-
-
-
-
-    """ # For specific player subset
-    create_hero_respawn_system(
-        source_trigger_manager,
-        [HeroInfo.VIKING_KING.ID],
-        [1, 3, 5]  # Specific player IDs
-    )
-
-    # For all players except GAIA (player 0)
-    create_hero_respawn_system(
-        source_trigger_manager,
-        list_hero_ids,
-        PlayerId.all()[1:]
-    )
-
-    """
-
-    def create_hero_respawn_system(trigger_manager, hero_ids, players, triggers_that_randomly_chooses_hero_for_players):
-        """Encapsulated hero respawn system for multiple players and heroes"""
-        for index, player_id in enumerate(players):
-            for hero_id in hero_ids:
-                _create_single_hero_triggers(trigger_manager, player_id, hero_id, triggers_that_randomly_chooses_hero_for_players[index])
-
-    def _create_single_hero_triggers(manager, player_id, hero_id, trigger_that_randomly_chooses_hero):
-        """Create trigger chain for one player-hero combination"""
-        # Detection trigger
-        detect_trigger = manager.add_trigger(
-            f"detect_hero_{player_id}_{hero_id}",
-            enabled=True,
-            looping=False
-        )
-        detect_trigger.new_condition.own_objects(
-            source_player=player_id,
-            object_list=hero_id,
-            quantity=1
-        )
-
-
-
-        # Death detection trigger
-        death_trigger = manager.add_trigger(
-            f"death_detect_{player_id}_{hero_id}",
-            enabled=False,
-            looping=False
-        )
-        # death_trigger.new_condition.own_fewer_objects(
-        #     source_player=player_id,
-        #     object_list=hero_id,
-        #     quantity=0
-        # )
-
-        death_trigger.new_condition.objects_in_area(
-            source_player = player_id,
-            object_list = hero_id,
-            area_x1 = 0,
-            area_x2 = CONST_MAP_SIZE - 1,
-            area_y1 = 0,
-            area_y2 = CONST_MAP_SIZE - 1,
-            object_state = ObjectState.DYING, 
-            quantity = 1,
-        )
-        #death_trigger.new_condition.or_()
-
-        if hero_id == HeroInfo.GODS_OWN_SLING_PACKED.ID:
-            death_trigger.new_condition.and_()        
-            death_trigger.new_condition.own_fewer_objects(
-                source_player=player_id,
-                object_list=HeroInfo.GODS_OWN_SLING.ID,
-                quantity=0
-            )   
-
-        # Respawn trigger
-        respawn_trigger = manager.add_trigger(
-            f"respawn_{player_id}_{hero_id}",
-            enabled=False,
-            looping=False
-        )
-
-        """
-        Give player 20 seconds more to choose hero again after the old dead
-        """
-
-        respawn_trigger.new_condition.timer(timer=TIME_HERO_RESPAWN - 20)
-        
-        # Setup trigger relationships
-        detect_trigger.new_effect.activate_trigger(death_trigger.trigger_id)
-        death_trigger.new_effect.display_timer(
-            display_time=100,
-            time_unit=TimeUnit.SECONDS,
-            timer=player_id,
-            reset_timer=1,
-            message=f'Player {player_id} can repick Hero in ' + r"%d"
-        )
-        death_trigger.new_effect.activate_trigger(respawn_trigger.trigger_id)
-        death_trigger.new_effect.activate_trigger(trigger_that_randomly_chooses_hero.trigger_id)
-
-
-        respawn_trigger.new_effect.tribute(
-            quantity=1,
-            tribute_list=8,
-            source_player=0,
-            target_player=player_id
-        )
-
-        respawn_trigger.new_effect.activate_trigger(detect_trigger.trigger_id)
-
-
-
 
 
     # For all players except GAIA (player 0)
@@ -1108,7 +881,8 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
         source_trigger_manager,
         LIST_HERO_IDS,
         PlayerId.all()[1:],
-        triggers_that_randomly_chooses_hero_for_players
+        triggers_that_randomly_chooses_hero_for_players,
+        CONST_MAP_SIZE
     )
 
 
@@ -1134,17 +908,17 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
     #movement speed = 0 make unit cannot heal
     inst_spa_monk = Hero(
         hero_id= CENTER_MONK_HERO_ID,  # You'll need to provide the correct hero_id
-        max_range=12,
+        max_range=15,
         #accuracy_percent=0,
         #combat_ability= 16,
-        attack_graphic = 1516,
-        standing_graphic = 0,
-        standing_graphic_2 = 0,
-        walking_graphic = 1519,
+        #attack_graphic = 1516,
+        #standing_graphic = 0,
+        #standing_graphic_2 = 0,
+        #walking_graphic = 1519,
         population = 0,
         #selection_effect = 2,
-        search_radius = 12,
-        line_of_sight = 12,
+        search_radius = 15,
+        line_of_sight = 15,
         occlusion_mode = 0,
         #movement_speed_divide = 4,
         #movement_speed=0,
@@ -1389,7 +1163,7 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
 
     for east_player in [5, 6, 7, 8]:
         give_building_ability_to_constantly_spawn_battle_line_unit(source_trigger_manager, 
-                                                                tents_selected_object_ids[east_player-1], 
+                                                                TENTS_SELECTED_OBJECT_IDS[east_player-1], 
                                                                 ID_COMMANDER_TENT,
                                                                 EAST_TARGET_LOCATION_X,
                                                                 EAST_TARGET_LOCATION_Y,
@@ -1402,7 +1176,7 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
 
     for west_player in [1, 2, 3, 4]:
         give_building_ability_to_constantly_spawn_battle_line_unit(source_trigger_manager, 
-                                                                tents_selected_object_ids[west_player-1], 
+                                                                TENTS_SELECTED_OBJECT_IDS[west_player-1], 
                                                                 ID_COMMANDER_TENT,
                                                                 WEST_TARGET_LOCATION_X,
                                                                 WEST_TARGET_LOCATION_Y,

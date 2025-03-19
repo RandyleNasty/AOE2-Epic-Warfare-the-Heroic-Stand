@@ -14,7 +14,7 @@ from AoE2ScenarioParser.datasets.players import PlayerId
 from AoE2ScenarioParser.datasets.trigger_lists import ObjectAttribute
 from AoE2ScenarioParser.datasets.trigger_lists import Operation
 
-
+from general_hero_stats import *
 
 def process_heros_for_every_player(trigger_manager, list_hero_ids, playerid, list_description):
     trigger_hero_add_tent_spawn_ability = trigger_manager.add_trigger(
@@ -89,3 +89,202 @@ def process_single_hero(trigger_manager, hero_id, num_train_button, trigger_hero
 
 
 
+
+
+
+
+""" # For specific player subset
+create_hero_respawn_system(
+    source_trigger_manager,
+    [HeroInfo.VIKING_KING.ID],
+    [1, 3, 5]  # Specific player IDs
+)
+
+# For all players except GAIA (player 0)
+create_hero_respawn_system(
+    source_trigger_manager,
+    list_hero_ids,
+    PlayerId.all()[1:]
+)
+
+"""
+
+def create_hero_respawn_system(trigger_manager, hero_ids, players, triggers_that_randomly_chooses_hero_for_players, CONST_MAP_SIZE):
+    """Encapsulated hero respawn system for multiple players and heroes"""
+    for index, player_id in enumerate(players):
+        for hero_id in hero_ids:
+            _create_single_hero_triggers(trigger_manager, player_id, hero_id, triggers_that_randomly_chooses_hero_for_players[index], CONST_MAP_SIZE)
+
+def _create_single_hero_triggers(manager, player_id, hero_id, trigger_that_randomly_chooses_hero, CONST_MAP_SIZE ):
+    """Create trigger chain for one player-hero combination"""
+    # Detection trigger
+    detect_trigger = manager.add_trigger(
+        f"detect_hero_{player_id}_{hero_id}",
+        enabled=True,
+        looping=False
+    )
+    detect_trigger.new_condition.own_objects(
+        source_player=player_id,
+        object_list=hero_id,
+        quantity=1
+    )
+
+
+
+    # Death detection trigger
+    death_trigger = manager.add_trigger(
+        f"death_detect_{player_id}_{hero_id}",
+        enabled=False,
+        looping=False
+    )
+    # death_trigger.new_condition.own_fewer_objects(
+    #     source_player=player_id,
+    #     object_list=hero_id,
+    #     quantity=0
+    # )
+
+    death_trigger.new_condition.objects_in_area(
+        source_player = player_id,
+        object_list = hero_id,
+        area_x1 = 0,
+        area_x2 = CONST_MAP_SIZE - 1,
+        area_y1 = 0,
+        area_y2 = CONST_MAP_SIZE - 1,
+        object_state = ObjectState.DYING, 
+        quantity = 1,
+    )
+    #death_trigger.new_condition.or_()
+
+    if hero_id == HeroInfo.GODS_OWN_SLING_PACKED.ID:
+        death_trigger.new_condition.and_()        
+        death_trigger.new_condition.own_fewer_objects(
+            source_player=player_id,
+            object_list=HeroInfo.GODS_OWN_SLING.ID,
+            quantity=0
+        )   
+
+    # Respawn trigger
+    respawn_trigger = manager.add_trigger(
+        f"respawn_{player_id}_{hero_id}",
+        enabled=False,
+        looping=False
+    )
+
+    """
+    Give player 20 seconds more to choose hero again after the old dead
+    """
+
+    respawn_trigger.new_condition.timer(timer=TIME_HERO_RESPAWN - 20)
+    
+    # Setup trigger relationships
+    detect_trigger.new_effect.activate_trigger(death_trigger.trigger_id)
+    death_trigger.new_effect.display_timer(
+        display_time=100,
+        time_unit=TimeUnit.SECONDS,
+        timer=player_id,
+        reset_timer=1,
+        message=f'Player {player_id} can repick Hero in ' + r"%d"
+    )
+    death_trigger.new_effect.activate_trigger(respawn_trigger.trigger_id)
+    death_trigger.new_effect.activate_trigger(trigger_that_randomly_chooses_hero.trigger_id)
+
+
+    respawn_trigger.new_effect.tribute(
+        quantity=1,
+        tribute_list=8,
+        source_player=0,
+        target_player=player_id
+    )
+
+    respawn_trigger.new_effect.activate_trigger(detect_trigger.trigger_id)
+
+
+    """
+    This One is for Equal Chance to spawn Hero, Worked!
+    add delay to give the user to select hero!
+    """
+
+
+def create_equal_chance_system(trigger_manager, players, hero_ids, tents_list, NUM_HERO_ALLOWED):
+    """Create equal chance hero selection system with:
+    - Auto-calculated percentages
+    - Integer rounding compensation
+    - Player-specific spawn points
+    """
+    num_heroes = len(hero_ids)
+    if num_heroes == 0:
+        raise ValueError("At least one hero must be provided")
+        
+    # Calculate base chance and adjust for rounding errors
+    base_chance = round(100 / num_heroes)
+    chances = [base_chance] * num_heroes
+    total = sum(chances)
+    
+
+    triggers_that_randomly_chooses_hero_for_players = []
+
+    # Adjust last chance if needed
+    if total != 100:
+        chances[-1] += 100 - total
+    
+    for player_id in players:
+        spawn_id = tents_list[player_id - 1]
+        
+        # Create delay trigger
+        delay_trigger = trigger_manager.add_trigger(
+            f"p{player_id}_hero_delay",
+            enabled=True,
+            looping=False
+        )
+        delay_trigger.new_condition.timer(timer=TIME_WINDOW_PLAYER_CHOOSE_HERO)
+
+        # if player_id == 3:
+        #     delay_trigger.new_effect.display_instructions(object_list_unit_id=HeroInfo.GENGHIS_KHAN.ID,
+        #                                                 source_player=3,
+        #                                                 display_time=20,
+        #                                                 message = "Random Dice begins!")
+        
+        chance_triggers = []
+
+        # Create chance triggers
+        for idx, (hero_id, chance) in enumerate(zip(hero_ids, chances), 1):
+            trigger = trigger_manager.add_trigger(
+                f"p{player_id}_hero{idx}_chance",
+                enabled=False,
+                looping=False
+            )
+            
+
+            #trigger.new_condition.timer(idx * 2)
+
+            trigger.new_condition.chance(quantity=chance)
+
+            x, y = tent_training_location_tuple[player_id-1]
+
+            trigger.new_effect.train_unit(
+                object_list_unit_id=hero_id,
+                quantity=1,
+                selected_object_ids=spawn_id,
+                source_player=player_id,
+                location_x = x,
+                location_y = y,
+            )
+            chance_triggers.append(trigger)
+            delay_trigger.new_effect.activate_trigger(trigger.trigger_id)
+        import random
+        #once one chance trigger activate disable other generated chance trigger
+        for trigger in chance_triggers:
+            #get other chance trigger except for itself
+            other_triggers = [t for t in chance_triggers if t != trigger][NUM_HERO_ALLOWED - 1:]
+            num_to_remove = len(other_triggers) - (NUM_HERO_ALLOWED - 1)
+
+            #so that second selected hero not always chariot hero
+            #if num_to_remove > 0:
+                #other_triggers = random.sample(other_triggers, len(other_triggers) - num_to_remove)
+
+            for other in other_triggers:
+                trigger.new_effect.deactivate_trigger(other.trigger_id)
+
+        triggers_that_randomly_chooses_hero_for_players.append(delay_trigger)
+    
+    return triggers_that_randomly_chooses_hero_for_players
