@@ -44,9 +44,12 @@ def create_hero_exploding_elephant(source_trigger_manager):
                             blood_unit = HeroInfo.BAYINNAUNG.ID,
                             health_point = 500,
                             melee_attack=1,
-                            dying_graphic = 0,
+                            #dying_graphic = 5461,
                             search_radius = 7,
                             line_of_sight = 7,
+                            movement_speed = 1,
+                            movement_speed_multiply = 3,
+                            movement_speed_divide = 2,
                                 population = 0,
                             )
 
@@ -89,6 +92,7 @@ def create_hero_exploding_elephant(source_trigger_manager):
 
         melee_attack_for_building = 100,
         melee_attack_for_wall_and_gate = 100,
+        projectile_smart_mode = 2,
     )
 
     boost_object(source_trigger_manager, inst_exploding_elephant, PlayerId.all()[1:])
@@ -122,6 +126,8 @@ def create_hero_exploding_elephant(source_trigger_manager):
         blood_unit  = 706,
         melee_attack_for_building = 100,
         melee_attack_for_wall_and_gate = 100,
+
+        projectile_smart_mode = 2,
 
     )
 

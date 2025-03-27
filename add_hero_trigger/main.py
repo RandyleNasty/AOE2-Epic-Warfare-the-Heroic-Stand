@@ -87,22 +87,24 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
     
     CONST_MAP_SIZE = source_scenario.map_manager.map_size
 
-    instruction_trigger = source_trigger_manager.add_trigger(
-                                    "display hero instruction", 
-                                    enabled=True,
-                                    looping=False)
-    instruction_trigger.new_effect.display_instructions(object_list_unit_id=HeroInfo.GENGHIS_KHAN.ID,
-                                                        source_player=0,
-                                                        display_time=20,
-                                                        message = "Welcome to Epic Warfare - The Heroic Stand! Feel free to select a hero from the Holy Commander Tent. 请在指挥官帐篷选择英雄")
 
-    instruction_trigger.new_effect.display_timer(
-        display_time=TIME_WINDOW_PLAYER_CHOOSE_HERO,
-        time_unit=TimeUnit.SECONDS,
-        timer=0,
-        reset_timer=1,
-        message=r"Time out selecting heroes in %d"
-    )
+    for playid in PlayerId.all()[1:]:
+        instruction_trigger = source_trigger_manager.add_trigger(
+                                        "display hero instruction", 
+                                        enabled=True,
+                                        looping=False)
+        instruction_trigger.new_effect.display_instructions(object_list_unit_id=HeroInfo.GENGHIS_KHAN.ID,
+                                                            source_player=playid,
+                                                            display_time=20,
+                                                            message = "Welcome to Epic Warfare - The Heroic Stand! Feel free to select a hero from the Holy Commander Tent. 欢迎来到 史诗战争 可以在指挥官帐篷选择英雄")
+
+        instruction_trigger.new_effect.display_timer(
+            display_time=TIME_WINDOW_PLAYER_CHOOSE_HERO,
+            time_unit=TimeUnit.SECONDS,
+            timer=playid,
+            reset_timer=1,
+            message=r"Time out selecting heroes in %d"
+        )
 
 
 
@@ -192,7 +194,9 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
                                     #standing_graphic = 1743, 
                                     #walking_graphic = 1743,
                                     #dying_graphic = 1743,
-                                    dead_unit_id = 1334,
+                                    #dead_unit_id = 1334,
+                                    dead_unit_id = sabo_man_id,
+                                    standing_graphic = 3390,
                                     #blood_unit = 1334,
                                     movement_speed_divide = 3,
                                     movement_speed_multiply = 2)
@@ -208,24 +212,24 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
         #secondary_projectile_unit = 676,
         max_range=3,
         min_range=0,
-        melee_attack=15,
+        melee_attack=12,
         blast_width=1,
         blast_attack_level=4,
         pierce_armor=general_footman_pierce_armour,
         melee_armour=general_footman_melee_armour,
-        attack_reload_set=3,  
-        accuracy_percent=45,
-        total_missile = 25,
+        attack_reload_set=4,  
+        accuracy_percent=35,
+        total_missile = 15,
         attack_dispersion = 1,
-        attack_dispersion_multiply=3,
-        attack_dispersion_divide = 2,
+        attack_dispersion_multiply=4,
+        attack_dispersion_divide = 3,
         combat_ability= 1 + 16,
         #walking_graphic = 654,
         #movement_speed=1,
         #frame_delay=4,
         health_point=700,
         projectile_smart_mode = 2,
-
+        projectile_vanish_mode = 1,
         charge_event = 1,
         charge_type = 4,
         recharge_rate = 1,
@@ -235,6 +239,7 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
         #recharge_rate = 1,
         #max_charge = 10,
         population = 0,
+        
     )
 
 
@@ -295,6 +300,7 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
     leviathan_projectile_id = 2226
     inst_leviathan_projectile = Hero(hero_id=leviathan_projectile_id, 
                                     dead_unit_id = 1334, 
+                                    blood_unit = sabo_man_id,
                                     #movement_speed_divide = 2
                                     dying_graphic = 15534,
 
@@ -311,12 +317,12 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
         min_range=0,
         blast_width = 1,
         blast_attack_level=4,
-        attack_dispersion_multiply=5,
+        attack_dispersion_multiply=4,
         accuracy_percent=50,
         pierce_armor=general_cav_pierce_armour,
         melee_armour=general_cav_melee_armour,
         melee_attack = 20,
-        attack_reload_set=3,  
+        attack_reload_set=5,  
         total_missile = 30,
         combat_ability= 1 + 8 + 16,
         #walking_graphic = 654,
@@ -333,7 +339,8 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
         charge_type = 4,
         recharge_rate = 1,
         max_charge = 10,
-        projectile_smart_mode = 1,
+        projectile_smart_mode = 3,
+        
     )
     boost_object(source_trigger_manager, inst_dagnajan_hero, PlayerId.all()[1:])
 
@@ -436,10 +443,10 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
     # Instantiate Jean Bureau
     inst_jean_bureau = Hero(
         hero_id=HeroInfo.JEAN_BUREAU.ID,  # You'll need to provide the correct hero_id
-        max_range=14,  #
+        max_range=11,  #
         line_of_sight = 15,
         search_radius = 15,
-        min_range=7,  # Not modified in the original function
+        min_range=5,  # Not modified in the original function
         total_missile=60,
         projectile_unit=658,
         accuracy_percent=35,
@@ -502,7 +509,7 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
         charge_event = 1,
         charge_type = 4,
         recharge_rate = 1,
-        max_charge = 12,
+        max_charge = 10,
     )
 
 
@@ -668,7 +675,7 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
         blood_unit = flame_id_spawned_after_explosion,
         standing_graphic = 7253,
         attack_graphic = 7251,
-        #dying_graphic = 7252,
+        dying_graphic = 12206,
         walking_graphic = 7256,
         #undead_graphic = 7252
             population = 0,
@@ -779,7 +786,7 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
         min_range=0,
         pierce_armor=general_footman_pierce_armour,
         melee_armour=general_footman_melee_armour,
-        attack_reload_set=3,  
+        attack_reload_set=2,  
         total_missile = 5,
         combat_ability= 8 + 16,
         #attack_dispersion = 1,
@@ -798,7 +805,7 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
         charge_event = 1,
         charge_type = 4,
         recharge_rate = 1,
-        max_charge = 20,
+        max_charge = 30,
 
             population = 0,
     )

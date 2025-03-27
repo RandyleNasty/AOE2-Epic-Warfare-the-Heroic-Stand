@@ -118,23 +118,23 @@ def create_hero_respawn_system(trigger_manager, hero_ids, players, triggers_that
 def _create_single_hero_triggers(manager, player_id, hero_id, trigger_that_randomly_chooses_hero, CONST_MAP_SIZE ):
     """Create trigger chain for one player-hero combination"""
     # Detection trigger
-    detect_trigger = manager.add_trigger(
-        f"detect_hero_{player_id}_{hero_id}",
-        enabled=True,
-        looping=False
-    )
-    detect_trigger.new_condition.own_objects(
-        source_player=player_id,
-        object_list=hero_id,
-        quantity=1
-    )
+    # detect_trigger = manager.add_trigger(
+    #     f"detect_hero_{player_id}_{hero_id}",
+    #     enabled=True,
+    #     looping=False
+    # )
+    # detect_trigger.new_condition.own_objects(
+    #     source_player=player_id,
+    #     object_list=hero_id,
+    #     quantity=1
+    # )
 
 
 
     # Death detection trigger
     death_trigger = manager.add_trigger(
         f"death_detect_{player_id}_{hero_id}",
-        enabled=False,
+        enabled=True,
         looping=False
     )
     # death_trigger.new_condition.own_fewer_objects(
@@ -174,17 +174,30 @@ def _create_single_hero_triggers(manager, player_id, hero_id, trigger_that_rando
     Give player 20 seconds more to choose hero again after the old dead
     """
 
-    respawn_trigger.new_condition.timer(timer=TIME_HERO_RESPAWN - 20)
-    
-    # Setup trigger relationships
-    detect_trigger.new_effect.activate_trigger(death_trigger.trigger_id)
-    death_trigger.new_effect.display_timer(
-        display_time=100,
+    if player_id in [5, 6, 7, 8]:
+        respawn_trigger.new_condition.timer(timer=int(TIME_HERO_RESPAWN/2) - 20)
+        death_trigger.new_effect.display_timer(
+        display_time=int(TIME_HERO_RESPAWN/2) - 20,
         time_unit=TimeUnit.SECONDS,
         timer=player_id,
         reset_timer=1,
         message=f'Player {player_id} can repick Hero in ' + r"%d"
-    )
+        )
+    else:
+        respawn_trigger.new_condition.timer(timer=TIME_HERO_RESPAWN - 20)
+        death_trigger.new_effect.display_timer(
+        display_time=TIME_HERO_RESPAWN - 20,
+        time_unit=TimeUnit.SECONDS,
+        timer=player_id,
+        reset_timer=1,
+        message=f'Player {player_id} can repick Hero in ' + r"%d"
+        )
+    
+    # Setup trigger relationships
+    #detect_trigger.new_effect.activate_trigger(death_trigger.trigger_id)
+
+
+
     death_trigger.new_effect.activate_trigger(respawn_trigger.trigger_id)
     death_trigger.new_effect.activate_trigger(trigger_that_randomly_chooses_hero.trigger_id)
 
@@ -196,7 +209,7 @@ def _create_single_hero_triggers(manager, player_id, hero_id, trigger_that_rando
         target_player=player_id
     )
 
-    respawn_trigger.new_effect.activate_trigger(detect_trigger.trigger_id)
+    respawn_trigger.new_effect.activate_trigger(death_trigger.trigger_id)
 
 
     """
@@ -236,7 +249,11 @@ def create_equal_chance_system(trigger_manager, players, hero_ids, tents_list, N
             enabled=True,
             looping=False
         )
-        delay_trigger.new_condition.timer(timer=TIME_WINDOW_PLAYER_CHOOSE_HERO)
+
+        if player_id in [5, 6, 7, 8]:
+            delay_trigger.new_condition.timer(timer=int(TIME_WINDOW_PLAYER_CHOOSE_HERO/2))
+        else:
+            delay_trigger.new_condition.timer(timer=TIME_WINDOW_PLAYER_CHOOSE_HERO)
 
         # if player_id == 3:
         #     delay_trigger.new_effect.display_instructions(object_list_unit_id=HeroInfo.GENGHIS_KHAN.ID,
