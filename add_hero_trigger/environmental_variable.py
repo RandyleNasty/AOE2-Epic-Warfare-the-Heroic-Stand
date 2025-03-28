@@ -1,0 +1,1 @@
+path_scenario_folder = "C:/Users/Randy/Games/Age of Empires 2 DE/76561198060805641/resources/_common/scenario"

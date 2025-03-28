@@ -251,7 +251,8 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
         hero_id= 1595,  # You'll need to provide the correct hero_id
         movement_speed_divide = 2,
         #blast_attack_level = 2,
-        dead_unit_id = 1334,
+        #dead_unit_id = 1334,
+        dead_unit_id = sabo_man_id,
         blast_width = 2,
         standing_graphic = 3403,
     )
@@ -491,14 +492,15 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
     inst_hero_ulrich = Hero(
         hero_id=HeroInfo.ULRICH_VON_JUNGINGEN.ID,  # You'll need to provide the correct hero_id
         melee_attack=15,
+        secondary_projectile_unit=sabo_man_id,
         #movement_speed=2,
         blast_width=1,
         melee_armour=general_cav_melee_armour,
         pierce_armor=general_cav_pierce_armour,
         blast_attack_level=4,
-        max_range=2,
-        min_range=1,
-        total_missile=30,
+        max_range=1,
+        min_range=0,
+        total_missile=15,
         projectile_unit=676,
         accuracy_percent=50,
         combat_ability= 1 + 8 + 16,
@@ -550,10 +552,10 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
         blast_attack_level=4,
         accuracy_percent=70,
         #attack_dispersion=1,
-        total_missile=4,
+        total_missile=3,
         pierce_armor=general_cav_pierce_armour,
         melee_armour=general_cav_melee_armour,
-        attack_reload_set=2, 
+        attack_reload_set=3, 
         projectile_unit = 1595,
         combat_ability= 1 + 16 + 8,
             population = 0,
@@ -1204,18 +1206,47 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
 
 
 
+import os
+import shutil
 
 scenario_folder = "C:/Users/Randy/Games/Age of Empires 2 DE/76561198060805641/resources/_common/scenario/"
+output_folder = "C:/Users/Randy/Desktop/Epic_Warfare_Scenario/output"
+input_folder = "C:/Users/Randy/Desktop/Epic_Warfare_Scenario/input"
 
-input_path1 = scenario_folder + "Epic_Warfare 2_0 Raw.aoe2scenario"
-#input_path2 = scenario_folder + "Epic_Warfare 2_0 Hero PK Test.aoe2scenario"
 
-output_path1 = scenario_folder + "Epic Warfare 2_0 ONE HERO the Heroic Stand Remastered Generated.aoe2scenario"
+source_raw_scenario = os.path.join(scenario_folder, "Epic_Warfare 2_0 Raw.aoe2scenario")
+destination_input = os.path.join(input_folder, "Epic_Warfare 2_0 Raw.aoe2scenario")
 
-output_path3 = scenario_folder + "Epic Warfare 2_0 ALL STAR the Heroic Stand Remastered.aoe2scenario"
+# Copy file to destination (overwrite if exists)
+shutil.copy2(source_raw_scenario, destination_input)
 
-output_path2 = scenario_folder + "Epic Warfare 2_0 Hero PK Test Generated.aoe2scenario"
 
-parse_scenario_with_epic_warfare_logic(input_path1, output_path1, num_hero_allowed = 1)
+
+
+input_path1 = os.path.join(output_folder, "Epic_Warfare 2_0 Raw.aoe2scenario")
+# input_path2 = os.path.join(scenario_folder, "Epic_Warfare 2_0 Hero PK Test.aoe2scenario")
+
+output_path1 = os.path.join(output_folder, "Epic Warfare 2_0 ONE HERO the Heroic Stand Remastered Generated.aoe2scenario")
+output_path3 = os.path.join(output_folder, "Epic Warfare 2_0 ALL STAR the Heroic Stand Remastered.aoe2scenario")
+output_path2 = os.path.join(output_folder, "Epic Warfare 2_0 Hero PK Test Generated.aoe2scenario")
+
+# Your parsing logic
+parse_scenario_with_epic_warfare_logic(input_path1, output_path1, num_hero_allowed=1)
 parse_scenario_with_epic_warfare_logic(input_path1, output_path3, num_hero_allowed=11)
-#parse_scenario_with_epic_warfare_logic(input_path2, output_path2, num_hero_allowed=11)
+# parse_scenario_with_epic_warfare_logic(input_path2, output_path2, num_hero_allowed=11)
+
+# --- Copy generated files to the scenario folder directly ---
+output_files = [
+    "Epic Warfare 2_0 ONE HERO the Heroic Stand Remastered Generated.aoe2scenario",
+    "Epic Warfare 2_0 ALL STAR the Heroic Stand Remastered.aoe2scenario",
+    # "Epic Warfare 2_0 Hero PK Test Generated.aoe2scenario"
+]
+
+for filename in output_files:
+    source = os.path.join(output_folder, filename)
+    destination = os.path.join(scenario_folder, filename)
+
+    # Copy file to destination (overwrite if exists)
+    shutil.copy2(source, destination)
+
+print("Parsing complete and files copied successfully.")
