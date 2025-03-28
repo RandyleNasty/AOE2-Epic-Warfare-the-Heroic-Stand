@@ -32,6 +32,18 @@ tent_training_location_tuple = [
     (233, 148)
 ]
 
+tent_area_data = [
+    {'area_x1': 102, 'area_y1': 38, 'area_x2': 103, 'area_y2': 39},
+    {'area_x1': 53,  'area_y1': 112, 'area_x2': 54,  'area_y2': 113},
+    {'area_x1': 26,  'area_y1': 184, 'area_x2': 27,  'area_y2': 185},
+    {'area_x1': 21,  'area_y1': 99,  'area_x2': 22,  'area_y2': 100},
+    {'area_x1': 179, 'area_y1': 171, 'area_x2': 180, 'area_y2': 172},
+    {'area_x1': 204, 'area_y1': 81,  'area_x2': 205, 'area_y2': 82},
+    {'area_x1': 129, 'area_y1': 207, 'area_x2': 130, 'area_y2': 208},
+    {'area_x1': 232, 'area_y1': 144, 'area_x2': 233, 'area_y2': 145}
+]
+
+
 cleon_ID = 2346
 Darius_ID = 2347
 Jean_De_Lorrain_ID = 644  

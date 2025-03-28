@@ -1223,7 +1223,7 @@ shutil.copy2(source_raw_scenario, destination_input)
 
 
 
-input_path1 = os.path.join(output_folder, "Epic_Warfare 2_0 Raw.aoe2scenario")
+input_path1 = os.path.join(input_folder, "Epic_Warfare 2_0 Raw.aoe2scenario")
 # input_path2 = os.path.join(scenario_folder, "Epic_Warfare 2_0 Hero PK Test.aoe2scenario")
 
 output_path1 = os.path.join(output_folder, "Epic Warfare 2_0 ONE HERO the Heroic Stand Remastered Generated.aoe2scenario")

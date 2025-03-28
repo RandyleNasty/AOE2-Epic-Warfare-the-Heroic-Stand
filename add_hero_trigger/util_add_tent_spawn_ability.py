@@ -283,8 +283,10 @@ def create_equal_chance_system(trigger_manager, players, hero_ids, tents_list, N
                 quantity=1,
                 selected_object_ids=spawn_id,
                 source_player=player_id,
-                location_x = x,
-                location_y = y,
+                area_x1 = tent_area_data[player_id-1]['area_x1'],
+                area_x2 = tent_area_data[player_id-1]['area_x2'],
+                area_y1 = tent_area_data[player_id-1]['area_y1'],
+                area_y2 = tent_area_data[player_id-1]['area_y2'],                
             )
             chance_triggers.append(trigger)
             delay_trigger.new_effect.activate_trigger(trigger.trigger_id)
