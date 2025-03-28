@@ -115,6 +115,76 @@ def create_hero_respawn_system(trigger_manager, hero_ids, players, triggers_that
         for hero_id in hero_ids:
             _create_single_hero_triggers(trigger_manager, player_id, hero_id, triggers_that_randomly_chooses_hero_for_players[index], CONST_MAP_SIZE)
 
+
+    #modify commander tent garrision limit
+    # for player_id in players:
+    #     change_tent_garrison_limit =  trigger_manager.add_trigger("change_tent_garrison_limit", enabled=True, looping=False)
+    #     change_tent_garrison_limit.new_effect.modify_attribute(source_player=player_id, 
+    #                                                             #quantity=len(list_hero_ids), 
+    #                                                             quantity=1, 
+    #                                                             operation=Operation.SET, 
+    #                                                             object_attributes=ObjectAttribute.GARRISON_CAPACITY,
+    #                                                             object_list_unit_id=2262)        
+
+    """
+    to solve conflict between user pick and auto respawn system
+    1. if detect hero then deactivate all triggers_that_randomly_chooses_hero_for_players
+    2. if detect hero dies then re activate this monitor trigger...
+    
+    """
+    for player_id in players:
+        monitor_hero_if_detected_deactivate_auto_spawn = trigger_manager.add_trigger(
+        f"monitor_hero_if_detected_deactivate_auto_spawn",
+        enabled=True,
+        looping=False
+        )
+
+        # detect hero dies reactivate this
+        detect_hero_die_and_reactivate_the_monitor_trigger = trigger_manager.add_trigger(
+        f"detect_hero_die_and_reactivate_the_monitor_trigger",
+        enabled=False,
+        looping=False
+        )
+
+
+        for idx, hero_id in enumerate(LIST_HERO_IDS):
+            monitor_hero_if_detected_deactivate_auto_spawn.new_condition.objects_in_area(
+                source_player=player_id,
+                object_list=hero_id,
+                area_x1=0,
+                area_x2=CONST_MAP_SIZE - 1,
+                area_y1=0,
+                area_y2=CONST_MAP_SIZE - 1,
+                object_state=ObjectState.ALIVE, 
+                quantity=1,
+            )
+
+            if idx < len(LIST_HERO_IDS) - 1:
+                monitor_hero_if_detected_deactivate_auto_spawn.new_condition.or_()
+
+        monitor_hero_if_detected_deactivate_auto_spawn.new_effect.deactivate_trigger(triggers_that_randomly_chooses_hero_for_players[player_id-1].trigger_id)
+        monitor_hero_if_detected_deactivate_auto_spawn.new_effect.activate_trigger(detect_hero_die_and_reactivate_the_monitor_trigger.trigger_id)
+
+ 
+        for idx, hero_id in enumerate(LIST_HERO_IDS):
+            detect_hero_die_and_reactivate_the_monitor_trigger.new_condition.objects_in_area(
+                source_player=player_id,
+                object_list=hero_id,
+                area_x1=0,
+                area_x2=CONST_MAP_SIZE - 1,
+                area_y1=0,
+                area_y2=CONST_MAP_SIZE - 1,
+                object_state=ObjectState.DYING, 
+                quantity=1,
+            )
+
+            if idx < len(LIST_HERO_IDS) - 1:
+                detect_hero_die_and_reactivate_the_monitor_trigger.new_condition.or_()
+
+        detect_hero_die_and_reactivate_the_monitor_trigger.new_effect.activate_trigger(monitor_hero_if_detected_deactivate_auto_spawn.trigger_id)
+
+
+
 def _create_single_hero_triggers(manager, player_id, hero_id, trigger_that_randomly_chooses_hero, CONST_MAP_SIZE ):
     """Create trigger chain for one player-hero combination"""
     # Detection trigger
@@ -278,16 +348,25 @@ def create_equal_chance_system(trigger_manager, players, hero_ids, tents_list, N
 
             x, y = tent_training_location_tuple[player_id-1]
 
-            trigger.new_effect.train_unit(
-                object_list_unit_id=hero_id,
-                quantity=1,
-                selected_object_ids=spawn_id,
-                source_player=player_id,
-                area_x1 = tent_area_data[player_id-1]['area_x1'],
-                area_x2 = tent_area_data[player_id-1]['area_x2'],
-                area_y1 = tent_area_data[player_id-1]['area_y1'],
-                area_y2 = tent_area_data[player_id-1]['area_y2'],                
-            )
+            # trigger.new_effect.train_unit(
+            #     object_list_unit_id=hero_id,
+            #     quantity=1,
+            #     selected_object_ids=spawn_id,
+            #     source_player=player_id,
+            #     area_x1 = tent_area_data[player_id-1]['area_x1'],
+            #     area_x2 = tent_area_data[player_id-1]['area_x2'],
+            #     area_y1 = tent_area_data[player_id-1]['area_y1'],
+            #     area_y2 = tent_area_data[player_id-1]['area_y2'],                
+            # )
+
+            
+            trigger.new_effect.create_garrisoned_object(source_player=player_id, 
+                                                                    object_list_unit_id_2=hero_id,
+                                                                    selected_object_ids = TENTS_SELECTED_OBJECT_IDS[player_id-1])
+            trigger.new_effect.unload(source_player=player_id, location_x=x, location_y= y, selected_object_ids=TENTS_SELECTED_OBJECT_IDS[player_id-1])
+
+
+
             chance_triggers.append(trigger)
             delay_trigger.new_effect.activate_trigger(trigger.trigger_id)
         import random
