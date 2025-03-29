@@ -132,6 +132,9 @@ def create_hero_respawn_system(trigger_manager, hero_ids, players, triggers_that
     2. if detect hero dies then re activate this monitor trigger...
     
     """
+
+
+
     for player_id in players:
         monitor_hero_if_detected_deactivate_auto_spawn = trigger_manager.add_trigger(
         f"monitor_hero_if_detected_deactivate_auto_spawn",
@@ -164,6 +167,18 @@ def create_hero_respawn_system(trigger_manager, hero_ids, players, triggers_that
 
         monitor_hero_if_detected_deactivate_auto_spawn.new_effect.deactivate_trigger(triggers_that_randomly_chooses_hero_for_players[player_id-1].trigger_id)
         monitor_hero_if_detected_deactivate_auto_spawn.new_effect.activate_trigger(detect_hero_die_and_reactivate_the_monitor_trigger.trigger_id)
+        """
+        STILL PROBLEM.. IF USER DID NOT CHOOSE HERO, THE AUTORESPAWN DOES NOT CONSUME THE UNUSED RESOURCE
+
+        # have user give back to gaia 
+        """
+        monitor_hero_if_detected_deactivate_auto_spawn.new_effect.tribute(
+                quantity=1,
+                tribute_list=8,
+                source_player=player_id,
+                target_player=0,
+            )
+
 
  
         for idx, hero_id in enumerate(LIST_HERO_IDS):
@@ -182,7 +197,6 @@ def create_hero_respawn_system(trigger_manager, hero_ids, players, triggers_that
                 detect_hero_die_and_reactivate_the_monitor_trigger.new_condition.or_()
 
         detect_hero_die_and_reactivate_the_monitor_trigger.new_effect.activate_trigger(monitor_hero_if_detected_deactivate_auto_spawn.trigger_id)
-
 
 
 def _create_single_hero_triggers(manager, player_id, hero_id, trigger_that_randomly_chooses_hero, CONST_MAP_SIZE ):
