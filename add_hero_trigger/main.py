@@ -444,7 +444,7 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
     # Instantiate Jean Bureau
     inst_jean_bureau = Hero(
         hero_id=HeroInfo.JEAN_BUREAU.ID,  # You'll need to provide the correct hero_id
-        max_range=11,  #
+        max_range=12,  #
         line_of_sight = 15,
         search_radius = 15,
         min_range=5,  # Not modified in the original function
@@ -456,8 +456,8 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
         #melee_armour=0,  # Not modified in the original function
         #pierce_armor=0,  # Not modified in the original function
         melee_attack=10,
-        melee_attack_for_building = 10,
-        melee_attack_for_wall_and_gate = 10,
+        melee_attack_for_building = 13,
+        melee_attack_for_wall_and_gate = 13,
         movement_speed=1,
         health_point=300,
         blast_width=1,
@@ -569,7 +569,7 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
     inst_hero_tsar_constantin = Hero(
         hero_id=HeroInfo.TSAR_KONSTANTIN.ID,  # You'll need to provide the correct hero_id
         projectile_unit=627,
-        max_range=10,
+        max_range=7,
         line_of_sight = 10,
         search_radius = 10,
         melee_attack=15,
@@ -577,6 +577,7 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
         blast_attack_level=4,
         pierce_armor=general_cav_pierce_armour,
         melee_armour=general_cav_melee_armour,
+        movement_speed = 2,
         attack_reload_divide=12,  # This will be divided, not added
         accuracy_percent=50,
         attack_dispersion=1,
@@ -589,7 +590,7 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
         charge_event = 1,
         charge_type = 4,
         recharge_rate = 1,
-        max_charge = 8,
+        max_charge = 10,
     )
 
 
@@ -1137,7 +1138,8 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
                                                         source_player=0,
                                                         display_time=20,
                                                         message = "Enemy has summoned all heros for final push!")
-
+				# location_x: 226
+				# location_y: 196
 
     spawn_all_hero_from_castle.new_condition.timer(5)
 
@@ -1146,23 +1148,26 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
                                                                     object_list_unit_id_2=hero_id,
                                                                     selected_object_ids = BATTLELINE_CASTLE_SPAWN_REFERENCE_ID)
 
-    spawn_all_hero_from_castle.new_effect.unload(source_player=8, location_x=39, location_y= 52, selected_object_ids=BATTLELINE_CASTLE_SPAWN_REFERENCE_ID)
+    spawn_all_hero_from_castle.new_effect.unload(source_player=8, location_x=226, location_y= 196, selected_object_ids=BATTLELINE_CASTLE_SPAWN_REFERENCE_ID)
 
-
+    # 359, 6,
     looping_keep_spawning_trash_unit.new_condition.timer(10)
     looping_keep_spawning_trash_unit.new_effect.create_garrisoned_object(source_player=8, 
-                                                                    object_list_unit_id_2=359,
+                                                                    object_list_unit_id_2=2111,
                                                                     selected_object_ids = BATTLELINE_CASTLE_SPAWN_REFERENCE_ID)
     looping_keep_spawning_trash_unit.new_effect.create_garrisoned_object(source_player=8, 
-                                                                    object_list_unit_id_2=6,
+                                                                    object_list_unit_id_2=2111,
                                                                     selected_object_ids = BATTLELINE_CASTLE_SPAWN_REFERENCE_ID)
     looping_keep_spawning_trash_unit.new_effect.create_garrisoned_object(source_player=8, 
-                                                                    object_list_unit_id_2=359,
+                                                                    object_list_unit_id_2=2111,
                                                                     selected_object_ids = BATTLELINE_CASTLE_SPAWN_REFERENCE_ID)
     looping_keep_spawning_trash_unit.new_effect.create_garrisoned_object(source_player=8, 
-                                                                    object_list_unit_id_2=6,
+                                                                    object_list_unit_id_2=2111,
                                                                     selected_object_ids = BATTLELINE_CASTLE_SPAWN_REFERENCE_ID)
-    looping_keep_spawning_trash_unit.new_effect.unload(source_player=8, location_x=39, location_y= 52, selected_object_ids=BATTLELINE_CASTLE_SPAWN_REFERENCE_ID)
+    looping_keep_spawning_trash_unit.new_effect.create_garrisoned_object(source_player=8, 
+                                                                    object_list_unit_id_2=2111,
+                                                                    selected_object_ids = BATTLELINE_CASTLE_SPAWN_REFERENCE_ID)
+    looping_keep_spawning_trash_unit.new_effect.unload(source_player=8, location_x=226, location_y= 196, selected_object_ids=BATTLELINE_CASTLE_SPAWN_REFERENCE_ID)
 
 
 

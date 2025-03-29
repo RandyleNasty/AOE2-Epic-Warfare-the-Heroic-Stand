@@ -77,7 +77,7 @@ def create_roman_army_summoner(source_trigger_manager):
         charge_event = 1,
         charge_type = 4,
         recharge_rate = 1,
-        max_charge = 2,
+        max_charge = 5,
 
     )
 
@@ -197,7 +197,7 @@ def create_roman_army_summoner(source_trigger_manager):
     inst_footman_summoned = Hero(
         hero_id=footman_summoned_id,  # You'll need to provide the correct hero_id
         dying_graphic = 5462,
-        health_point=50,
+        health_point=20,
         dead_unit_id = 0,
         population = 0,
         search_radius = 10,
@@ -209,7 +209,7 @@ def create_roman_army_summoner(source_trigger_manager):
     inst_archerman_summoned = Hero(
         hero_id=archerman_summoned_id,  # You'll need to provide the correct hero_id
         dying_graphic = 5462,
-        health_point=50,
+        health_point=45,
         dead_unit_id = footman_summoned_id,
         population = 0,
         search_radius = 10,

@@ -3396,8 +3396,8 @@ Triggers:
 					0: Poenari Castle (445) [P8, X230.0, Y215.0] (224976)
 			unload [Index: 1, Display: 1]:
 				source_player: Player One (1)
-				location_x: 39
-				location_y: 52
+				location_x: 226
+				location_y: 196
 				selected_object_ids: 1 unit:
 					0: Poenari Castle (445) [P8, X230.0, Y215.0] (224976)
 
