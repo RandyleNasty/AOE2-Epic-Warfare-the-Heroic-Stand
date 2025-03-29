@@ -2872,13 +2872,13 @@ Triggers:
 				quantity: 100
 				source_player: Player One (1)
 				selected_object_ids: 1 unit:
-					0: Fire Tower (190) [P1, X125.5, Y78.5] (267785)
+					0: Fire Tower (190) [P1, X89.5, Y88.5] (267785)
 			change_object_range [Index: 1, Display: 1]:
 				quantity: 15
 				source_player: Player One (1)
 				operation: Set (1)
 				selected_object_ids: 1 unit:
-					0: Fire Tower (190) [P1, X125.5, Y78.5] (267785)
+					0: Fire Tower (190) [P1, X89.5, Y88.5] (267785)
 
 	'buff fire tower2' [Index: 38, Display: 38]:
 		enabled: False
@@ -3486,6 +3486,29 @@ Triggers:
 				area_y1: 144
 				area_x2: 233
 				area_y2: 145
+
+	'frontline reinforcement' [Index: 53, Display: 53]:
+		enabled: True
+		looping: False
+		description_stid: 0
+		short_description_stid: 0
+		effects:
+			create_garrisoned_object [Index: 0, Display: 0]:
+				source_player: Player One (1)
+				area_x1: 95
+				area_y1: 113
+				area_x2: 102
+				area_y2: 124
+				selected_object_ids: 1 unit:
+					0: Arch Of Constantine (899) [P2, X60.5, Y88.5] (379048)
+			create_garrisoned_object [Index: 1, Display: 1]:
+				source_player: Player One (1)
+				area_x1: 138
+				area_y1: 123
+				area_x2: 141
+				area_y2: 133
+				selected_object_ids: 1 unit:
+					0: Dormition Cathedral (1369) [P7, X187.5, Y127.5] (306466)
 
 Variables:
 	<<No Variables>>
