@@ -339,6 +339,13 @@ def create_equal_chance_system(trigger_manager, players, hero_ids, tents_list, N
         else:
             delay_trigger.new_condition.timer(timer=TIME_WINDOW_PLAYER_CHOOSE_HERO)
 
+        delay_trigger.new_effect.tribute(
+                quantity=1,
+                tribute_list=8,
+                source_player=player_id,
+                target_player=0,
+            )
+
         # if player_id == 3:
         #     delay_trigger.new_effect.display_instructions(object_list_unit_id=HeroInfo.GENGHIS_KHAN.ID,
         #                                                 source_player=3,
