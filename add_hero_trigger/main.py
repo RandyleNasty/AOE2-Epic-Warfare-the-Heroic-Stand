@@ -1201,10 +1201,28 @@ def parse_scenario_with_epic_warfare_logic(input_path, output_path, num_hero_all
 
 
 
+    # XS Scripting
+    #xs_manager = source_scenario.xs_manager
+    #xs_manager.add_script(xs_file_path="../xs_scripts/hero_test.xs")
+    #source_scenario.xs_check.raise_on_error = True
 
+
+    trigger_manager = source_scenario.trigger_manager
+
+    trigger = trigger_manager.add_trigger('My Trigger With XS')
+
+    trigger.new_effect.script_call(
+        message='void func () {'
+                '    int a = 3;'
+                '    int b = 4;'
+                '    return "";'
+                '}'
+    )
 
     # Final step: write a modified scenario class to a new scenario file
     source_scenario.write_to_file(output_path)
+
+
 
 
 
@@ -1237,7 +1255,7 @@ output_path2 = os.path.join(output_folder, "Epic Warfare 2_0 Hero PK Test Genera
 
 # Your parsing logic
 parse_scenario_with_epic_warfare_logic(input_path1, output_path1, num_hero_allowed=1)
-parse_scenario_with_epic_warfare_logic(input_path1, output_path3, num_hero_allowed=11)
+#parse_scenario_with_epic_warfare_logic(input_path1, output_path3, num_hero_allowed=11)
 # parse_scenario_with_epic_warfare_logic(input_path2, output_path2, num_hero_allowed=11)
 
 # --- Copy generated files to the scenario folder directly ---

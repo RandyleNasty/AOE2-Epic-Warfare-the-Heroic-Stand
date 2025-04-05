@@ -589,7 +589,7 @@ Triggers:
 		conditions:
 			destroy_object [Index: 0, Display: 0]:
 				unit_object: 1 unit:
-					0: Unknown (2262) [P2, X54.0, Y113.0] (317979)
+					0: Greek Commander Tent (2262) [P2, X54.0, Y113.0] (317979)
 				inverted: False (0)
 		effects:
 			deactivate_trigger [Index: 0, Display: 0]:
@@ -657,7 +657,7 @@ Triggers:
 			activate_trigger [Index: 0, Display: 0]:
 				trigger_id: "Final East Bonus Spawn" (17)
 			display_instructions [Index: 1, Display: 1]:
-				object_list_unit_id: Unknown (2326)
+				object_list_unit_id: Cretan Archer (2326)
 				source_player: Player Eight (8)
 				display_time: 5
 				instruction_panel_position: Middle (1)
@@ -832,7 +832,7 @@ Triggers:
 				location_y: 197
 				item_id: 530
 			create_object [Index: 12, Display: 12]:
-				object_list_unit_id: Unknown (2102)
+				object_list_unit_id: Elite Immortal Melee (2102)
 				source_player: Player Eight (8)
 				location_x: 233
 				location_y: 201
@@ -844,7 +844,7 @@ Triggers:
 				location_y: 197
 				item_id: 554
 			create_object [Index: 14, Display: 14]:
-				object_list_unit_id: Unknown (2328)
+				object_list_unit_id: Tarantine Cavalry (2328)
 				source_player: Player Eight (8)
 				location_x: 232
 				location_y: 199
@@ -2994,7 +2994,7 @@ Triggers:
 			activate_trigger [Index: 0, Display: 0]:
 				trigger_id: "Side Bridge Spawn" (42)
 			display_instructions [Index: 1, Display: 1]:
-				object_list_unit_id: Unknown (2325)
+				object_list_unit_id: Ekdromos (2325)
 				source_player: Player Eight (8)
 				display_time: 5
 				instruction_panel_position: Middle (1)
